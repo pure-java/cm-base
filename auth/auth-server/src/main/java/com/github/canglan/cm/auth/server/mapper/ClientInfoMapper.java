@@ -7,7 +7,7 @@ import com.github.canglan.cm.common.mapper.BaseMapper;
  * 客户端mapper
  *
  * @author bairitan
- * @date 2019/11/13
+ * @since 2019/11/13
  */
 public interface ClientInfoMapper extends BaseMapper<ClientInfo> {
 

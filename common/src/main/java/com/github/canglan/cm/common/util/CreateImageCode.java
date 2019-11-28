@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
  * 验证码
  *
  * @author bairitan
- * @date 2018/7/30 16:56
+ * @since 2018/7/30 16:56
  */
 public class CreateImageCode {
 

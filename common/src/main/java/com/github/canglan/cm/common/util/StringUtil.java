@@ -14,7 +14,7 @@ import org.apache.commons.lang3.StringUtils;
  * 字符串处理工具类
  *
  * @author admin
- * @date 2017-06-29 10:21
+ * @since 2017-06-29 10:21
  **/
 public class StringUtil {
 

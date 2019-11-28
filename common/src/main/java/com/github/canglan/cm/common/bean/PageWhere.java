@@ -30,10 +30,10 @@ public class PageWhere {
   @ApiModelProperty(value = "每一页行数", name = "rows", dataType = "int", required = true)
   private Integer pageSize = 20;
 
-  @ApiModelProperty(value = "起始行", name = "startRow", dataType = "int", required = true)
+  @ApiModelProperty(value = "起始行", name = "startRow", dataType = "int", hidden = true)
   private int startRow;
 
-  @ApiModelProperty(value = "末行", name = "endRow", dataType = "int", required = true)
+  @ApiModelProperty(value = "末行", name = "endRow", dataType = "int", hidden = true)
   private int endRow;
 
   @ApiModelProperty(value = "排序field，排序字段", name = "sort", dataType = "string")
@@ -42,9 +42,9 @@ public class PageWhere {
   @ApiModelProperty(value = "排序规则", name = "order", dataType = "string", notes = "倒序 desc，正序 = asc")
   private String order = "desc";
 
-  private Integer startSize = 0;
+  @ApiModelProperty(hidden = true)
+  private static final Integer MAX_PAGE_SIZE = 500;
 
-  private final Integer MAX_PAGE_SIZE = 500;
 
   public boolean isAsc() {
     return "ASC".equalsIgnoreCase(order);
@@ -98,7 +98,7 @@ public class PageWhere {
    * 设置排序字段与排序规则
    */
   @JsonIgnore
-  public <T> PageWhere setWrapper(QueryWrapper<T> wrapper) {
+  public <T> PageWhere orderBy(QueryWrapper<T> wrapper) {
     wrapper.orderBy(true, this.isAsc(), this.sort);
     return this;
   }
@@ -107,7 +107,7 @@ public class PageWhere {
    * 获取查询条件，设置了排序规则和排序字段
    */
   @JsonIgnore
-  public <T> QueryWrapper<T> getWrapper() {
+  public <T> QueryWrapper<T> wrapper() {
     QueryWrapper<T> wrapper = new QueryWrapper<>();
     wrapper.orderBy(true, this.isAsc(), this.sort);
     return wrapper;

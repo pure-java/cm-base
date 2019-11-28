@@ -1,0 +1,32 @@
+import {ExtModel} from '@entry/common/base/base-model';
+/**
+ * $!{table.comment} 实体类
+ * @author ${author}
+ * @since ${date}
+ */
+export class ${entity} extends ExtModel {
+
+    #foreach($field in ${table.fields})
+      /**
+       * ${field.comment}
+       */
+        #if(${field.propertyType}=="Long"  || ${field.propertyType}=="long" || ${field.propertyType}==
+            "Integer" || ${field.propertyType}=="int")
+            ${field.propertyName}:
+          number = null;
+
+        #elseif (${field.propertyType}=="String")
+            ${field.propertyName}:
+          string = null;
+
+        #elseif (${field.propertyType}=="LocalDateTime"
+        || ${field.propertyType}=="LocalDate" ||${field.propertyType}=="LocalTime" )
+            ${field.propertyName}:
+          Date = null;
+
+        #else
+            ${field.propertyName}: ${field.propertyType} =
+          null;
+        #end
+    #end
+}

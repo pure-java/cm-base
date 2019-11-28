@@ -2,7 +2,7 @@ package com.github.canglan.cm.common.util;
 
 /**
  * @author bairitan
- * @date 2019/1/10
+ * @since 2019/1/10
  */
 public class HtmlUtil {
 

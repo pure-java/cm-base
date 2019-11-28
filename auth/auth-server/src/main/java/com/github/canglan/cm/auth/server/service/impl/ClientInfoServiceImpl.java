@@ -8,18 +8,18 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author bairitan
- * @date 2019/11/13
+ * @since 2019/11/13
  */
 @Service
 public class ClientInfoServiceImpl extends BaseServiceImpl<ClientInfoMapper, ClientInfo> implements IClientInfoService {
 
   @Override
   public boolean insert(ClientInfo clientInfo) throws Exception {
-    return this.daoBridge.save(clientInfo);
+    return this.daoUtil.save(clientInfo);
   }
 
   @Override
   public boolean updateById(ClientInfo clientInfo) throws Exception {
-    return this.daoBridge.updateById(clientInfo);
+    return this.daoUtil.updateById(clientInfo);
   }
 }

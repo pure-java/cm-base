@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="true">
+  <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+  <contextName>admin</contextName>
+
+  <property name="log.base" value="c:/log/epc/file/error"/>
+  <property name="log.moduleName" value="epc"/>
+  <property name="log.max.size" value="10MB"/>
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- 只用保存输出error级别的日志 -->
+  <appender name="file.errorfile.error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>${log.base}/${log.moduleName}_err.log</File>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <FileNamePattern>${log.base}/error/${log.moduleName}_err_%d{yyyy-MM-dd}.%i.log.zip
+      </FileNamePattern>
+      <timeBasedFileNamingAndTriggeringPolicy
+        class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <maxFileSize>${log.max.size}</maxFileSize>
+      </timeBasedFileNamingAndTriggeringPolicy>
+    </rollingPolicy>
+    <layout class="ch.qos.logback.classic.PatternLayout">
+      <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{56}.%method:%L - %msg%n
+      </pattern>
+    </layout>
+    <!-- 下面为配置只输出error级别的日志 -->
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>ERROR</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+  </appender>
+
+  <!-- additivity true 信息向上级传递，logger本身打印一次 -->
+  <!--  <logger name="com.bairitan" level="INFO" additivity="false">
+        <appender-ref ref="file"/>
+        vi /var/local/apache-tomcat-8.5.20/webapps/ROOT/WEB-INF/classes/logback-spring.xml
+    </logger>-->
+  <logger name="com.github.canglan.cm" level="debug" additivity="false">
+    <appender-ref ref="STDOUT"/>
+    <!--<appender-ref ref="file.error"/>-->
+  </logger>
+  <logger name="com.baomidou.mybatisplus.spring" level="debug" additivity="false">
+    <appender-ref ref="STDOUT"/>
+    <!--<appender-ref ref="file.error"/>-->
+  </logger>
+  <root level="error" additivity="false">
+    <appender-ref ref="STDOUT"/>
+    <!--<appender-ref ref="file.error"/>-->
+  </root>
+</configuration>

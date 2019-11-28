@@ -1,0 +1,69 @@
+package ${package.ServiceImpl};
+    #set( $entityLow = $entity.substring(0,1).toLowerCase()+$entity.substring(1) ) ##/* 首字母小写 */
+
+import ${package.Entity}.${entity};
+import ${package.Mapper}.${table.mapperName};
+import ${package.Service}.${table.serviceName};
+import ${superServiceImplClassPackage};
+
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import java.util.List;
+import java.util.Set;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+/**
+ * <p>
+ * $!{table.comment} 服务实现类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Service
+#if(${kotlin})
+open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
+
+    }
+#else
+    public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}>implements ${table.serviceName} {
+
+    @Override
+    public List<${entity}>page${entity}(PageWhere pageWhere, ${entity} ${entityLow}){
+    QueryWrapper<${entity}> ${entityLow}Wrapper=new QueryWrapper<>();
+    pageWhere.startPage();
+    return super.daoBridge.list(${entityLow}Wrapper);
+    }
+
+    @Override
+    public List<${entity}>listQueryCondition(${entity} query){
+    QueryWrapper<${entity}>wrapper=new QueryWrapper<>();
+    return super.daoBridge.list(wrapper);
+    }
+
+    @Override
+    @Transactional(rollbackFor=Exception.class,propagation=Propagation.REQUIRED)
+    public boolean saveBatch(List<${entity}>saveList){
+    if(CollectionUtil.isNotEmpty(saveList)){
+    List<List<${entity}>>partition=Lists.partition(saveList,AppProperties.BATCH_SAVE_SIZE);
+    for(List<${entity}>list:partition){
+    super.baseMapper.saveBatch(list);
+    }
+    }
+    return true;
+    }
+
+    @Override
+    @Transactional(rollbackFor=Exception.class,propagation=Propagation.REQUIRED)
+    public boolean saveOrUpdate${entity}(${entity} ${entityLow}){
+    return super.daoBridge.saveOrUpdate(${entityLow});
+    }
+
+    @Override
+    @Transactional(rollbackFor=Exception.class,propagation=Propagation.REQUIRED)
+    public boolean removeByIds(Set<String>idList){
+    return super.daoBridge.removeByIds(idList);
+    }
+    }
+#end

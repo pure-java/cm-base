@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.github.canglan</groupId>
-  <artifactId>spring-cloud-me</artifactId>
+  <artifactId>cm</artifactId>
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
 
@@ -17,8 +17,10 @@
 
   <modules>
     <module>small-cloud-vo</module>
-    <module>auth</module>
     <module>common</module>
+    <module>auth</module>
+    <module>identity</module>
+    <module>generator</module>
   </modules>
 
   <properties>
@@ -88,6 +90,14 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
       </plugin>
 
       <plugin>

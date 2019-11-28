@@ -1,0 +1,62 @@
+#set( $entityLow = $entity.substring(0,1).toLowerCase()+$entity.substring(1) ) ##/* 首字母大写 */
+#set( $lineThrough = $MyVelocityTemplateEngine.split($entity))
+
+import {RequestHelper, BaseServiceImpl} from '@service/base/base.service';
+import {${entity}} from 'component.service.ts${package.ModuleName}/${lineThrough}.entity';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {BaseCommon} from "@service/system/base-common";
+import {ResultMessage} from '@entry/common/base/result-message';
+import {NzMessageService} from 'ng-zorro-antd';
+import {PageResult, PageWhere} from '@entry/common/base/page-where';
+import {RequestOption} from '@entry/common/base/request-option';
+
+/**
+ * $!{table.comment} 服务
+ * @author ${author}
+ * @since ${date}
+ */
+@Injectable({providedIn: "root"})
+export class ${entity}Service extends BaseServiceImpl<${entity}, ${entity}> {
+
+        ${entityLow}ApiUrl: string = BaseCommon.BASE_PATH + '#if(${package.ModuleName})${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end';
+
+  constructor(public
+  message: NzMessageService
+)
+  {
+    super();
+  }
+
+  pageSelect${entity}(rawValue
+: ${entity},
+  page${entity}Where: PageWhere
+):
+  Observable < PageResult <${entity}>> {
+    let pageUrl = this.${entityLow}ApiUrl + '/page${entity}';
+  return RequestHelper.pageSelect <${entity}, ${entity}>
+  (pageUrl, rawValue, page${entity}Where);
+}
+
+  /**
+   * 添加或修改方法
+   * @param {${entity} | ${entity}[]} ${entityLow} 操作对象
+   * @param {RequestOption} options 请求头参数选项
+   * @returns {Observable<ResultMessage<boolean>>}
+   */
+  modify${entity}(${entityLow}: ${entity} |
+        ${entity}[], options ? : RequestOption
+):
+  Observable < ResultMessage < boolean >> {
+    return RequestHelper.saveOrUpdate(this.${entityLow}ApiUrl + '/modify${entity}', ${entityLow}, options);
+}
+
+  // 删除
+  delete ${entity}(ids
+:
+  string, options ? : RequestOption
+):
+  Observable < ResultMessage < boolean >> {
+    return RequestHelper.delete(this.${entityLow}ApiUrl + '/delete${entity}', ids, options);
+}
+}

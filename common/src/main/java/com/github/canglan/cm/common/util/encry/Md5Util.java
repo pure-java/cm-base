@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author bairitan
- * @date 2019/1/29
+ * @since 2019/1/29
  */
 @Slf4j
 public class Md5Util {

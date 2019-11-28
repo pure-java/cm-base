@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 
 /**
  * @author bairitan
- * @date 2019/11/13
+ * @since 2019/11/13
  */
 @TableName("auth_client_info")
 @Data

@@ -25,7 +25,7 @@ public abstract class BaseDom<FK extends Serializable, T extends BaseDom>
   private static final long serialVersionUID = 4943817300823532768L;
 
   @TableId(value = "oid", type = IdType.AUTO)
-  @ApiModelProperty(name = "主键", value = "oid", notes = "修改主键生成方式时必须填写")
+  @ApiModelProperty(value = "主键", name = "oid", notes = "修改主键生成方式时必须填写")
   protected FK oid;
 
   // @Override

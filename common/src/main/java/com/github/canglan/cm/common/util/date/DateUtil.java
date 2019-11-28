@@ -23,7 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author bairitan
- * @date 2019/1/11
+ * @since 2019/1/11
  */
 public final class DateUtil implements Comparable<DateUtil> {
 

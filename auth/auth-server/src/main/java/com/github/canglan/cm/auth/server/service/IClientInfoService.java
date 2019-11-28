@@ -5,7 +5,7 @@ import com.github.canglan.cm.common.service.IBaseService;
 
 /**
  * @author bairitan
- * @date 2019/11/13
+ * @since 2019/11/13
  */
 public interface IClientInfoService extends IBaseService<ClientInfo> {
 

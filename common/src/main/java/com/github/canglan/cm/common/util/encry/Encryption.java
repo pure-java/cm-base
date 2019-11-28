@@ -13,7 +13,7 @@ import javax.crypto.spec.PBEKeySpec;
  * 密码加密
  *
  * @author chenhuan
- * @date 2017-06-29 15:34
+ * @since 2017-06-29 15:34
  **/
 public class Encryption {
 

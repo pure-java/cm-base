@@ -6,7 +6,7 @@ import java.nio.charset.Charset;
  * 全局常量
  *
  * @author bairitan
- * @date 2018-04-21 14:11
+ * @since 2018-04-21 14:11
  **/
 public interface BaseConstants {
 

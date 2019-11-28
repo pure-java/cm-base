@@ -13,7 +13,7 @@ import org.apache.commons.lang3.StringUtils;
  * 订单号生成辅助类
  *
  * @author bairitan
- * @date 2018/9/3
+ * @since 2018/9/3
  */
 public class SerialCode {
 

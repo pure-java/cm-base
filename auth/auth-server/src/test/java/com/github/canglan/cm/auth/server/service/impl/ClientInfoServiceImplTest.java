@@ -10,6 +10,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.jwt.JwtHelper;
+import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -28,5 +30,6 @@ public class ClientInfoServiceImplTest extends BaseServiceImpl<ClientInfoMapper,
     Assert.assertEquals("修改成功", 1, clientInfoService.updateById(clientInfo));
     Assert.assertEquals("添加成功", 1, clientInfoService.insert(new ClientInfo().setName("测试添加")));
   }
+
 }
 

@@ -18,7 +18,7 @@ import lombok.ToString;
  * 公共属性ID
  *
  * @author chenhuan
- * @date 2017-07-03 16:44
+ * @since 2017-07-03 16:44
  **/
 @Setter
 @Getter

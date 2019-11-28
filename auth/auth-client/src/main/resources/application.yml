@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: client
+server:
+  port: 10003
+
+security:
+  oauth2:
+    client:
+      client-id: myapp
+      client-secret: lxapp
+      user-authorization-uri: http://localhost:8081/oauth/authorize
+      access-token-uri: http://localhost:8081/oauth/token
+      refresh-token-validity-seconds: 60
+auth:
+  resource:
+    token-header: x-client-token

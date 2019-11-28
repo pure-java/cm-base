@@ -12,7 +12,7 @@ import org.springframework.cglib.beans.BeanMap;
 
 /**
  * @author bairitan
- * @date 2018-01-01 0:01
+ * @since 2018-01-01 0:01
  **/
 
 public class BeanUtils {

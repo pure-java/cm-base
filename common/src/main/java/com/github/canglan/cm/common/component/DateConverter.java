@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * 后端传输数据到前端：将date 类型转换为 Long型
  *
  * @author bairitan
- * @date 2019/1/10
+ * @since 2019/1/10
  */
 @Component
 public class DateConverter {

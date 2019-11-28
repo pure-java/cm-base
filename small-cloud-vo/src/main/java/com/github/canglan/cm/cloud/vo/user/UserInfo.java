@@ -3,7 +3,7 @@ package com.github.canglan.cm.cloud.vo.user;
 import lombok.Data;
 
 /**
- * @date 2019/11/11
+ * @since 2019/11/11
  */
 @Data
 public class UserInfo {

@@ -1,0 +1,23 @@
+server:
+  port: 10002
+spring:
+  application:
+    name: auth-server
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/epc?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: chen
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 15
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: AuthServerDataSourceHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+logging:
+  level:
+    com.github.canglan.cm.auth: debug

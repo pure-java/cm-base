@@ -14,11 +14,11 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 
 /**
  * 事务管理配置<br>
- * 使用两种方法对 ServiceImpl 进行事务管理，注解式事务与方法名匹配两种模式<br>
+ * 使用两种方法对 DaoUtilImpl 进行事务管理，注解式事务与方法名匹配两种模式<br>
  * 注解式事务优先方法名称匹配模式
  *
  * @author bairitan
- * @date 2018-01-10 21:59
+ * @since 2018-01-10 21:59
  **/
 @Component
 @Slf4j
@@ -77,14 +77,14 @@ public class MysqlDataSourceConfig {
 
   /**
    * 创建 mysql 事务拦截代理对象
-   * 使用 defaultTransactionInterceptor 事务拦截器拦截以 ServiceImpl 结尾的类
+   * 使用 defaultTransactionInterceptor 事务拦截器拦截以 DaoUtilImpl 结尾的类
    */
   @Bean("defaultBeanNameAutoProxyCreator")
   public BeanNameAutoProxyCreator transactionAutoProxy() {
     BeanNameAutoProxyCreator transactionAutoProxy = new BeanNameAutoProxyCreator();
     // 这个属性为true时，表示被代理的是目标类本身而不是目标类的接口
     transactionAutoProxy.setProxyTargetClass(true);
-    transactionAutoProxy.setBeanNames("*ServiceImpl");
+    transactionAutoProxy.setBeanNames("*DaoUtilImpl");
     transactionAutoProxy.setInterceptorNames("defaultTransactionInterceptor");
     return transactionAutoProxy;
   }

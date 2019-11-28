@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
  * 返回操作信息
  *
  * @author admin
- * @date 2017-07-19 15:43
+ * @since 2017-07-19 15:43
  **/
 @Setter
 @Getter
@@ -35,7 +35,7 @@ public class ResultMessage<T> implements Serializable, IModel {
    */
   private T data;
   /**
-   * 操作状态,没有权限、没登陆、操作失败 = false，成功 = true
+   * 【 操作状态,没有权限、没登陆、操作失败 】 = false，成功 = true
    */
   private Boolean status;
 

@@ -1,4 +1,9 @@
+server:
+  port: 10002
 spring:
+  application:
+    name: auth-server
+    request-prefix:
   datasource:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
     url: jdbc:p6spy:mysql://localhost:3306/ag_auth_v1?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
@@ -14,11 +19,10 @@ spring:
       max-lifetime: 1800000
       connection-timeout: 30000
       connection-test-query: SELECT 1
-
   redis:
     host: localhost
     password: null
-    port: 6397
+    port: 6379
     lettuce:
       pool:
         max-idle: 100
@@ -27,4 +31,13 @@ spring:
         max-wait: -1
 logging:
   level:
-    com.github.canglan.cm: debug
+    com.github.canglan.cm.auth: debug
+
+
+auth:
+  client:
+    token-header: x-client-token
+  user:
+    token-header: Authorization
+    ## 服务名称
+    service-name: admin

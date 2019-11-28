@@ -8,7 +8,7 @@ import org.apache.commons.collections4.CollectionUtils;
  * 集合工厂
  *
  * @author chenhuan
- * @date 2017-07-06 10:00
+ * @since 2017-07-06 10:00
  **/
 
 public class CollectionUtil {

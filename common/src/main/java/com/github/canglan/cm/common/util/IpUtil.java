@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author bairitan
- * @date 2017-12-27 14:55
+ * @since 2017-12-27 14:55
  **/
 public class IpUtil {
 

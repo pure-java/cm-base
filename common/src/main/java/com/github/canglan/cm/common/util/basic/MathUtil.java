@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
  * 计算辅助类
  *
  * @author bairitan
- * @date 2018-04-07 10:37
+ * @since 2018-04-07 10:37
  **/
 public class MathUtil {
 

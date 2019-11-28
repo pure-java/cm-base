@@ -1,19 +1,11 @@
 package com.github.canglan.cm.common.cfg;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.experimental.Accessors;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 /**
  * web层常量
  *
  * @author bairitan
- * @create 2018-04-21 16:40
+ * @since 2018-04-21 16:40
  **/
-@ConfigurationProperties(prefix = "app")
 public class AppProperties {
 
   /**
@@ -39,6 +31,11 @@ public class AppProperties {
    * APP返回用户信息的key
    */
   public static final String APP_USER_INFO = "userInfo";
+
+  /**
+   * 批量插入条数
+   */
+  public static final int BATCH_SAVE_SIZE = 50;
 
 }
 
