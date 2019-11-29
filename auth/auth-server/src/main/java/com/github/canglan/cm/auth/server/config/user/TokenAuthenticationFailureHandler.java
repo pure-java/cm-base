@@ -1,4 +1,4 @@
-package com.github.canglan.cm.auth.server.config;
+package com.github.canglan.cm.auth.server.config.user;
 
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;

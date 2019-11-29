@@ -5,7 +5,7 @@ spring:
     name: auth-server
   datasource:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-    url: jdbc:p6spy:mysql://localhost:3306/ag_auth_v1?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
+    url: jdbc:p6spy:mysql://localhost:3306/ag_admin_v1?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
     username: root
     password: chen
     type: com.zaxxer.hikari.HikariDataSource
@@ -54,5 +54,6 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 5000
-
+log:
+  base: "E:\\"
 

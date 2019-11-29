@@ -1,8 +1,9 @@
-package com.github.canglan.cm.auth.server.config;
+package com.github.canglan.cm.auth.server.config.client;
 
 import com.alibaba.fastjson.JSON;
 import com.github.canglan.cm.auth.common.AuthCommonConstants;
 import com.github.canglan.cm.auth.common.RsaUtil.RsaKey;
+import com.github.canglan.cm.auth.server.config.RsaConfig;
 import com.github.canglan.cm.auth.server.properties.ClientAuthProperties;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;

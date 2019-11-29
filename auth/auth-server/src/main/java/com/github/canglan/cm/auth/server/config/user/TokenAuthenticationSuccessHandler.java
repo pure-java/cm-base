@@ -1,4 +1,4 @@
-package com.github.canglan.cm.auth.server.config;
+package com.github.canglan.cm.auth.server.config.user;
 
 import com.github.canglan.cm.auth.server.properties.UserAuthProperties;
 import com.github.canglan.cm.common.util.StringUtil;

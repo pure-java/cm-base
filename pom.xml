@@ -19,7 +19,6 @@
     <module>common-vo</module>
     <module>common</module>
     <module>auth</module>
-    <module>identity</module>
     <module>generator</module>
   </modules>
 

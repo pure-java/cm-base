@@ -1,5 +1,8 @@
-package com.github.canglan.cm.auth.server.config;
+package com.github.canglan.cm.auth.server.config.user;
 
+import com.github.canglan.cm.auth.server.entity.IdUser;
+import com.github.canglan.cm.auth.server.pojo.LoginUser;
+import com.github.canglan.cm.auth.server.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,11 +13,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 /**
  * spring security 认证
@@ -27,7 +30,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired
-  private UserDetailsService userDetailsService;
+  private IUserService userService;
   @Autowired
   private TokenAuthenticationFailureHandler tokenAuthenticationFailureHandler;
   @Autowired
@@ -60,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception { // 身份验证管理生成器
-    auth.userDetailsService(this.userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+    auth.userDetailsService(this.userDetailsService()).passwordEncoder(passwordEncoder());
   }
 
   /**
@@ -69,7 +72,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
     // 配置用户来源于数据库
-    // 配置密码加密方式  BCryptPasswordEncoder，添加用户加密的时候请也用这个加密
+    // 配置密码加密方式  BCryptPasswordEncoder，添加用户加密的时候也用这个加密
     auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
   }
 
@@ -81,29 +84,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
   @Override
   protected UserDetailsService userDetailsService() {
-    InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-    BCryptPasswordEncoder passwordEncode = new BCryptPasswordEncoder();
-    String pwd = passwordEncode.encode("123456");
-    manager.createUser(User.withUsername("user_1").password(pwd).authorities("USER").build());
-    manager.createUser(User.withUsername("user_2").password(pwd).authorities("USER").build());
-    return manager;
-    // #####################实际开发中在下面写从数据库获取数据###############################
-    // return new UserDetailsService() {
-    // @Override
-    // public UserDetails loadUserByUsername(String username) throws
-    // UsernameNotFoundException {
-    // // 通过用户名获取用户信息
-    // boolean isUserExist = false;
-    // if (isUserExist) {
-    // //创建 spring security 安全用户和对应的权限（从数据库查找）
-    // User user = new User("username", "password",
-    // AuthorityUtils.createAuthorityList("admin", "manager"));
-    // return user;
-    // } else {
-    // throw new UsernameNotFoundException("用户[" + username + "]不存在");
-    // }
-    // }
-    // };
+    return username -> {
+      // 通过用户名获取用户信息
+      IdUser userByUserName = userService.getUserByUserName(username);
+      if (userByUserName != null) {
+        //创建 spring security 安全用户和对应的权限（从数据库查找）
+        return new LoginUser(userByUserName.getUserName(), userByUserName.getPassword(),
+            AuthorityUtils.createAuthorityList("admin", "manager"));
+      } else {
+        throw new UsernameNotFoundException("用户[" + username + "]不存在");
+      }
+    };
   }
 
 }

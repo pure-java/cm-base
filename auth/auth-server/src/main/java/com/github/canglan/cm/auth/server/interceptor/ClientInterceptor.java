@@ -15,6 +15,5 @@ public class ClientInterceptor implements RequestInterceptor {
 
   @Override
   public void apply(RequestTemplate requestTemplate) {
-
   }
 }
