@@ -30,13 +30,12 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseDom> impleme
   @Autowired
   protected M baseMapper;
 
+  /**
+   * 提供通用操作数据库工具
+   */
   protected IDaoUtil<M, T> daoUtil;
 
   public BaseServiceImpl() {
-    // 使用该方法原因是，在批量修改添加时，mybatis-plus 提供的批量操作方法不能被spring事务管理，
-    // 解决方法 1. 通过在下面创建ServiceImpl对象，然后把其加入spring事务管理中，
-    // 2. 复制代码，在复制代码中添加事务提交代码
-
     // 获取 实体类 的类名称
     Class<T> tableClass = (Class<T>) ReflectionKit.getSuperClassGenericType(getClass(), 1);
 
@@ -53,7 +52,6 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseDom> impleme
   public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
     DefaultListableBeanFactory autowireCapableBeanFactory =
         (DefaultListableBeanFactory) applicationContext.getAutowireCapableBeanFactory();
-    System.out.println(getClass().getSimpleName() + "DaoBridge");
-    autowireCapableBeanFactory.registerSingleton(getClass().getSimpleName() + "DaoBridge", daoUtil);
+    autowireCapableBeanFactory.registerSingleton(getClass().getSimpleName() + "DaoUtil", daoUtil);
   }
 }

@@ -1,5 +1,6 @@
 package com.github.canglan.cm.identity.config;
 
+import com.github.canglan.cm.identity.entity.IdUser;
 import com.github.canglan.cm.identity.pojo.LoginUser;
 import com.github.canglan.cm.identity.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   private IUserService userService;
   @Autowired
   private UserDetailsService userDetailsService;
-  @Autowired
-  private PasswordEncoder encode;
 
   @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
   @Override
@@ -48,6 +47,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.authorizeRequests()
         // .antMatchers("/login", "/authentication/form").permitAll()
         .antMatchers("/oauth/**").permitAll()
+        // 验证api路径不需要权限
+        .antMatchers("/api/authority/**").permitAll()
         .anyRequest().authenticated();
   }
 
@@ -83,15 +84,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     // #####################从数据库查询数据###############################
     return username -> {
       // 通过用户名获取用户信息
-      boolean isUserExist = true;
-      // this.userService;
-      if (isUserExist) {
-
+      IdUser userByUserName = userService.getUserByUserName(username);
+      if (userByUserName != null) {
         //创建 spring security 安全用户和对应的权限（从数据库查找）
-        LoginUser user = new LoginUser("admin", encode.encode("admin"),
+        return new LoginUser(userByUserName.getUserName(), userByUserName.getPassword(),
             AuthorityUtils.createAuthorityList("admin", "manager"));
-        user.setOid(1110L);
-        return user;
       } else {
         throw new UsernameNotFoundException("用户[" + username + "]不存在");
       }

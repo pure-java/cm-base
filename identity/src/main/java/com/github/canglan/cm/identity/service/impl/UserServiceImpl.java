@@ -11,6 +11,9 @@ import com.github.canglan.cm.identity.service.IUserService;
 import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,11 +24,22 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserServiceImpl extends BaseServiceImpl<IdUserMapper, IdUser> implements IUserService {
 
+  @Autowired
+  @Lazy
+  private PasswordEncoder encode;
+
   @Override
   public List<IdUser> pageIdUser(PageWhere pageWhere, IdUser idUser) {
     QueryWrapper<IdUser> idUserWrapper = new QueryWrapper<>();
     pageWhere.startPage();
     return super.daoUtil.list(idUserWrapper);
+  }
+
+  @Override
+  public IdUser getUserByUserName(String userName) {
+    QueryWrapper<IdUser> queryWrapper = new QueryWrapper<>();
+    queryWrapper.eq("user_name", userName);
+    return super.daoUtil.getOne(queryWrapper);
   }
 
 
@@ -50,6 +64,10 @@ public class UserServiceImpl extends BaseServiceImpl<IdUserMapper, IdUser> imple
   @Override
   @Transactional(rollbackFor = Exception.class)
   public boolean saveOrUpdateIdUser(IdUser idUser) {
+    if (idUser != null) {
+      idUser.setPassword(encode.encode(idUser.getPassword()));
+    }
+
     return super.daoUtil.saveOrUpdate(idUser);
   }
 

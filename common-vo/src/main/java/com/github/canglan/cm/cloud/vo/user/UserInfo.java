@@ -11,7 +11,7 @@ public class UserInfo {
   /**
    * id
    */
-  private String id;
+  private Long oid;
   /**
    * 用户名
    */
@@ -23,7 +23,7 @@ public class UserInfo {
   /**
    * 名称
    */
-  private String name;
+  private String userNick;
   /**
    * 描述
    */

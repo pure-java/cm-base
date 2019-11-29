@@ -45,8 +45,13 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
   private AuthenticationManager authenticationManager;
   @Autowired
   private RedisConnectionFactory redisConnectionFactory;
-  @Autowired
+
   private RsaConfig rsaConfig;
+
+  @Autowired
+  public AuthServerConfig(RsaConfig rsaConfig) {
+    this.rsaConfig = rsaConfig;
+  }
 
   private static final int ACCESS_TOKEN_TIMER = 60 * 60 * 24;
   private static final int REFRESH_TOKEN_TIMER = 60 * 60 * 24 * 30;

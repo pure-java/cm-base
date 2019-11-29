@@ -22,6 +22,13 @@ public interface IUserService extends IBaseService<IdUser> {
    */
   public List<IdUser> pageIdUser(PageWhere pageWhere, IdUser idUser);
 
+  /**
+   * 根据名称获取用户信息
+   *
+   * @param userName 用户名
+   * @return 用户信息
+   */
+  public IdUser getUserByUserName(String userName);
 
   /**
    * 根据条件查询

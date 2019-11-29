@@ -36,7 +36,6 @@
 *.iml
 *.ipr
 # Maven
-log/
 target/
 pom.xml.tag
 pom.xml.releaseBackup

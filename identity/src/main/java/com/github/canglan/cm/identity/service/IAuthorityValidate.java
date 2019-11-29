@@ -1,6 +1,6 @@
 package com.github.canglan.cm.identity.service;
 
-import com.github.canglan.cm.identity.entity.IdUser;
+import com.github.canglan.cm.cloud.vo.user.UserInfo;
 
 /**
  * @author 陈欢
@@ -15,6 +15,6 @@ public interface IAuthorityValidate {
    * @param password 密码
    * @return 验证成功用户名代表用户信息，失败返回null
    */
-  public IdUser validate(String userName, String password);
+  public UserInfo validate(String userName, String password);
 
 }

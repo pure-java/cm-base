@@ -16,7 +16,7 @@
   </parent>
 
   <modules>
-    <module>small-cloud-vo</module>
+    <module>common-vo</module>
     <module>common</module>
     <module>auth</module>
     <module>identity</module>

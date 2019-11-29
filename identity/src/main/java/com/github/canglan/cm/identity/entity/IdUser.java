@@ -3,6 +3,7 @@ package com.github.canglan.cm.identity.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.canglan.cm.common.entity.BaseDomCfg;
+import javax.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -28,12 +29,14 @@ public class IdUser extends BaseDomCfg<Long, IdUser> {
    * 账号
    **/
   @TableField(value = "user_name")
+  @NotBlank(message = "请输入账号名")
   private String userName;
 
   /**
    * 用户密码
    **/
   @TableField(value = "password")
+  @NotBlank(message = "请输入账密码")
   private String password;
 
   /**
@@ -84,6 +87,5 @@ public class IdUser extends BaseDomCfg<Long, IdUser> {
    **/
   @TableField(value = "email_address")
   private String emailAddress;
-
 
 }

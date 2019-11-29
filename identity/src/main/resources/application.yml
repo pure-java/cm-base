@@ -15,7 +15,7 @@ spring:
       pool-name: AuthServerDataSourceHikariCP
       max-lifetime: 1800000
       connection-timeout: 30000
-      connection-test-query: SELECT 1
+#      connection-test-query: SELECT 1
   redis:
     host: localhost
     password: null
@@ -28,10 +28,15 @@ spring:
         max-wait: -1
 logging:
   level:
-    com.github.canglan.cm.auth: debug
+    com.github.canglan.cm: debug
+    com.alibaba.nacos.client.naming: error
+    com.baomidou.mybatisplus.spring: debug
+
 swagger2:
   info:
     title: "测试"
     desc: "测试"
     url: http://localhost:${server.port}
     version: 1
+log:
+  base: "E:\\"

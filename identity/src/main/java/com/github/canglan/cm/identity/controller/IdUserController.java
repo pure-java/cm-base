@@ -31,13 +31,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/identity/idUser")
 public class IdUserController extends BaseController<IUserService> {
 
-
   @ApiOperation(value = "分页查询")
   @PostMapping(value = "pageIdUser")
   public ResultMessage pageIdUser(@ModelAttribute PageWhere pageWhere, @ModelAttribute IdUser idUser) {
     return ResultMessage.success(PageResult.of(super.service.pageIdUser(pageWhere, idUser)));
   }
-
 
   @ApiOperation(value = "添加")
   @PostMapping(value = "modifyIdUser")
@@ -45,7 +43,6 @@ public class IdUserController extends BaseController<IUserService> {
   public ResultMessage modifyIdUser(@ModelAttribute @Valid IdUser idUser) {
     return ResultMessage.success(super.service.saveOrUpdateIdUser(idUser));
   }
-
 
   @ApiOperation(value = "删除")
   @ApiImplicitParam(name = "ids", value = "要进行删除的id字符串，使用逗号分隔")

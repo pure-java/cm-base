@@ -3,7 +3,6 @@ server:
 spring:
   application:
     name: auth-server
-    request-prefix:
   datasource:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
     url: jdbc:p6spy:mysql://localhost:3306/ag_auth_v1?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
@@ -31,8 +30,9 @@ spring:
         max-wait: -1
 logging:
   level:
-    com.github.canglan.cm.auth: debug
-
+    com.github.canglan.cm: debug
+    com.alibaba.nacos.client.naming: error
+    com.baomidou.mybatisplus.spring: debug
 
 auth:
   client:
@@ -41,3 +41,18 @@ auth:
     token-header: Authorization
     ## 服务名称
     service-name: admin
+
+#  开启熔断降级
+feign:
+  hystrix:
+    enabled: true
+# hystrix 熔断配置
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
+
+

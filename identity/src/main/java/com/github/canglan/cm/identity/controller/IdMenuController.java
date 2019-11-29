@@ -42,25 +42,11 @@ public class IdMenuController extends BaseController<IMenuService> {
     return ResultMessage.success(PageResult.of(super.service.pageIdMenu(pageWhere, idMenu)));
   }
 
-
   @ApiOperation(value = "添加")
   @PostMapping(value = "modifyIdMenu")
   @PreAuthorize(value = "hasAuthority('idMenu:modifyIdMenu')")
   public ResultMessage modifyIdMenu(@ModelAttribute @Valid IdMenu idMenu) {
     return ResultMessage.success(super.service.saveOrUpdateIdMenu(idMenu));
-  }
-
-  @GetMapping(value = "batchSave")
-  public void batchSave() {
-    List<IdMenu> idMenus = Lists.newArrayList();
-    for (int i = 0; i < 100; i++) {
-      IdMenu idMenu = new IdMenu();
-      idMenu.setPid(0L);
-      idMenu.setOrderNum(1);
-      idMenu.setTitle(i + "sssss");
-      idMenus.add(idMenu);
-    }
-    super.service.saveBatch(idMenus);
   }
 
   @ApiOperation(value = "删除")
