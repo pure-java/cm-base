@@ -2,7 +2,6 @@ package com.github.canglan.cm.identity.service;
 
 import com.github.canglan.cm.common.bean.PageWhere;
 import com.github.canglan.cm.common.service.IBaseService;
-import com.github.canglan.cm.identity.entity.IdAuthority;
 import com.github.canglan.cm.identity.entity.IdMenu;
 import java.util.List;
 import java.util.Set;

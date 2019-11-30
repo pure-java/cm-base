@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.canglan.cm.auth.server.mapper.SysRoleMapper">
+  <resultMap id="BaseResultMap" type="com.github.canglan.cm.auth.server.model.entity.SysRole">
+    <id column="oid" property="oid"/>
+
+    <result column="pid" property="pid"/>
+    <result column="label" property="label"/>
+    <result column="name" property="name"/>
+    <result column="remake" property="remake"/>
+
+    <result column="add_user_id" property="addUserId"/>
+    <result column="add_user_name" property="addUserName"/>
+    <result column="add_date_time" property="addDateTime"/>
+    <result column="opt_user_id" property="optUserId"/>
+    <result column="opt_user_name" property="optUserName"/>
+    <result column="opt_date_time" property="optDateTime"/>
+    <result column="del_flg" property="delFlg"/>
+  </resultMap>
+
+  <!-- 通用查询结果列 -->
+  <sql id="sys_role_base_sql">
+    ${tableName}.oid as ${tableAsName}_oid,
+    ${tableName}.pid as ${tableAsName}_pid,
+    ${tableName}.label as ${tableAsName}_label,
+    ${tableName}.name as ${tableAsName}_name,
+    ${tableName}.remake as ${tableAsName}_remake,
+    ${tableName}.add_user_id as ${tableAsName}_addUserId,
+    ${tableName}.add_user_name as ${tableAsName}_addUserName,
+    ${tableName}.add_date_time as ${tableAsName}_addDateTime,
+    ${tableName}.opt_user_id as ${tableAsName}_optUserId,
+    ${tableName}.opt_user_name as ${tableAsName}_optUserName,
+    ${tableName}.opt_date_time as ${tableAsName}_optDateTime,
+    ${tableName}.del_flg as ${tableAsName}_delFlg
+  </sql>
+
+  <insert id="saveBatch">
+    insert into sys_role (
+    oid,
+    pid,
+    label,
+    name,
+    remake,
+    add_user_id,
+    add_user_name,
+    add_date_time,
+    opt_user_id,
+    opt_user_name,
+    opt_date_time,
+    del_flg
+    ) values
+    <foreach collection="saveList" item="saveObj" separator=",">
+      (
+      #{saveObj.oid},
+      #{saveObj.pid},
+      #{saveObj.label},
+      #{saveObj.name},
+      #{saveObj.remake},
+      #{saveObj.add_user_id},
+      #{saveObj.add_user_name},
+      #{saveObj.add_date_time},
+      #{saveObj.opt_user_id},
+      #{saveObj.opt_user_name},
+      #{saveObj.opt_date_time},
+      #{saveObj.del_flg}
+      )
+    </foreach>
+  </insert>
+</mapper>

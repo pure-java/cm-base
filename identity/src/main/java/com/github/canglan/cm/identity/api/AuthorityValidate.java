@@ -1,7 +1,7 @@
 package com.github.canglan.cm.identity.api;
 
 import com.github.canglan.cm.cloud.vo.user.UserInfo;
-import com.github.canglan.cm.common.model.ResultMessage;
+import com.github.canglan.cm.common.model.Result;
 import com.github.canglan.cm.identity.service.IAuthorityValidate;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +26,7 @@ public class AuthorityValidate {
 
   @ApiOperation(value = "验证用户", notes = "根据用户名与密码进行验证")
   @PostMapping(value = "validate")
-  public ResultMessage<UserInfo> validate(String userName, String password) {
-    return ResultMessage.success(authorityValidate.validate(userName, password));
+  public Result<UserInfo> validate(String userName, String password) {
+    return Result.success(authorityValidate.validate(userName, password));
   }
 }

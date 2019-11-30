@@ -3,7 +3,7 @@ package com.github.canglan.cm.identity.controller;
 import com.github.canglan.cm.common.bean.PageResult;
 import com.github.canglan.cm.common.bean.PageWhere;
 import com.github.canglan.cm.common.controller.BaseController;
-import com.github.canglan.cm.common.model.ResultMessage;
+import com.github.canglan.cm.common.model.Result;
 import com.github.canglan.cm.common.util.StringUtil;
 import com.github.canglan.cm.identity.entity.IdUser;
 import com.github.canglan.cm.identity.service.IUserService;
@@ -33,23 +33,23 @@ public class IdUserController extends BaseController<IUserService> {
 
   @ApiOperation(value = "分页查询")
   @PostMapping(value = "pageIdUser")
-  public ResultMessage pageIdUser(@ModelAttribute PageWhere pageWhere, @ModelAttribute IdUser idUser) {
-    return ResultMessage.success(PageResult.of(super.service.pageIdUser(pageWhere, idUser)));
+  public Result pageIdUser(@ModelAttribute PageWhere pageWhere, @ModelAttribute IdUser idUser) {
+    return Result.success(PageResult.of(super.service.pageIdUser(pageWhere, idUser)));
   }
 
   @ApiOperation(value = "添加")
   @PostMapping(value = "modifyIdUser")
   @PreAuthorize(value = "hasAuthority('idUser:modifyIdUser')")
-  public ResultMessage modifyIdUser(@ModelAttribute @Valid IdUser idUser) {
-    return ResultMessage.success(super.service.saveOrUpdateIdUser(idUser));
+  public Result modifyIdUser(@ModelAttribute @Valid IdUser idUser) {
+    return Result.success(super.service.saveOrUpdateIdUser(idUser));
   }
 
   @ApiOperation(value = "删除")
   @ApiImplicitParam(name = "ids", value = "要进行删除的id字符串，使用逗号分隔")
   @PostMapping(value = "removeIdUser")
   @PreAuthorize(value = "hasAuthority('idUser:removeIdUser')")
-  public ResultMessage removeIdUser(@RequestParam("ids") String ids) {
+  public Result removeIdUser(@RequestParam("ids") String ids) {
     boolean status = super.service.removeByIds(StringUtil.convertStringToId(ids, String.class));
-    return ResultMessage.newInstance(status);
+    return Result.newInstance(status);
   }
 }

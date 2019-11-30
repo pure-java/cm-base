@@ -2,7 +2,7 @@
 
 import com.github.canglan.cm.common.bean.PageResult;
 import com.github.canglan.cm.common.bean.PageWhere;
-import com.github.canglan.cm.common.model.ResultMessage;
+import com.github.canglan.cm.common.model.Result;
 import com.github.canglan.cm.common.util.StringUtil;
 import com.github.canglan.cm.identity.entity.IdRole;
 
@@ -35,16 +35,16 @@ public class IdRoleController extends BaseController<IRoleService> {
 
   @ApiOperation(value = "分页查询")
   @PostMapping(value = "pageIdRole")
-  public ResultMessage pageIdRole(@ModelAttribute PageWhere pageWhere, @ModelAttribute IdRole idRole) {
-    return ResultMessage.success(PageResult.of(super.service.pageIdRole(pageWhere, idRole)));
+  public Result pageIdRole(@ModelAttribute PageWhere pageWhere, @ModelAttribute IdRole idRole) {
+    return Result.success(PageResult.of(super.service.pageIdRole(pageWhere, idRole)));
   }
 
 
   @ApiOperation(value = "添加")
   @PostMapping(value = "modifyIdRole")
   @PreAuthorize(value = "hasAuthority('idRole:modifyIdRole')")
-  public ResultMessage modifyIdRole(@ModelAttribute @Valid IdRole idRole) {
-    return ResultMessage.success(super.service.saveOrUpdateIdRole(idRole));
+  public Result modifyIdRole(@ModelAttribute @Valid IdRole idRole) {
+    return Result.success(super.service.saveOrUpdateIdRole(idRole));
   }
 
 
@@ -52,8 +52,8 @@ public class IdRoleController extends BaseController<IRoleService> {
   @ApiImplicitParam(name = "ids", value = "要进行删除的id字符串，使用逗号分隔")
   @PostMapping(value = "removeIdRole")
   @PreAuthorize(value = "hasAuthority('idRole:removeIdRole')")
-  public ResultMessage removeIdRole(@RequestParam("ids") String ids) {
+  public Result removeIdRole(@RequestParam("ids") String ids) {
     boolean status = super.service.removeByIds(StringUtil.convertStringToId(ids, String.class));
-    return ResultMessage.newInstance(status);
+    return Result.newInstance(status);
   }
 }

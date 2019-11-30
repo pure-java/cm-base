@@ -29,8 +29,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired
   private IUserService userService;
-  @Autowired
-  private UserDetailsService userDetailsService;
 
   @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
   @Override
@@ -59,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception { // 身份验证管理生成器
-    auth.userDetailsService(this.userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+    auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
   }
 
   /**
@@ -80,8 +78,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
   @Override
   protected UserDetailsService userDetailsService() {
-
-    // #####################从数据库查询数据###############################
     return username -> {
       // 通过用户名获取用户信息
       IdUser userByUserName = userService.getUserByUserName(username);

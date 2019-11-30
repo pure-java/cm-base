@@ -2,9 +2,7 @@ package com.github.canglan.cm.identity.config;
 
 import com.github.canglan.cm.common.component.AutoFillAdapt;
 import com.github.canglan.cm.common.entity.SysUser;
-import com.github.canglan.cm.identity.pojo.LoginUser;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 /**

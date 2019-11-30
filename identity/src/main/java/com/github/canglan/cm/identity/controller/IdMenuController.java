@@ -2,20 +2,17 @@ package com.github.canglan.cm.identity.controller;
 
 import com.github.canglan.cm.common.bean.PageResult;
 import com.github.canglan.cm.common.bean.PageWhere;
-import com.github.canglan.cm.common.model.ResultMessage;
+import com.github.canglan.cm.common.model.Result;
 import com.github.canglan.cm.common.util.StringUtil;
 import com.github.canglan.cm.identity.entity.IdMenu;
 
 import com.github.canglan.cm.identity.service.IMenuService;
-import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
 import javax.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,23 +35,23 @@ public class IdMenuController extends BaseController<IMenuService> {
 
   @ApiOperation(value = "分页查询")
   @PostMapping(value = "pageIdMenu")
-  public ResultMessage pageIdMenu(@ModelAttribute PageWhere pageWhere, @ModelAttribute IdMenu idMenu) {
-    return ResultMessage.success(PageResult.of(super.service.pageIdMenu(pageWhere, idMenu)));
+  public Result pageIdMenu(@ModelAttribute PageWhere pageWhere, @ModelAttribute IdMenu idMenu) {
+    return Result.success(PageResult.of(super.service.pageIdMenu(pageWhere, idMenu)));
   }
 
   @ApiOperation(value = "添加")
   @PostMapping(value = "modifyIdMenu")
   @PreAuthorize(value = "hasAuthority('idMenu:modifyIdMenu')")
-  public ResultMessage modifyIdMenu(@ModelAttribute @Valid IdMenu idMenu) {
-    return ResultMessage.success(super.service.saveOrUpdateIdMenu(idMenu));
+  public Result modifyIdMenu(@ModelAttribute @Valid IdMenu idMenu) {
+    return Result.success(super.service.saveOrUpdateIdMenu(idMenu));
   }
 
   @ApiOperation(value = "删除")
   @ApiImplicitParam(name = "ids", value = "要进行删除的id字符串，使用逗号分隔")
   @PostMapping(value = "removeIdMenu")
   @PreAuthorize(value = "hasAuthority('idMenu:removeIdMenu')")
-  public ResultMessage removeIdMenu(@RequestParam("ids") String ids) {
+  public Result removeIdMenu(@RequestParam("ids") String ids) {
     boolean status = super.service.removeByIds(StringUtil.convertStringToId(ids, String.class));
-    return ResultMessage.newInstance(status);
+    return Result.newInstance(status);
   }
 }
