@@ -45,8 +45,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .failureHandler(tokenAuthenticationFailureHandler);
 
     http.authorizeRequests()
-        .antMatchers("/oauth/**").permitAll()
-        .anyRequest().authenticated();
+        .antMatchers("/jwt/**").permitAll()
+        .antMatchers("/oauth/**").authenticated();
   }
 
   /**

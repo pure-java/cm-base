@@ -14,6 +14,8 @@ import java.security.interfaces.RSAPublicKey;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import javax.annotation.Resource;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -34,6 +36,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -49,28 +52,16 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 @Configuration
 @EnableAuthorizationServer
 @EnableConfigurationProperties(ClientAuthProperties.class)
+@AllArgsConstructor
 public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
   private RsaConfig rsaConfig;
-
-  @Autowired
-  public AuthServerConfig(RsaConfig rsaConfig) {
-    this.rsaConfig = rsaConfig;
-  }
-
-  @Autowired
   private AuthenticationManager authenticationManager;
-  @Autowired
   private RedisConnectionFactory redisConnectionFactory;
-  @Autowired
   private CustomAuthPoint customAuthPoint;
-  @Autowired
   private CustomAccessDeniedHandler customAccessDeniedHandler;
-  @Autowired
   private HikariDataSource dataSource;
-  @Autowired
   private PasswordEncoder passwordEncode;
-  @Autowired
   private UserDetailsService userDetailsService;
 
   @Override
@@ -91,7 +82,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
   @Override
   public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
     log.debug(" ================ 配置 ClientDetailsServiceConfigurer ==============================");
-    clients.jdbc(this.dataSource).passwordEncoder(this.passwordEncode).build();
+    clients.jdbc(this.dataSource).passwordEncoder(this.passwordEncode);
   }
 
   @Override
@@ -106,7 +97,6 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
         // 设置token存储
         .tokenStore(tokenStore());
   }
-
 
   @Bean
   public JwtAccessTokenConverter accessTokenConverter() {

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
@@ -31,6 +32,7 @@ public class TokenAuthenticationSuccessHandler extends SavedRequestAwareAuthenti
   @Autowired
   private UserAuthProperties userAuthProperties;
   @Autowired
+  @Lazy
   private AuthorizationServerTokenServices authorizationServerTokenServices;
 
   @Override
