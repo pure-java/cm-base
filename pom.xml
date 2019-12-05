@@ -18,9 +18,8 @@
   <modules>
     <module>cm-auth</module>
     <module>cm-generator</module>
-    <module>cm-common-vo</module>
-    <module>cm-common-data</module>
-    <module>cm-common-util</module>
+    <module>cm-common</module>
+    <module>cm-gate</module>
   </modules>
 
   <properties>

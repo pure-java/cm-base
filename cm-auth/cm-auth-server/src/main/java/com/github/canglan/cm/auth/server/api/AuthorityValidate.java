@@ -2,7 +2,7 @@ package com.github.canglan.cm.auth.server.api;
 
 import com.github.canglan.cm.auth.server.service.ISysAuthorityValidate;
 import com.github.canglan.cm.cloud.vo.user.UserInfo;
-import com.github.canglan.cm.common.data.model.Result;
+import com.github.canglan.cm.common.core.model.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

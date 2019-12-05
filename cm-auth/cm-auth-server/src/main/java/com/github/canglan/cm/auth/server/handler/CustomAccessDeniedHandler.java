@@ -1,7 +1,7 @@
 package com.github.canglan.cm.auth.server.handler;
 
-import com.github.canglan.cm.common.data.model.Result;
-import com.github.canglan.cm.common.data.util.JacksonUtil;
+import com.github.canglan.cm.common.core.model.Result;
+import com.github.canglan.cm.common.core.util.JacksonUtil;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

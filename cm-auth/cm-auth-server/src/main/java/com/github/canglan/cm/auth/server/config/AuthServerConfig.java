@@ -7,6 +7,7 @@ import com.github.canglan.cm.auth.server.handler.CustomAccessDeniedHandler;
 import com.github.canglan.cm.auth.server.handler.CustomAuthPoint;
 import com.github.canglan.cm.auth.server.model.dto.LoginUser;
 import com.github.canglan.cm.auth.server.properties.ClientAuthProperties;
+import com.github.canglan.cm.auth.server.service.impl.ClientDetailService;
 import com.google.common.collect.Maps;
 import com.zaxxer.hikari.HikariDataSource;
 import java.security.interfaces.RSAPrivateKey;
@@ -27,6 +28,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.jwt.Jwt;
+import org.springframework.security.jwt.JwtHelper;
 import org.springframework.security.jwt.crypto.sign.RsaSigner;
 import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
@@ -38,6 +41,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
@@ -71,7 +75,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     security.tokenKeyAccess("permitAll()")
         // 开放/oauth/check_token
         // AuthenticationEntryPoint
-        .checkTokenAccess("isAuthenticated()")
+        .checkTokenAccess("permitAll()")
         .authenticationEntryPoint(customAuthPoint)
         .accessDeniedHandler(customAccessDeniedHandler)
         // 允许表单认证
@@ -82,7 +86,15 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
   @Override
   public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
     log.debug(" ================ 配置 ClientDetailsServiceConfigurer ==============================");
-    clients.jdbc(this.dataSource).passwordEncoder(this.passwordEncode);
+    // clients.jdbc(this.dataSource).passwordEncoder(this.passwordEncode);
+    clients.withClientDetails(clientDetailsService());
+  }
+
+  // @Bean
+  public ClientDetailsService clientDetailsService() {
+    ClientDetailService clientDetailService = new ClientDetailService(this.dataSource);
+    clientDetailService.setPasswordEncoder(this.passwordEncode);
+    return clientDetailService;
   }
 
   @Override
@@ -128,7 +140,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
       DefaultOAuth2AccessToken result = new DefaultOAuth2AccessToken(accessToken);
-
+      log.debug(" result =  {}", result);
       log.debug("oauth2token===>{}", authentication);
       log.debug("principal===>{}", authentication.getPrincipal());
 
@@ -138,11 +150,17 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
         info.put(TOKEN_ID, tokenId);
       }
       info.put("organization", authentication.getName() + randomAlphabetic(4));
-      LoginUser user = (LoginUser) authentication.getUserAuthentication().getPrincipal();
-      List<String> authorities = user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
-      info.put("oid", user.getOid());
-      info.put("username", user.getUsername());
-      info.put("roles", authorities);
+      if (authentication.getUserAuthentication() != null && authentication.getUserAuthentication().getPrincipal() != null) {
+        LoginUser user = (LoginUser) authentication.getUserAuthentication().getPrincipal();
+        List<String> authorities = user
+            .getAuthorities()
+            .stream()
+            .map(GrantedAuthority::getAuthority)
+            .collect(Collectors.toList());
+        info.put("oid", user.getOid());
+        info.put("username", user.getUsername());
+        info.put("roles", authorities);
+      }
 
       log.debug("info============>{}", info);
       result.setAdditionalInformation(info);

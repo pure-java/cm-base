@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: api-gateway
+
+profiles:
+  active: dev
+log:
+  base: "E:\\"

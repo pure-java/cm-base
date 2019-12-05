@@ -7,7 +7,7 @@ import com.github.canglan.cm.auth.server.service.ISysUserService;
 import com.github.canglan.cm.common.data.model.PageWhere;
 import com.github.canglan.cm.common.data.constants.AppConstants;
 import com.github.canglan.cm.common.data.base.BaseServiceImpl;
-import com.github.canglan.cm.common.util.collection.CollectionUtil;
+import com.github.canglan.cm.common.core.util.collection.CollectionUtil;
 import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Set;

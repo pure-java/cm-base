@@ -5,8 +5,8 @@ import com.github.canglan.cm.auth.server.service.ISysAuthorityService;
 import com.github.canglan.cm.common.data.model.PageResult;
 import com.github.canglan.cm.common.data.model.PageWhere;
 import com.github.canglan.cm.common.data.base.BaseController;
-import com.github.canglan.cm.common.data.model.Result;
-import com.github.canglan.cm.common.util.StringUtil;
+import com.github.canglan.cm.common.core.model.Result;
+import com.github.canglan.cm.common.core.util.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -37,7 +37,6 @@ public class SysAuthorityController extends BaseController<ISysAuthorityService>
   public Result pageIdAuthority(@ModelAttribute PageWhere pageWhere, @ModelAttribute SysAuthority sysAuthority) {
     return Result.success(PageResult.of(super.service.pageIdAuthority(pageWhere, sysAuthority)));
   }
-
 
   @ApiOperation(value = "添加")
   @PostMapping(value = "modifyIdAuthority")

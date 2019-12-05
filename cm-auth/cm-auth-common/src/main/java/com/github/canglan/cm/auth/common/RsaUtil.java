@@ -23,7 +23,6 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.apache.commons.codec.binary.Base64;
-import sun.misc.BASE64Encoder;
 
 /**
  * @author bairitan
@@ -233,8 +232,8 @@ public class RsaUtil {
     // saveKeyFile("C:\\Users\\10754\\Documents\\Tencent Files\\1075474353\\FileRecv\\复习资料\\复习资料\\private.rsa",
     //     "C:\\Users\\10754\\Documents\\Tencent Files\\1075474353\\FileRecv\\复习资料\\复习资料\\public.rsa", key);
 
-    System.out.println(new BASE64Encoder().encode(key.getPrivateKey().getEncoded()));
-    System.out.println(new BASE64Encoder().encode(key.getPublicKey().getEncoded()));
+    // System.out.println(new BASE64Encoder().encode(key.getPrivateKey().getEncoded()));
+    // System.out.println(new BASE64Encoder().encode(key.getPublicKey().getEncoded()));
 
     System.out.println(Base64.encodeBase64String(key.getPrivateKey().getEncoded()));
     System.out.println(Base64.encodeBase64String(key.getPublicKey().getEncoded()));

@@ -2,7 +2,7 @@ package com.github.canglan.cm.auth.server.controller;
 
 import com.github.canglan.cm.auth.server.model.dto.ClientInfo;
 import com.github.canglan.cm.auth.server.service.ISysAuthorityValidate;
-import com.github.canglan.cm.common.data.model.Result;
+import com.github.canglan.cm.common.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

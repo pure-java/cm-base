@@ -2,8 +2,9 @@ package com.github.canglan.cm.auth.server.config;
 
 import com.github.canglan.cm.auth.server.properties.UserAuthProperties;
 
-import com.github.canglan.cm.common.data.util.JacksonUtil;
-import com.github.canglan.cm.common.util.StringUtil;
+
+import com.github.canglan.cm.common.core.util.JacksonUtil;
+import com.github.canglan.cm.common.core.util.StringUtil;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
