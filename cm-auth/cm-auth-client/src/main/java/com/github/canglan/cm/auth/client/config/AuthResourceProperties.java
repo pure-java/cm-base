@@ -9,9 +9,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author bairitan
  * @since 2019/11/14
  */
-@ConfigurationProperties(prefix = "auth.resource")
 @Setter
 @Getter
+// @ConfigurationProperties(prefix = "auth.resource")
 public class AuthResourceProperties {
 
   /**

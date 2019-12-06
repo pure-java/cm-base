@@ -21,9 +21,9 @@ import org.springframework.util.StringUtils;
  * @author bairitan
  * @since 2019/11/14
  */
-@Configuration
-@EnableResourceServer
-@EnableConfigurationProperties(AuthResourceProperties.class)
+// @Configuration
+// @EnableResourceServer
+// @EnableConfigurationProperties(AuthResourceProperties.class)
 public class AuthClientConfig extends ResourceServerConfigurerAdapter {
 
   @Autowired
@@ -43,6 +43,7 @@ public class AuthClientConfig extends ResourceServerConfigurerAdapter {
 
   @Override
   public void configure(HttpSecurity http) throws Exception {
+    http.csrf().disable();
     http
         .authorizeRequests()
         .antMatchers("/order/*").permitAll()

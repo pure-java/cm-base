@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @date 2019/12/4
  */
 @SpringBootApplication
-@ComponentScan(value = "com.github.canglan.cm.gate")
+@ComponentScan(value = "com.github.canglan.cm")
 @EnableFeignClients({"com.github.canglan.cm.gate.gateway.feign"})
 public class GatewayApplication {
 

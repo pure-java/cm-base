@@ -1,5 +1,6 @@
 package com.github.canglan.cm.gate.gateway.router;
 
+import com.github.canglan.cm.auth.common.RefreshToken;
 import com.github.canglan.cm.common.core.util.JacksonUtil;
 import com.github.canglan.cm.common.core.util.collection.CollectionUtil;
 import java.util.List;
@@ -76,4 +77,11 @@ public class RedisRouterRouteDefinitionRepository implements RouteDefinitionRepo
     });
   }
 
+  public static void main(String[] args) {
+    RefreshToken refreshToken = new RefreshToken();
+    refreshToken.setClientId("test");
+    refreshToken.setClientSecret("admin");
+    refreshToken.setGrantType("refresh_token");
+    System.out.println(JacksonUtil.json(refreshToken));
+  }
 }

@@ -1,10 +1,13 @@
 package com.github.canglan.cm.gate.gateway.filter;
 
-import com.github.canglan.cm.common.core.util.JacksonUtil;
+import com.github.canglan.cm.auth.client.feign.AuthProvider;
+import com.github.canglan.cm.auth.client.service.AuthService;
 import com.github.canglan.cm.common.core.model.Result;
+import com.github.canglan.cm.common.core.util.JacksonUtil;
 import com.github.canglan.cm.gate.gateway.properties.AuthProperties;
-import com.github.canglan.cm.gate.gateway.service.IAuthService;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.security.jwt.Jwt;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -28,7 +32,9 @@ import reactor.core.publisher.Mono;
 @Configuration
 @AllArgsConstructor
 public class JwtTokenFilter implements GlobalFilter {
-  private IAuthService authService;
+
+  private AuthService authService;
+  private AuthProvider authValidateService;
   private AuthProperties authProperties;
 
   @Override
@@ -39,16 +45,19 @@ public class JwtTokenFilter implements GlobalFilter {
     String url = request.getURI().getPath();
     log.debug(" exchange.getRequest().getURI().getPath() = {} ", request.getURI().getPath());
     log.debug(" exchange.getRequest().getPath() = {}", request.getPath());
-
     if (StringUtils.isNotBlank(url) && authProperties.ignoreAuthentication(url)) {
       return chain.filter(exchange);
     }
     if (StringUtils.isNotBlank(authentication)) {
-      String token = authentication.substring(7);
       if (StringUtils.isBlank(authentication)) {
         return writeResponse(exchange, "未登录", HttpStatus.UNAUTHORIZED);
       }
-      if (authService.checkToken(authentication)) {
+
+      Jwt jwt = authService.decodeAndVerify(authentication);
+      log.debug("jwt = {}", jwt);
+      Map<String, Object> checkToken = authService.checkToken(authentication);
+
+      if (Objects.nonNull(checkToken)) {
         ServerHttpRequest.Builder builder = request.mutate();
         return chain.filter(exchange.mutate().request(builder.build()).build());
         //如果是get请求，放行

@@ -81,3 +81,5 @@ swagger2:
 gate:
   authentication:
     ignore-urls: /oauth
+auth:
+  serviceId: auth-server

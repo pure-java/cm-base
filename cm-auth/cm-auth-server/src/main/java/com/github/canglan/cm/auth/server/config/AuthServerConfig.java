@@ -106,6 +106,8 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
         .userDetailsService(this.userDetailsService)
         //  token 转换器
         .accessTokenConverter(accessTokenConverter())
+        // 刷新token
+        .reuseRefreshTokens(true)
         // 设置token存储
         .tokenStore(tokenStore());
   }
@@ -139,11 +141,13 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
+      // OAuth2AccessToken enhance = super.enhance(accessToken, authentication);
       DefaultOAuth2AccessToken result = new DefaultOAuth2AccessToken(accessToken);
       log.debug(" result =  {}", result);
       log.debug("oauth2token===>{}", authentication);
       log.debug("principal===>{}", authentication.getPrincipal());
 
+      log.debug(" ref  = {}", result.getRefreshToken());
       Map<String, Object> info = Maps.newLinkedHashMap(accessToken.getAdditionalInformation());
       String tokenId = result.getValue();
       if (!info.containsKey(TOKEN_ID)) {
