@@ -11,15 +11,13 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author bairitan
  * @since 2019/11/19
  */
-@RestController
-@RequestMapping("jwt")
+// @RestController
+// @RequestMapping("jwt")
 @Slf4j
 public class AuthController {
 

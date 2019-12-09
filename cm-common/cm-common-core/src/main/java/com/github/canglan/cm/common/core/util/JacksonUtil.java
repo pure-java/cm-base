@@ -29,6 +29,7 @@ import java.util.Set;
  **/
 public final class JacksonUtil {
 
+
   /**
    * 导入
    */
@@ -47,10 +48,17 @@ public final class JacksonUtil {
   // common=====================================开始
 
   /**
-   * 创建json辅助类实例
+   * 创建 原型模式 对象
    */
   public static JacksonUtil newInstance() {
     return new JacksonUtil();
+  }
+
+  /**
+   * 返回 单例模式对象
+   */
+  public static JacksonUtil singleInstance() {
+    return JacksonUtilEnum.INSTANCE.jacksonUtil;
   }
 
   /**
@@ -171,7 +179,7 @@ public final class JacksonUtil {
    * 转换为json
    */
   public static <T> String json(T t) {
-    return new JacksonUtil().toJson(t);
+    return singleInstance().toJson(t);
   }
 
   public static <T> String json(T t, boolean nonEmpty) {
@@ -408,4 +416,18 @@ public final class JacksonUtil {
   }
 
   // file mapConversion object =================================结束
+  private static enum JacksonUtilEnum {
+
+    INSTANCE();
+    JacksonUtil jacksonUtil;
+
+    JacksonUtilEnum() {
+      this.jacksonUtil = new JacksonUtil();
+    }
+
+    public JacksonUtil getJacksonUtil() {
+      return INSTANCE.jacksonUtil;
+    }
+
+  }
 }

@@ -15,10 +15,8 @@ import java.security.interfaces.RSAPublicKey;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.annotation.Resource;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,10 +24,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.codec.Base64;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.jwt.Jwt;
-import org.springframework.security.jwt.JwtHelper;
 import org.springframework.security.jwt.crypto.sign.RsaSigner;
 import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
@@ -41,7 +36,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
@@ -86,11 +80,12 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
   @Override
   public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
     log.debug(" ================ 配置 ClientDetailsServiceConfigurer ==============================");
-    // clients.jdbc(this.dataSource).passwordEncoder(this.passwordEncode);
     clients.withClientDetails(clientDetailsService());
   }
 
-  // @Bean
+  /**
+   * 不能使用 bean 注解进行诸如。不然会导致冲突
+   */
   public ClientDetailsService clientDetailsService() {
     ClientDetailService clientDetailService = new ClientDetailService(this.dataSource);
     clientDetailService.setPasswordEncoder(this.passwordEncode);
@@ -122,8 +117,12 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     CustomOauth2AccessToken auth2AccessToken = new CustomOauth2AccessToken();
     auth2AccessToken.setSigner(new RsaSigner(privateKey));
     auth2AccessToken.setVerifier(new RsaVerifier(publicKey));
+    byte[] encode = java.util.Base64.getEncoder().encode(publicKey.getEncoded());
+
     String verifierKey = String.format("%s%s%s",
-        "-----BEGIN PUBLIC KEY-----\n", new String(Base64.encode(publicKey.getEncoded())), "\n-----END PUBLIC KEY-----");
+        "-----BEGIN PUBLIC KEY-----\n",
+        new String(encode),
+        "\n-----END PUBLIC KEY-----");
 
     auth2AccessToken.setVerifierKey(verifierKey);
     return auth2AccessToken;
@@ -141,7 +140,6 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-      // OAuth2AccessToken enhance = super.enhance(accessToken, authentication);
       DefaultOAuth2AccessToken result = new DefaultOAuth2AccessToken(accessToken);
       log.debug(" result =  {}", result);
       log.debug("oauth2token===>{}", authentication);

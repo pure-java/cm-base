@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @since 2019/11/30
  */
 @Component
-@FeignClient(value = "${auth.serviceId}")
+@FeignClient(value = "${security.auth-service-id}")
 public interface AuthProvider {
 
   /**

@@ -2,13 +2,18 @@ package com.github.canglan.cm.common.data.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * @author 陈欢
  * @since 2019/11/21
  */
-@ConfigurationProperties("swagger2")
+@ConfigurationProperties(prefix = "swagger2")
+@Data
+@Configuration
 public class Swagger2Properties {
+
+  private boolean enable = true;
 
   private Swagger2ApiInfoBuilder info;
 
@@ -27,6 +32,8 @@ public class Swagger2Properties {
     private String desc;
     private String url;
     private String version;
+    private String basePackage;
 
   }
+
 }

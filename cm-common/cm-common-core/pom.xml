@@ -12,6 +12,12 @@
   <artifactId>cm-common-core</artifactId>
   <dependencies>
 
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-json</artifactId>
+      <!--      <scope>provided</scope>-->
+    </dependency>
+
     <!--辅助包-->
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -40,10 +46,7 @@
       <artifactId>commons-collections4</artifactId>
       <version>4.2</version>
     </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-json</artifactId>
-    </dependency>
+
   </dependencies>
 
 </project>

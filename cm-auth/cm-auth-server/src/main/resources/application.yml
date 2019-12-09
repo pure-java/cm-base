@@ -57,9 +57,13 @@ hystrix:
 log:
   base: "E:\\"
 swagger2:
+  enable: true
   info:
     title: "鉴权中心"
     desc: "鉴权中心"
     url: http://localhost:${server.port}
     version: 1
+    basePackage: com.github.canglan.cm
+
+
 
