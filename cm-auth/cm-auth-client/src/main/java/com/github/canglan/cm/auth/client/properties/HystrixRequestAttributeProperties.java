@@ -3,6 +3,8 @@ package com.github.canglan.cm.auth.client.properties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
+ * 是否为 Hystrix 注入 HttpServletRequest 。
+ *
  * @author Reno Chou
  */
 @ConfigurationProperties("hystrix.propagate.request-attribute")

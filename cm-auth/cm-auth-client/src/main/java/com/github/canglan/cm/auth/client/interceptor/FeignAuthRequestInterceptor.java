@@ -3,6 +3,9 @@ package com.github.canglan.cm.auth.client.interceptor;
 import com.github.canglan.cm.common.core.util.StringUtil;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -22,11 +25,17 @@ public class FeignAuthRequestInterceptor implements RequestInterceptor {
 
   @Override
   public void apply(RequestTemplate template) {
-    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+    if (requestAttributes == null) {
+      log.debug(" 请求为空 ===================== ");
+      return;
+    }
+    HttpServletRequest request = requestAttributes.getRequest();
+    log.debug(" 请求 ========,{}", requestAttributes);
     String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
-    System.out.println(template.headers());
     if (StringUtil.isNotBlank(authorization)) {
       template.header(HttpHeaders.AUTHORIZATION, authorization);
     }
   }
+
 }

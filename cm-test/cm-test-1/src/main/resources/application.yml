@@ -31,12 +31,17 @@ feign:
     enabled: true
 # hystrix 熔断配置
 hystrix:
+#  shareSecurityContext: true
+  propagate:
+    request-attribute:
+      enabled: true
   command:
     default:
       execution:
         isolation:
           thread:
             timeoutInMilliseconds: 5000
+# 设置 负载均衡 ribbon 的重试次数以及读取超时时间
 ribbon:
   MaxAutoRetries: 3
   ReadTimeout: 3000

@@ -22,6 +22,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 
 /**
  * @author Reno Chou
+ * 为 Hystrix 提供获取请求的一种方式，以供在 Hystrix 中使用。
  *
  * Hystrix does not provide request attributes yet. Therefor a custom
  * {@link HystrixConcurrencyStrategy} is necessary that injects request attributes. This
@@ -86,8 +87,7 @@ public class RequestAttributeHystrixConcurrencyStrategy extends HystrixConcurren
       HystrixProperty<Integer> maximumPoolSize,
       HystrixProperty<Integer> keepAliveTime, TimeUnit unit,
       BlockingQueue<Runnable> workQueue) {
-    return this.delegate.getThreadPool(threadPoolKey, corePoolSize, maximumPoolSize,
-        keepAliveTime, unit, workQueue);
+    return this.delegate.getThreadPool(threadPoolKey, corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue);
   }
 
   @Override
@@ -102,8 +102,7 @@ public class RequestAttributeHystrixConcurrencyStrategy extends HystrixConcurren
   }
 
   @Override
-  public <T> HystrixRequestVariable<T> getRequestVariable(
-      HystrixRequestVariableLifecycle<T> rv) {
+  public <T> HystrixRequestVariable<T> getRequestVariable(HystrixRequestVariableLifecycle<T> rv) {
     return this.delegate.getRequestVariable(rv);
   }
 
