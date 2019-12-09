@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/identity/idAuthority")
 public class SysAuthorityController extends BaseController<ISysAuthorityService> {
 
-
   @ApiOperation(value = "分页查询")
   @PostMapping(value = "pageIdAuthority")
   public Result pageIdAuthority(@ModelAttribute PageWhere pageWhere, @ModelAttribute SysAuthority sysAuthority) {

@@ -217,55 +217,6 @@ public class RsaUtil {
     return Base64.decodeBase64(key);
   }
 
-
-  public static void main(String[] args) throws Exception {
-    // RsaKey key = getKey(1024);
-
-    File file = new File("C:\\Users\\10754\\Documents\\Tencent Files\\1075474353\\FileRecv\\复习资料\\复习资料\\public.rsa");
-    PublicKey publicKey = getPublicKey(file);
-    File file1 = new File("C:\\Users\\10754\\Documents\\Tencent Files\\1075474353\\FileRecv\\复习资料\\复习资料\\private.rsa");
-    PrivateKey privateKey = getPrivateKey(file1);
-
-    RsaKey key = new RsaKey();
-    key.setPrivateKey(privateKey);
-    key.setPublicKey(publicKey);
-    // saveKeyFile("C:\\Users\\10754\\Documents\\Tencent Files\\1075474353\\FileRecv\\复习资料\\复习资料\\private.rsa",
-    //     "C:\\Users\\10754\\Documents\\Tencent Files\\1075474353\\FileRecv\\复习资料\\复习资料\\public.rsa", key);
-
-    // System.out.println(new BASE64Encoder().encode(key.getPrivateKey().getEncoded()));
-    // System.out.println(new BASE64Encoder().encode(key.getPublicKey().getEncoded()));
-
-    System.out.println(Base64.encodeBase64String(key.getPrivateKey().getEncoded()));
-    System.out.println(Base64.encodeBase64String(key.getPublicKey().getEncoded()));
-    // test1(key);
-    //
-    // test(key);
-  }
-
-  private static void test1(RsaKey key) throws UnsupportedEncodingException {
-    String encryptStr = "test11xxxxxxxxxxxxxxasdafsaasfs";
-
-    String privateEncrypt = encrypt(encryptStr, key.publicKey);
-    System.out.println(privateEncrypt);
-
-    String decrypt = decrypt(privateEncrypt, key.privateKey);
-    System.out.println("解密结果 = " + decrypt);
-
-    System.out.println("公钥加密，私钥解密" + decrypt.equals(encryptStr));
-    System.out.println("=============================");
-  }
-
-  private static void test(RsaKey key) {
-    String encryptStr1 = "asaafaghhryyw=========";
-    String publicEncrypt = encrypt(encryptStr1, key.privateKey);
-    System.out.println(publicEncrypt);
-
-    String decrypt = decrypt(publicEncrypt, key.publicKey);
-    System.out.println("解密结果 = " + decrypt);
-    System.out.println("私钥加密，公钥解密 = " + encryptStr1.equals(decrypt));
-    System.out.println("=============================");
-  }
-
   @Getter
   @Setter
   @ToString

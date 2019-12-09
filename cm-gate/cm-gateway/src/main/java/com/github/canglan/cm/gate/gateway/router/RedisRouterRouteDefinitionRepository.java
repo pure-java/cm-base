@@ -1,6 +1,5 @@
 package com.github.canglan.cm.gate.gateway.router;
 
-import com.github.canglan.cm.auth.common.RefreshToken;
 import com.github.canglan.cm.common.core.util.JacksonUtil;
 import com.github.canglan.cm.common.core.util.collection.CollectionUtil;
 import java.util.List;
@@ -13,7 +12,6 @@ import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinitionRepository;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -31,7 +29,7 @@ public class RedisRouterRouteDefinitionRepository implements RouteDefinitionRepo
 
   @Autowired
   private StringRedisTemplate redisTemplate;
-  private final JacksonUtil jacksonUtil = JacksonUtil.newInstance();
+  private final JacksonUtil jacksonUtil = JacksonUtil.singleInstance();
   private Map<String, RouteDefinition> routeDefinitionMap = new ConcurrentHashMap<>();
 
   private void loadRouterDefinition() {
@@ -77,11 +75,4 @@ public class RedisRouterRouteDefinitionRepository implements RouteDefinitionRepo
     });
   }
 
-  public static void main(String[] args) {
-    RefreshToken refreshToken = new RefreshToken();
-    refreshToken.setClientId("test");
-    refreshToken.setClientSecret("admin");
-    refreshToken.setGrantType("refresh_token");
-    System.out.println(JacksonUtil.json(refreshToken));
-  }
 }

@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: cm-test-1
+
+profiles:
+  active: dev
+log:
+  base: "E:\\"
