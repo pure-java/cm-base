@@ -1,4 +1,4 @@
-package com.github.canglan.cm.common.data.properties;
+package com.github.canglan.cm.common.core.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class Swagger2Properties {
 
-  private boolean enable = true;
+  private boolean enable;
 
   private Swagger2ApiInfoBuilder info;
 

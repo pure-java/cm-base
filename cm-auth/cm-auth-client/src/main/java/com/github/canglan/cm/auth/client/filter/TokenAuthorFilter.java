@@ -28,10 +28,10 @@ public class TokenAuthorFilter implements Filter {
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
     HttpServletRequest req = (HttpServletRequest) request;
-    String header = req.getHeader(HttpHeaders.AUTHORIZATION);
-    log.debug(" token header ========= {}", header);
-    Jwt jwt = authService.decodeAndVerify(header);
-    log.debug(" header jwt  =========== {}", jwt);
+    // String header = req.getHeader(HttpHeaders.AUTHORIZATION);
+    // log.debug(" token header ========= {}", header);
+    // Jwt jwt = authService.decodeAndVerify(header);
+    // log.debug(" header jwt  =========== {}", jwt);
     chain.doFilter(req, response);
   }
 }

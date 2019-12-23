@@ -41,7 +41,7 @@ public class TokenAuthenticationSuccessHandler extends SavedRequestAwareAuthenti
       throws ServletException, IOException {
     super.onAuthenticationSuccess(request, response, authentication);
 
-    log.info("login  {}", JacksonUtil.json(authentication));
+    log.debug("login  {}", JacksonUtil.json(authentication));
 
     String token = getHeaderValue(request, userAuthProperties.getTokenHeader());
 

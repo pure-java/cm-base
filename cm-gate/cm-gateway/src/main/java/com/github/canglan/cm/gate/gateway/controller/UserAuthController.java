@@ -28,7 +28,7 @@ public class UserAuthController {
   private OAuth2ClientProperties auth2ClientProperties;
 
   /**
-   * 登录
+   * 登录，暂时放在网关，可以放到其他模块，但是需要为登录模块提供客户端授权
    *
    * @param username 账号
    * @return 登录结果
@@ -43,7 +43,6 @@ public class UserAuthController {
         .setUsername(username.getUsername())
         .setPassword(username.getPassword())
         .setScope(auth2ClientProperties.getScope());
-
     Map<String, Object> token = authService.token(reqJwtTokenParam);
     log.debug("login result = {}", token);
     return Result.success(token);

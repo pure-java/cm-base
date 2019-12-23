@@ -34,7 +34,6 @@ public class SwaggerResourceController {
   @RequestMapping(value = "/configuration/security")
   public ResponseEntity<SecurityConfiguration> securityConfiguration() {
     SecurityConfigurationBuilder builder = SecurityConfigurationBuilder.builder();
-    // builder.clientId();
     return new ResponseEntity<>(builder.build(), HttpStatus.OK);
   }
 

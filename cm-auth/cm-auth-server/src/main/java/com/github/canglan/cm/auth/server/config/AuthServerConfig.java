@@ -140,14 +140,14 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-      DefaultOAuth2AccessToken result = new DefaultOAuth2AccessToken(accessToken);
-      log.debug(" result =  {}", result);
+      DefaultOAuth2AccessToken resultOauth2Token = new DefaultOAuth2AccessToken(accessToken);
+      log.debug(" result =  {}", resultOauth2Token);
       log.debug("oauth2token===>{}", authentication);
       log.debug("principal===>{}", authentication.getPrincipal());
 
-      log.debug(" ref  = {}", result.getRefreshToken());
+      log.debug(" ref  = {}", resultOauth2Token.getRefreshToken());
       Map<String, Object> info = Maps.newLinkedHashMap(accessToken.getAdditionalInformation());
-      String tokenId = result.getValue();
+      String tokenId = resultOauth2Token.getValue();
       if (!info.containsKey(TOKEN_ID)) {
         info.put(TOKEN_ID, tokenId);
       }
@@ -165,9 +165,9 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
       }
 
       log.debug("info============>{}", info);
-      result.setAdditionalInformation(info);
-      result.setValue(encode(result, authentication));
-      return result;
+      resultOauth2Token.setAdditionalInformation(info);
+      resultOauth2Token.setValue(encode(resultOauth2Token, authentication));
+      return resultOauth2Token;
     }
   }
 }

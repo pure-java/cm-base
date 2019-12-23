@@ -31,7 +31,7 @@ feign:
     enabled: true
 # hystrix 熔断配置
 hystrix:
-#  shareSecurityContext: true
+  #  shareSecurityContext: true
   propagate:
     request-attribute:
       enabled: true
@@ -45,14 +45,20 @@ hystrix:
 ribbon:
   MaxAutoRetries: 3
   ReadTimeout: 3000
+
+
 log:
   base: "E:\\"
+  level: warn
+
 swagger2:
+  enable: true
   info:
-    title: "鉴权中心"
-    desc: "鉴权中心"
+    title: "测试1"
+    desc: "测试1"
     url: http://localhost:${server.port}
     version: 1
+    basePackage: com.github.canglan.cm
 
 security:
   auth-service-id: auth-server

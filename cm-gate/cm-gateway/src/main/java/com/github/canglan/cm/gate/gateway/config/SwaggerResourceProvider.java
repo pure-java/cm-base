@@ -56,7 +56,10 @@ public class SwaggerResourceProvider implements SwaggerResourcesProvider {
     List<String> routeHosts = new ArrayList<>();
     // 由于我的网关采用的是负载均衡的方式，因此我需要拿到所有应用的serviceId
     // 获取所有可用的host：serviceId
-    routeLocator.getRoutes().filter(route -> route.getUri().getHost() != null)
+    routeLocator.getRoutes()
+        // 主机不为空
+        .filter(route -> route.getUri().getHost() != null)
+        // 不等于网关服务名
         .filter(route -> !self.equals(route.getUri().getHost()))
         .subscribe(route -> routeHosts.add(route.getUri().getHost()));
 

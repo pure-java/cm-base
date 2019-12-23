@@ -11,6 +11,7 @@
   <springProperty scope="context" name="springAppName" source="spring.application.name"/>
   <!-- 该变量必须填写，在 application.yml 和 bootstrap.yml中都必须写入-->
   <springProperty scope="context" name="logBase" source="log.base"/>
+  <springProperty scope="context" name="level" source="log.level" defaultValue="warn"/>
 
   <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径，并且变量名 name 不要带点符号，不然不能正确引用spring变量-->
   <property name="logPath" value="${logBase}/log/${springAppName}"/>
@@ -165,18 +166,26 @@
   <!-- 4. 最终的策略 -->
   <!-- 4.1 开发环境:打印控制台-->
 
-  <root level="debug">
+  <!-- 开发环境时激活 -->
+  <!--  <springProfile name="dev">-->
+  <logger name="com.github.canglan.cm" level="${level}" additivity="false">
+    <appender-ref ref="CONSOLE"/>
+    <appender-ref ref="DEBUG_FILE"/>
+    <appender-ref ref="INFO_FILE"/>
+    <appender-ref ref="WARN_FILE"/>
+    <appender-ref ref="ERROR_FILE"/>
+  </logger>
+  <logger name="com.baomidou.mybatisplus.spring" level="${level}" additivity="false">
+    <appender-ref ref="CONSOLE"/>
+
+    <appender-ref ref="WARN_FILE"/>
+    <appender-ref ref="ERROR_FILE"/>
+  </logger>
+
+  <root level="${level}">
     <appender-ref ref="CONSOLE"/>
   </root>
-
-  <logger name="com.github.canglan.cm" level="debug" additivity="false">
-    <appender-ref ref="CONSOLE"/>
-    <appender-ref ref="DEBUG_FILE"/>
-  </logger>
-  <logger name="com.baomidou.mybatisplus.spring" level="debug" additivity="false">
-    <appender-ref ref="CONSOLE"/>
-    <appender-ref ref="DEBUG_FILE"/>
-  </logger>
+  <!--  </springProfile>-->
 
 
 </configuration>

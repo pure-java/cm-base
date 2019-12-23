@@ -1,13 +1,12 @@
-package com.github.canglan.cm.common.data.config;
+package com.github.canglan.cm.common.core.config;
 
-import com.github.canglan.cm.common.data.properties.Swagger2Properties;
+import com.github.canglan.cm.common.core.properties.Swagger2Properties;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -20,14 +19,15 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @author 陈欢
  * @since 2019/11/21
  */
-@ConditionalOnProperty(value = "swagger2.enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(value = "swagger2.enable", havingValue = "true", matchIfMissing = false)
 @EnableSwagger2
 @Component
 @EnableConfigurationProperties({Swagger2Properties.class})
+@Slf4j
 public class SwaggerConfig {
 
   public SwaggerConfig() {
-    System.out.println("SwaggerConfig ============");
+    log.debug("SwaggerConfig enable ============");
   }
 
   @Autowired

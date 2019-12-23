@@ -49,9 +49,6 @@ public class JwtTokenFilter implements GlobalFilter {
       return chain.filter(exchange);
     }
     if (StringUtils.isNotBlank(authentication)) {
-      if (StringUtils.isBlank(authentication)) {
-        return writeResponse(exchange, "未登录", HttpStatus.UNAUTHORIZED);
-      }
 
       Jwt jwt = authService.decodeAndVerify(authentication);
       log.debug("jwt = {}", jwt);
@@ -75,7 +72,7 @@ public class JwtTokenFilter implements GlobalFilter {
       }
     } else {
       exchange.getResponse().setStatusCode(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
-      DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(HttpStatus.UNAUTHORIZED.getReasonPhrase().getBytes());
+      DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED.getReasonPhrase().getBytes());
       return exchange.getResponse().writeWith(Flux.just(buffer));
     }
 

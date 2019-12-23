@@ -74,6 +74,4 @@ public class OAuth2ClientProperties {
    * 检查token uri
    */
   private String checkTokenAccess;
-
-
 }

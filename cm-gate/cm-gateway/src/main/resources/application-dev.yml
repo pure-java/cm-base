@@ -3,8 +3,6 @@ server:
   #   设置请求头大小
   max-http-header-size: 20480
 spring:
-  profiles:
-    active: dev # dev
   redis:
     host: localhost
     password: null
@@ -80,7 +78,8 @@ ribbon:
 # 日志存储路径
 log:
   base: "E:\\"
-  level: warn
+  #日志等级，并且控制 logback
+  level: debug
 
 # 网关放开连接
 gate:
