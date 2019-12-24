@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConditionalOnClass({Hystrix.class})
-@ConditionalOnProperty(value = "hystrix.propagate.request-attribute.enabled", matchIfMissing = false)
+@ConditionalOnProperty(value = "hystrix.propagate.request-attribute.enabled", matchIfMissing = true)
 public class FeignConfiguration {
 
   /**

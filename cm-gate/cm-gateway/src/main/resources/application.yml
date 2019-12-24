@@ -61,7 +61,6 @@ feign:
     enabled: true
 # hystrix 熔断配置
 hystrix:
-  shareSecurityContext: false
   propagate:
     request-attribute:
       enabled: false

@@ -26,8 +26,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 
-// @RunWith(SpringRunner.class)
-// @SpringBootTest(classes = {Test2Application.class})
+
 @Slf4j
 public class TestControllerTest {
 

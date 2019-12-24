@@ -2,6 +2,8 @@ server:
   port: 10005
   max-http-header-size: 20480
 spring:
+#  messages:
+#    basename: i18n/messages
   redis:
     host: localhost
     password: null
@@ -12,13 +14,7 @@ spring:
         min-idle: 1
         max-active: 1000
         max-wait: -1
-  cloud:
-    nacos:
-      config:
-        server-addr: 127.0.0.1:8848
-        file-extension: yaml
-      discovery:
-        server-addr: 127.0.0.1:8848
+
 logging:
   level:
     com.github.canglan.cm: debug
@@ -52,7 +48,8 @@ security:
 
 log:
   base: "E:\\"
-  level: warn
+#  level: warn
+  level: debug
 
 swagger2:
   enable: true

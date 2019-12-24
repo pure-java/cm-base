@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import org.springframework.http.HttpStatus;
 
 /**
  * 返回操作信息
@@ -52,10 +53,10 @@ public class Result<T> implements Serializable {
   // newIns ==========================
 
   /**
-   * @param status this.code = status ? StatusCode.SUCCESS : StatusCode.FAIL;
+   * @param status this.code = status ?  HttpStatus.OK.value() : StatusCode.FAIL;
    */
   public static <T> Result<T> newInstance(boolean status) {
-    return newInstance(status ? StatusCode.SUCCESS : StatusCode.FAIL, null, null, status);
+    return newInstance(status ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(), null, null, status);
   }
 
 
@@ -81,14 +82,14 @@ public class Result<T> implements Serializable {
    * 失败 <p> 状态默认 = false,message = null
    */
   public static <T> Result<T> success(String message) {
-    return newInstance(StatusCode.SUCCESS, message, null, true);
+    return newInstance(HttpStatus.OK.value(), message, null, true);
   }
 
   /**
    * 成功 <p> 状态默认 = true,message = null
    */
   public static <T> Result<T> success(T data) {
-    return newInstance(StatusCode.SUCCESS, null, data, true);
+    return newInstance(HttpStatus.OK.value(), null, data, true);
   }
 
   // fail  ====================================
@@ -104,7 +105,7 @@ public class Result<T> implements Serializable {
    * 失败 <p> 状态默认 = false,message = null
    */
   public static <T> Result<T> fail(T data) {
-    return newInstance(StatusCode.SUCCESS, null, data, false);
+    return newInstance(HttpStatus.OK.value(), null, data, false);
   }
 
   /**
@@ -113,8 +114,8 @@ public class Result<T> implements Serializable {
    * @param message 提示信息
    */
   public static <T> Result<T> fail(String message) {
-    Result<T> tResult = newInstance(StatusCode.SUCCESS, message, null, false);
-    tResult.setCode(StatusCode.SYSTEM_ERROR);
+    Result<T> tResult = newInstance(HttpStatus.OK.value(), message, null, false);
+    tResult.setCode( HttpStatus.INTERNAL_SERVER_ERROR.value());
     return tResult;
   }
 
@@ -122,7 +123,7 @@ public class Result<T> implements Serializable {
 
   public Result<T> setCode(int code) {
     this.code = code;
-    if (code != StatusCode.SUCCESS) {
+    if (code != HttpStatus.OK.value()) {
       this.status = false;
     } else {
       this.status = true;
