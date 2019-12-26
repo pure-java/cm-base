@@ -1,8 +1,5 @@
 package com.github.canglan.cm.auth.server.config;
 
-import com.github.canglan.cm.auth.server.properties.UserAuthProperties;
-
-
 import com.github.canglan.cm.common.core.util.JacksonUtil;
 import com.github.canglan.cm.common.core.util.StringUtil;
 import java.io.IOException;
@@ -11,11 +8,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -26,15 +20,8 @@ import org.springframework.stereotype.Component;
  * @since 2019/11/20
  */
 @Component
-@EnableConfigurationProperties(UserAuthProperties.class)
 @Slf4j
 public class TokenAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
-
-  @Autowired
-  private UserAuthProperties userAuthProperties;
-  @Autowired
-  @Lazy
-  private AuthorizationServerTokenServices authorizationServerTokenServices;
 
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
@@ -43,7 +30,7 @@ public class TokenAuthenticationSuccessHandler extends SavedRequestAwareAuthenti
 
     log.debug("login  {}", JacksonUtil.json(authentication));
 
-    String token = getHeaderValue(request, userAuthProperties.getTokenHeader());
+    String token = getHeaderValue(request, HttpHeaders.AUTHORIZATION);
 
     if (StringUtil.isNotBlank(token)) {
 

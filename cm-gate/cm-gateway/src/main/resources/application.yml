@@ -15,13 +15,7 @@ spring:
         min-idle: 1
         max-active: 1000
         max-wait: -1
-  cloud:
-    nacos:
-      config:
-        server-addr: 127.0.0.1:8848
-        file-extension: yaml
-      discovery:
-        server-addr: 127.0.0.1:8848
+
     gateway:
       discovery:
         locator:

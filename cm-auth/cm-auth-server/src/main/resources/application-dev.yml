@@ -28,19 +28,6 @@ spring:
         min-idle: 1
         max-active: 1000
         max-wait: -1
-logging:
-  level:
-    com.github.canglan.cm: debug
-    com.alibaba.nacos.client.naming: error
-    com.baomidou.mybatisplus.spring: debug
-
-auth:
-  client:
-    token-header: x-client-token
-  user:
-    token-header: Authorization
-    ## 服务名称
-    service-name: admin
 
 #  开启熔断降级
 feign:

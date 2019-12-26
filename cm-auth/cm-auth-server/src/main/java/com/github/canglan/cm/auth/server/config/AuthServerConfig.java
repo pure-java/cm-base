@@ -6,7 +6,6 @@ import com.github.canglan.cm.auth.common.RsaUtil.RsaKey;
 import com.github.canglan.cm.auth.server.handler.CustomAccessDeniedHandler;
 import com.github.canglan.cm.auth.server.handler.CustomAuthPoint;
 import com.github.canglan.cm.auth.server.model.dto.LoginUser;
-import com.github.canglan.cm.auth.server.properties.ClientAuthProperties;
 import com.github.canglan.cm.auth.server.service.impl.ClientDetailService;
 import com.google.common.collect.Maps;
 import com.zaxxer.hikari.HikariDataSource;
@@ -49,7 +48,6 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 @Slf4j
 @Configuration
 @EnableAuthorizationServer
-@EnableConfigurationProperties(ClientAuthProperties.class)
 @AllArgsConstructor
 public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 

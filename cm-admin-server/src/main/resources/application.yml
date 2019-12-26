@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: cm-admin-server
+  security:
+    user:
+      name: admin
+      password: admin
+#  mail:
+#    host:
+#    username:
+#    password:
+#  boot:
+#    admin:
+#      notify:
+#        mail:
+#          to: 1075474353@qq.com
+server:
+  port: 8769
+
+#开启监控端点
+management:
+  endpoint:
+    env:
+      enabled: true
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
