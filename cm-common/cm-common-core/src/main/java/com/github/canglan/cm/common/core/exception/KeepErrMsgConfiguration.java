@@ -42,6 +42,7 @@ public class KeepErrMsgConfiguration {
         Result result = JacksonUtil.singleInstance().jsonToObject(json, Result.class);
         // 业务异常抛出简单的 InternalApiException，保留原来错误信息
         exception = new InternalApiException(result.getMessage());
+        log.error("{}", methodKey, exception);
       } catch (IOException ex) {
         logger.error(ex.getMessage(), ex);
       }

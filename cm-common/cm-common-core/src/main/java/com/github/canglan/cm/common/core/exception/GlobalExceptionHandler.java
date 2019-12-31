@@ -51,7 +51,7 @@ public class GlobalExceptionHandler {
    */
   @ExceptionHandler(Exception.class)
   @ResponseBody
-  public Result<String> processDefaultException(HttpServletResponse response, Exception e) {
+  public ExceptionResult<String> processDefaultException(HttpServletResponse response, Exception e) {
     log.error("捕获 Exception", e);
     response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
     response.setContentType("application/json;charset=UTF-8");

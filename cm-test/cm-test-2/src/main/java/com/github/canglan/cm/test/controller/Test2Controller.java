@@ -4,8 +4,8 @@ import com.github.canglan.cm.auth.client.service.AuthService;
 import com.github.canglan.cm.common.core.exception.ApiException;
 import com.github.canglan.cm.common.core.model.Result;
 import com.github.canglan.cm.common.core.util.date.DateUtil;
-import com.github.canglan.cm.test.feign.KeepErrMsgTest;
 import com.github.canglan.cm.test.feign.NotBreakerTest;
+import com.github.canglan.cm.test.feign.SentinelFusingTest;
 import com.github.canglan.cm.test.feign.defExceptionTest;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +29,9 @@ public class Test2Controller {
   @Autowired
   private NotBreakerTest notBreakerTest;
   @Autowired
-  private KeepErrMsgTest keepErrMsgTest;
-  @Autowired
   private AuthService authService;
+  @Autowired
+  private SentinelFusingTest sentinelFusingTest;
 
   @PostMapping("/getUserInfo")
   public Result getUserInfo(HttpServletRequest request) {
@@ -58,15 +58,26 @@ public class Test2Controller {
     return Result.success();
   }
 
-  @PostMapping("/keepErrMsgTest")
-  public Result keepErrMsgTest() throws ApiException {
-    keepErrMsgTest.keepErrMsgTest();
+
+  @PostMapping("/notBreakerTest")
+  public Result notBreakerTest() {
+    notBreakerTest.notBreakerTest();
     return Result.success();
   }
 
-  @PostMapping("/notBreakerTest")
-  public Result notBreakerTest() throws ApiException {
-    notBreakerTest.notBreakerTest();
-    return Result.success();
+  /**
+   * 正常调用
+   */
+  @PostMapping("/fusingTest")
+  public Result fusingTest(@RequestParam("str") String str) {
+    return sentinelFusingTest.fusingTest(str);
+  }
+
+  /**
+   * 进入熔断，并且获取异常信息
+   */
+  @PostMapping("/keepErrMsgTest")
+  public Result keepErrMsgTest(@RequestParam("str") String str) {
+    return sentinelFusingTest.keepErrMsgTest(str);
   }
 }

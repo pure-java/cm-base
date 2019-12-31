@@ -42,7 +42,7 @@ public class TestControllerTest {
     String accessToken = loginEn.getAccessToken();
     System.out.println(accessToken);
 
-    String testParam = "经过网管调用服务";
+    String testParam = "经过网关调用服务";
     Result tokenReqTest = jwtCallService(accessToken, testParam);
     System.out.println(tokenReqTest);
     Assert.assertEquals(tokenReqTest.getData(), testParam);

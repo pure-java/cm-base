@@ -26,7 +26,7 @@ public class FeignClientErrorDecoder implements ErrorDecoder {
       String errorContent;
       try {
         errorContent = Util.toString(response.body().asReader());
-        Result<String> result = JacksonUtil.singleInstance().jsonToObject(errorContent, Result.class);
+        Result result = JacksonUtil.singleInstance().jsonToObject(errorContent, Result.class);
         return new InternalApiException(result.getCode(), result.getMessage());
       } catch (IOException e) {
         log.error("handle error exception");

@@ -33,7 +33,9 @@ spring:
   boot:
     admin:
       client:
-
+        enabled: true
+        username: admin
+        password: admin
 
 #开启端点
 management:
@@ -49,16 +51,9 @@ management:
 
 #  开启熔断降级
 feign:
-  hystrix:
+  sentinel:
     enabled: true
 # hystrix 熔断配置
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 5000
 log:
   base: "E:\\"
   level: warn

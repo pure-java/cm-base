@@ -3,9 +3,6 @@ package com.github.canglan.cm.auth.client.interceptor;
 import com.github.canglan.cm.common.core.util.StringUtil;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
-import java.util.Enumeration;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -13,6 +10,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
+ * 使用 feign 时将请求头 token 转发
+ *
  * @author bairitan
  * @date 2019/12/9
  */
