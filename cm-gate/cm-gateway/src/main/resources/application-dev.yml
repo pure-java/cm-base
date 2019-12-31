@@ -14,6 +14,10 @@ spring:
         max-active: 1000
         max-wait: -1
   cloud:
+    sentinel:
+      transport:
+        port: 20001
+        dashboard: localhost:20000
     gateway:
       discovery:
         locator:
@@ -41,6 +45,8 @@ spring:
             - Path=/test2/**
           filters:
             - StripPrefix=1   #StripPrefix 表明 忽略前缀路径  /api/auth/xxx ==> /xxx
+project:
+  name: ${spring.application.name}
 logging:
   level:
     com.github.canglan.cm: debug
@@ -78,3 +84,4 @@ security:
 
 swagger2:
   enable: false
+
