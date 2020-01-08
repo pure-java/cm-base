@@ -1,5 +1,6 @@
 package com.github.canglan.cm.test.feign;
 
+import com.github.canglan.cm.common.core.exception.NotBreakerConfiguration;
 import com.github.canglan.cm.common.core.model.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
  * @author bairitan
  * @date 2020/1/7
  */
-@FeignClient(contextId = "sentinelTest", value = "cm-test-1", path = "/1/sentinelTest"/*,configuration = NotBreakerConfiguration.class*/)
+@FeignClient(contextId = "sentinelTest", value = "cm-test-1", path = "/1/sentinelTest", configuration = NotBreakerConfiguration.class)
 public interface SentinelTest {
 
   /**

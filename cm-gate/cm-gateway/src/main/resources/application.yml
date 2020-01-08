@@ -3,8 +3,6 @@ server:
   #   设置请求头大小
   max-http-header-size: 20480
 spring:
-  profiles:
-    active: dev # dev
   redis:
     host: localhost
     password: null
@@ -43,6 +41,8 @@ spring:
             - Path=/test2/**
           filters:
             - StripPrefix=1   #StripPrefix 表明 忽略前缀路径  /api/auth/xxx ==> /xxx
+project:
+  name: ${spring.application.name}
 logging:
   level:
     com.github.canglan.cm: debug
@@ -53,8 +53,6 @@ logging:
 feign:
   sentinel:
     enabled: true
-
-
 # 设置 负载均衡 ribbon 的重试次数以及读取超时时间
 ribbon:
   MaxAutoRetries: 3
@@ -63,7 +61,8 @@ ribbon:
 # 日志存储路径
 log:
   base: "E:\\"
-  level: warn
+  #日志等级，并且控制 logback
+  level: debug
 
 # 网关放开连接
 gate:

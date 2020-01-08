@@ -8,7 +8,18 @@ spring:
         file-extension: yaml
       discovery:
         server-addr: 127.0.0.1:8848
-
+    sentinel:
+      transport:
+        port: 20001
+        dashboard: localhost:20000
+      datasource:
+        ds:
+          nacos:
+            server-addr: 127.0.0.1:8848
+            dataId: ${spring.application.name}-sentinel
+            groupId: DEFAULT_GROUP
+            ruleType: flow
+            dataType: json
 profiles:
   active: dev
 log:

@@ -14,10 +14,6 @@ spring:
         max-active: 1000
         max-wait: -1
   cloud:
-    sentinel:
-      transport:
-        port: 20001
-        dashboard: localhost:20000
     gateway:
       discovery:
         locator:

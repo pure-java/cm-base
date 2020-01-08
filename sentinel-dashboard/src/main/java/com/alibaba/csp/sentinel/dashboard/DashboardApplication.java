@@ -15,8 +15,14 @@
  */
 package com.alibaba.csp.sentinel.dashboard;
 
+import com.alibaba.csp.sentinel.datasource.ReadableDataSource;
 import com.alibaba.csp.sentinel.init.InitExecutor;
 
+import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
+import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import java.util.List;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -28,12 +34,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class DashboardApplication {
 
-    public static void main(String[] args) {
-        triggerSentinelInit();
-        SpringApplication.run(DashboardApplication.class, args);
-    }
+  public static void main(String[] args) {
+    triggerSentinelInit();
+    SpringApplication.run(DashboardApplication.class, args);
+  }
 
-    private static void triggerSentinelInit() {
-        new Thread(() -> InitExecutor.doInit()).start();
-    }
+  private static void triggerSentinelInit() {
+    new Thread(() -> InitExecutor.doInit()).start();
+  }
+
+
 }
