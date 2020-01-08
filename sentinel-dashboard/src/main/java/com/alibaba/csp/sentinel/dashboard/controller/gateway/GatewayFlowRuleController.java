@@ -16,7 +16,6 @@
 package com.alibaba.csp.sentinel.dashboard.controller.gateway;
 
 
-import com.alibaba.csp.sentinel.dashboard.auth.AuthAction;
 import com.alibaba.csp.sentinel.dashboard.auth.AuthService;
 import com.alibaba.csp.sentinel.dashboard.client.SentinelApiClient;
 import com.alibaba.csp.sentinel.dashboard.datasource.entity.gateway.GatewayFlowRuleEntity;
@@ -33,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -59,9 +59,13 @@ public class GatewayFlowRuleController {
     @Autowired
     private SentinelApiClient sentinelApiClient;
 
+    @Autowired
+    private AuthService<HttpServletRequest> authService;
+
     @GetMapping("/list.json")
-    @AuthAction(AuthService.PrivilegeType.READ_RULE)
-    public Result<List<GatewayFlowRuleEntity>> queryFlowRules(String app, String ip, Integer port) {
+    public Result<List<GatewayFlowRuleEntity>> queryFlowRules(HttpServletRequest request, String app, String ip, Integer port) {
+        AuthService.AuthUser authUser = authService.getAuthUser(request);
+        authUser.authTarget(app, AuthService.PrivilegeType.READ_RULE);
 
         if (StringUtil.isEmpty(app)) {
             return Result.ofFail(-1, "app can't be null or empty");
@@ -84,13 +88,15 @@ public class GatewayFlowRuleController {
     }
 
     @PostMapping("/new.json")
-    @AuthAction(AuthService.PrivilegeType.WRITE_RULE)
-    public Result<GatewayFlowRuleEntity> addFlowRule(@RequestBody AddFlowRuleReqVo reqVo) {
+    public Result<GatewayFlowRuleEntity> addFlowRule(HttpServletRequest request, @RequestBody AddFlowRuleReqVo reqVo) {
+        AuthService.AuthUser authUser = authService.getAuthUser(request);
 
         String app = reqVo.getApp();
         if (StringUtil.isBlank(app)) {
             return Result.ofFail(-1, "app can't be null or empty");
         }
+
+        authUser.authTarget(app, AuthService.PrivilegeType.WRITE_RULE);
 
         GatewayFlowRuleEntity entity = new GatewayFlowRuleEntity();
         entity.setApp(app.trim());
@@ -252,13 +258,15 @@ public class GatewayFlowRuleController {
     }
 
     @PostMapping("/save.json")
-    @AuthAction(AuthService.PrivilegeType.WRITE_RULE)
-    public Result<GatewayFlowRuleEntity> updateFlowRule(@RequestBody UpdateFlowRuleReqVo reqVo) {
+    public Result<GatewayFlowRuleEntity> updateFlowRule(HttpServletRequest request, @RequestBody UpdateFlowRuleReqVo reqVo) {
+        AuthService.AuthUser authUser = authService.getAuthUser(request);
 
         String app = reqVo.getApp();
         if (StringUtil.isBlank(app)) {
             return Result.ofFail(-1, "app can't be null or empty");
         }
+
+        authUser.authTarget(app, AuthService.PrivilegeType.WRITE_RULE);
 
         Long id = reqVo.getId();
         if (id == null) {
@@ -400,8 +408,8 @@ public class GatewayFlowRuleController {
 
 
     @PostMapping("/delete.json")
-    @AuthAction(AuthService.PrivilegeType.DELETE_RULE)
-    public Result<Long> deleteFlowRule(Long id) {
+    public Result<Long> deleteFlowRule(HttpServletRequest request, Long id) {
+        AuthService.AuthUser authUser = authService.getAuthUser(request);
 
         if (id == null) {
             return Result.ofFail(-1, "id can't be null");
@@ -411,6 +419,8 @@ public class GatewayFlowRuleController {
         if (oldEntity == null) {
             return Result.ofSuccess(null);
         }
+
+        authUser.authTarget(oldEntity.getApp(), AuthService.PrivilegeType.DELETE_RULE);
 
         try {
             repository.delete(id);

@@ -5,7 +5,7 @@
 
 
   <groupId>com.alibaba.csp</groupId>
-  <version>1.7.1</version>
+  <version>1.7.0</version>
   <artifactId>sentinel-dashboard</artifactId>
   <packaging>jar</packaging>
 

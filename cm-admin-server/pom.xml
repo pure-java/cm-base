@@ -11,8 +11,6 @@
 
   <artifactId>cm-admin-server</artifactId>
   <dependencies>
-
-
     <dependency>
       <groupId>de.codecentric</groupId>
       <artifactId>spring-boot-admin-starter-server</artifactId>

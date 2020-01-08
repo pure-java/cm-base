@@ -17,7 +17,6 @@
       <version>1.0-SNAPSHOT</version>
     </dependency>
 
-
     <dependency>
       <groupId>com.github.canglan</groupId>
       <artifactId>cm-auth-client</artifactId>
@@ -50,6 +49,11 @@
     <dependency>
       <groupId>com.alibaba.cloud</groupId>
       <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.alibaba.csp</groupId>
+      <artifactId>sentinel-transport-simple-http</artifactId>
     </dependency>
 
     <dependency>
