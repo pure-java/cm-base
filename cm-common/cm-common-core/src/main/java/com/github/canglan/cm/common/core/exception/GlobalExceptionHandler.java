@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2019/12/24
  */
 @Slf4j
-@RestController
-@ControllerAdvice
+// @RestController
+// @ControllerAdvice
 public class GlobalExceptionHandler {
 
   @Resource

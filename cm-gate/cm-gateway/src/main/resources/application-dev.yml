@@ -4,7 +4,7 @@ server:
   max-http-header-size: 20480
 spring:
   redis:
-    host: localhost
+    host: 192.168.0.200
     password: null
     port: 6379
     lettuce:
@@ -51,12 +51,21 @@ logging:
 
 #  开启熔断降级
 feign:
+  client:
+    config:
+      defualt:           #服务名，填写default为所有服务
+        connectTimeout: 1000
+        readTimeout: 12000
   sentinel:
     enabled: true
+  httpclient:
+    enabled: false
+    connection-timeout: 5000
 # 设置 负载均衡 ribbon 的重试次数以及读取超时时间
 ribbon:
   MaxAutoRetries: 3
-  ReadTimeout: 3000
+  ReadTimeout: 5000 # 连接所需时间，默认3秒，一般不够
+  ConnectTimeout: 5000 # 读取到可用资源的时间，默认一秒，不够，需要改为 5 秒
 
 # 日志存储路径
 log:

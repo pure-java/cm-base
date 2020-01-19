@@ -9,6 +9,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
+
   <artifactId>cm-gateway</artifactId>
   <dependencies>
     <dependency>
@@ -42,6 +43,11 @@
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-openfeign</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>io.github.openfeign</groupId>
+      <artifactId>feign-httpclient</artifactId>
     </dependency>
 
     <!--ali服务注册中心与配置中心-->
@@ -84,4 +90,18 @@
       <version>2.9.2</version>
     </dependency>
   </dependencies>
+
+  <build>
+    <finalName>cm-gateway</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <fork>true</fork>
+          <mainClass>com.github.canglan.cm.gate.gateway.GatewayApplication</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

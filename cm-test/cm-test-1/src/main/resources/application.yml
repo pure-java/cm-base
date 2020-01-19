@@ -3,7 +3,7 @@ server:
   max-http-header-size: 20480
 spring:
   redis:
-    host: localhost
+    host: 192.168.0.200
     password: null
     port: 6379
     lettuce:
@@ -16,7 +16,7 @@ spring:
     sentinel:
       transport:
         port: 20008
-        dashboard: localhost:20000
+        dashboard: 192.168.0.200:20000
 logging:
   level:
     com.github.canglan.cm: debug

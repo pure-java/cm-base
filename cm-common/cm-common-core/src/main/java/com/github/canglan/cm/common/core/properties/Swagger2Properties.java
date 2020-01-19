@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class Swagger2Properties {
 
-  private boolean enable;
+  private boolean enable = false;
 
   private Swagger2ApiInfoBuilder info;
 

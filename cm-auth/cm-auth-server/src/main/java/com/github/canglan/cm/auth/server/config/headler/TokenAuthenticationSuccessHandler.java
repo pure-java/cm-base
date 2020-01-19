@@ -1,4 +1,4 @@
-package com.github.canglan.cm.auth.server.config;
+package com.github.canglan.cm.auth.server.config.headler;
 
 import com.github.canglan.cm.common.core.util.JacksonUtil;
 import com.github.canglan.cm.common.core.util.StringUtil;

@@ -95,6 +95,10 @@
       <artifactId>sentinel-transport-simple-http</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>com.alibaba.csp</groupId>
+      <artifactId>sentinel-datasource-nacos</artifactId>
+    </dependency>
     <!--   &lt;!&ndash; <dependency>-->
     <!--      <groupId>org.springframework.cloud</groupId>-->
     <!--      <artifactId>spring-cloud-sleuth-zipkin</artifactId>-->
@@ -118,7 +122,20 @@
       <artifactId>p6spy</artifactId>
       <version>3.8.6</version>
     </dependency>
-
   </dependencies>
 
+
+  <build>
+    <finalName>cm-auth-server</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <fork>true</fork>
+          <mainClass>com.github.canglan.cm.auth.server.AuthServerApplication</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

@@ -5,7 +5,7 @@ spring:
     name: auth-server
   datasource:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-    url: jdbc:p6spy:mysql://localhost:3306/ag_auth_v1?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
+    url: jdbc:p6spy:mysql://192.168.0.200:3306/ag_auth_v1?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
     username: root
     password: chen
     type: com.zaxxer.hikari.HikariDataSource
@@ -19,7 +19,7 @@ spring:
       connection-timeout: 30000
       connection-test-query: SELECT 1
   redis:
-    host: localhost
+    host: 192.168.0.200
     password: null
     port: 6379
     lettuce:
@@ -36,6 +36,7 @@ feign:
 log:
   base: "E:\\"
   level: debug
+
 swagger2:
   enable: true
   info:

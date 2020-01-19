@@ -1,4 +1,4 @@
-package com.github.canglan.cm.common.core.exception;
+package com.github.canglan.cm.common.core.callback;
 
 import com.alibaba.csp.sentinel.context.Context;
 import com.alibaba.csp.sentinel.slotchain.ProcessorSlotEntryCallback;
