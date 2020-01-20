@@ -18,7 +18,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public abstract class BaseDom<FK extends Serializable, T extends BaseDom> implements IModel {
+public abstract class BaseDom<FK extends Serializable, T extends BaseDom> implements IModel, Serializable {
 
   private static final long serialVersionUID = 4943817300823532768L;
 
