@@ -80,9 +80,3 @@ package-lock.json
 
 ###临时文件
 ~*
-bairitan-base/base/src/test/java/com/bairitan/core/
-bairitan-base/es/src/main/webapp/WEB-INF/lib/
-bairitan-base/es/src/test/
-bairitan-cloud/server-register/src/test/
-bairitan-cloud/spring-cloud-producer/src/test/
-test/redis-test/src/main/webapp/WEB-INF/lib/

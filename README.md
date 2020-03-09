@@ -72,11 +72,13 @@
      
      /oauth/token_key：获取rsa公钥
   
-#### 授权服务客户端 cm-auth-client
+#### 授权客户端 cm-auth-client
  
- 提供快捷访问授权验证服务 AuthService。
+ 授权客户端，提供便捷授权接口，并且便于统一管理使用了授权客户端的服务。
  
 #### 网关服务 cm-gateway
+
+对外统一提供服务的应用，外部的所有请求都需要经过 gateway 统一管理。进行权限验证、
 
 网关服务使用 spring-cloud-gateway，并且使用 sentinel、nacos、spring-security、redis。
 
