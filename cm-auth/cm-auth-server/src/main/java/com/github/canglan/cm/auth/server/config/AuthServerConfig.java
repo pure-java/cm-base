@@ -41,6 +41,7 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 
 /**
  * 配置认证服务
+ * 使用 构造器强制注入需要的对象
  *
  * @author bairitan
  * @since 2019/11/14

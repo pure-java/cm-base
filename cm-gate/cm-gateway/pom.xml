@@ -17,7 +17,6 @@
       <version>1.0-SNAPSHOT</version>
     </dependency>
 
-
     <dependency>
       <groupId>com.github.canglan</groupId>
       <artifactId>cm-auth-client</artifactId>
@@ -71,4 +70,24 @@
       <version>2.9.2</version>
     </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <mainClass>com.github.canglan.cm.gate.gateway.GatewayApplication</mainClass>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <testFailureIgnore>true</testFailureIgnore>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
+
+

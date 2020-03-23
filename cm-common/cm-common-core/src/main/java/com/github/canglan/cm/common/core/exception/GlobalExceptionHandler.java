@@ -63,6 +63,7 @@ public class GlobalExceptionHandler {
     );
     return result;
   }
+  //java -javaagent:D:/toolkit/apache-skywalking-apm-bin-es7/agent/skywalking-agent.jar -Dskywalking_config=D:/toolkit/apache-skywalking-apm-bin-es7/agent/config/agent-copy.config -jar cm-gateway-1.0-SNAPSHOT.jar
 
   /**
    * 外部请求发生异常
