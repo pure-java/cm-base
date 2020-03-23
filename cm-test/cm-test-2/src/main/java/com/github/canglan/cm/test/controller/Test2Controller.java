@@ -1,5 +1,10 @@
 package com.github.canglan.cm.test.controller;
 
+import com.alibaba.csp.sentinel.Entry;
+import com.alibaba.csp.sentinel.SphO;
+import com.alibaba.csp.sentinel.SphU;
+import com.alibaba.csp.sentinel.Tracer;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.github.canglan.cm.auth.client.service.AuthService;
 import com.github.canglan.cm.common.core.exception.ApiException;
 import com.github.canglan.cm.common.core.model.Result;
@@ -80,4 +85,5 @@ public class Test2Controller {
   public Result keepErrMsgTest(@RequestParam("str") String str) {
     return sentinelFusingTest.keepErrMsgTest(str);
   }
+
 }

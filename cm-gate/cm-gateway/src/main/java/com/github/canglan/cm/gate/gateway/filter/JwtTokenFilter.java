@@ -52,6 +52,7 @@ public class JwtTokenFilter implements GlobalFilter {
 
       Jwt jwt = authService.decodeAndVerify(authentication);
       log.debug("jwt = {}", jwt);
+
       Map<String, Object> checkToken = authService.checkToken(authentication);
 
       if (Objects.nonNull(checkToken)) {

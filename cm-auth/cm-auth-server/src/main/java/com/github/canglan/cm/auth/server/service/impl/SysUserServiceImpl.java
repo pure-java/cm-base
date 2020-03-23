@@ -12,6 +12,9 @@ import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @since 2019/11/20
  */
 @Service
+@CacheConfig(cacheNames = "sysUserServiceImpl")
 public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
   @Autowired
@@ -36,6 +40,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
   }
 
   @Override
+  @Cacheable(value = "getUserByUserName", key = "#p0")
   public SysUser getUserByUserName(String userName) {
     QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
     queryWrapper.eq("user_name", userName);
@@ -63,6 +68,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
   @Override
   @Transactional(rollbackFor = Exception.class)
+  @CacheEvict(cacheNames = {"getUserByUserName"}, key = "#p0.userName")
   public boolean saveOrUpdateIdUser(SysUser sysUser) {
     if (sysUser != null) {
       sysUser.setPassword(encode.encode(sysUser.getPassword()));
@@ -73,6 +79,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
   @Override
   @Transactional(rollbackFor = Exception.class)
+  @CacheEvict(cacheNames = {"getUserByUserName"}, allEntries = true)
   public boolean removeByIds(Set<String> idList) {
     return super.daoUtil.removeByIds(idList);
   }

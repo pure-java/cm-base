@@ -1,5 +1,7 @@
 package com.github.canglan.cm.auth.server.config;
 
+import com.github.canglan.cm.auth.server.config.headler.TokenAuthenticationFailureHandler;
+import com.github.canglan.cm.auth.server.config.headler.TokenAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -76,7 +78,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
-
 
   @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
   @Override

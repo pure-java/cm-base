@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.canglan.cm.common.core.model.Result;
 import com.github.canglan.cm.common.core.util.JacksonUtil;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,41 +20,51 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.junit.Assert;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
+import sun.net.www.URLConnection;
+import sun.net.www.protocol.http.HttpURLConnection;
 
 
 @Slf4j
 public class TestControllerTest {
 
-  private static String gatewayUrl = "http://localhost:10001";
+  private static String gatewayUrl = "http://192.168.0.200:10002";
 
   private static RestTemplate restTemplate = new RestTemplate();
 
   static JacksonUtil jacksonUtil = JacksonUtil.singleInstance();
 
   public static void main(String[] args) throws IOException {
-    Result loginResult = login();
-    LoginEn loginEn = jacksonUtil.jsonToObject(jacksonUtil.toJson(loginResult.getData()), LoginEn.class);
-    String accessToken = loginEn.getAccessToken();
-    System.out.println(accessToken);
+    // Result loginResult = loginAuth("http://192.168.0.200:10002");
+    // LoginEn loginEn = jacksonUtil.jsonToObject(jacksonUtil.toJson(loginResult.getData()), LoginEn.class);
+    // String accessToken = loginEn.getAccessToken();
+    // System.out.println(accessToken);
 
-    String testParam = "经过网关调用服务";
-    Result tokenReqTest = jwtCallService(accessToken, testParam);
-    System.out.println(tokenReqTest);
-    Assert.assertEquals(tokenReqTest.getData(), testParam);
+    HttpURLConnection httpURLConnection = new HttpURLConnection(new URL(
+        "http://192.168.0.200:10001/oauth/token"), "192.168.0.200", 10001);
+    final InputStream inputStream = HttpURLConnection.openConnectionCheckRedirects(httpURLConnection);
+    byte[] b = new byte[2048];
+    int i = 0;
+    while ((i = inputStream.read(b)) > 0) {
+      i = inputStream.read(b);
+      System.out.println(b);
+    }
 
-    testParam = "经过网管服务调用服务";
-    Result result = jwtServiceCallService(accessToken, testParam);
-    System.out.println(result);
-    Assert.assertEquals(result.getData(), testParam);
-
-    System.out.println(getUserInfo(accessToken));
+    // String testParam = "经过网关调用服务";
+    // Result tokenReqTest = jwtCallService(accessToken, testParam);
+    // System.out.println(tokenReqTest);
+    // Assert.assertEquals(tokenReqTest.getData(), testParam);
+    //
+    // testParam = "经过网管服务调用服务";
+    // Result result = jwtServiceCallService(accessToken, testParam);
+    // System.out.println(result);
+    // Assert.assertEquals(result.getData(), testParam);
+    //
+    // System.out.println(getUserInfo(accessToken));
   }
 
 
@@ -107,10 +119,29 @@ public class TestControllerTest {
     return JacksonUtil.singleInstance().jsonToObject(result, Result.class);
   }
 
-  public static Result login() throws IOException {
+  public static Result loginGateway() throws IOException {
     CloseableHttpClient httpClient = HttpClientBuilder.create().build();
     HttpPost httpPost = new HttpPost(gatewayUrl + "/user/auth/login");
     List<NameValuePair> paramList = new ArrayList<>();
+    paramList.add(new BasicNameValuePair("grant_type", "password"));
+    paramList.add(new BasicNameValuePair("username", "admin"));
+    paramList.add(new BasicNameValuePair("password", "admin"));
+    httpPost.setEntity(new UrlEncodedFormEntity(paramList));
+    CloseableHttpResponse execute = httpClient.execute(httpPost);
+    HttpEntity entity = execute.getEntity();
+    log.debug(" 响应信息 =  {}", entity);
+    String result = EntityUtils.toString(entity, StandardCharsets.UTF_8);
+    return JacksonUtil.singleInstance().jsonToObject(result, Result.class);
+  }
+
+
+  public static Result loginAuth(String host) throws IOException {
+    CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+    HttpPost httpPost = new HttpPost(host + "/oauth/token");
+    List<NameValuePair> paramList = new ArrayList<>();
+    paramList.add(new BasicNameValuePair("grant_type", "password"));
+    paramList.add(new BasicNameValuePair("client_id", "test"));
+    paramList.add(new BasicNameValuePair("client_secret", "admin"));
     paramList.add(new BasicNameValuePair("username", "admin"));
     paramList.add(new BasicNameValuePair("password", "admin"));
     httpPost.setEntity(new UrlEncodedFormEntity(paramList));

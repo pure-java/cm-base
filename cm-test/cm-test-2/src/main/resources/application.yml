@@ -2,10 +2,10 @@ server:
   port: 10005
   max-http-header-size: 20480
 spring:
-#  messages:
-#    basename: i18n/messages
+  #  messages:
+  #    basename: i18n/messages
   redis:
-    host: localhost
+    host: 192.168.0.200
     password: null
     port: 6379
     lettuce:
@@ -36,7 +36,7 @@ security:
 
 log:
   base: "E:\\"
-#  level: warn
+  #  level: warn
   level: debug
 
 swagger2:

@@ -17,6 +17,7 @@
       <version>1.0-SNAPSHOT</version>
     </dependency>
 
+
     <dependency>
       <groupId>com.github.canglan</groupId>
       <artifactId>cm-auth-client</artifactId>
@@ -26,6 +27,11 @@
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-gateway</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.alibaba.cloud</groupId>
+      <artifactId>spring-cloud-alibaba-sentinel-gateway</artifactId>
     </dependency>
 
     <dependency>
@@ -39,6 +45,11 @@
       <artifactId>spring-cloud-starter-openfeign</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>io.github.openfeign</groupId>
+      <artifactId>feign-httpclient</artifactId>
+    </dependency>
+
     <!--ali服务注册中心与配置中心-->
     <!-- https://mvnrepository.com/artifact/com.alibaba.cloud/spring-cloud-starter-alibaba-nacos-discovery -->
     <dependency>
@@ -49,6 +60,16 @@
     <dependency>
       <groupId>com.alibaba.cloud</groupId>
       <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.alibaba.csp</groupId>
+      <artifactId>sentinel-datasource-nacos</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.alibaba.csp</groupId>
+      <artifactId>sentinel-transport-simple-http</artifactId>
     </dependency>
 
     <dependency>
@@ -70,24 +91,18 @@
       <version>2.9.2</version>
     </dependency>
   </dependencies>
+
   <build>
+    <finalName>cm-gateway</finalName>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
+          <fork>true</fork>
           <mainClass>com.github.canglan.cm.gate.gateway.GatewayApplication</mainClass>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <testFailureIgnore>true</testFailureIgnore>
         </configuration>
       </plugin>
     </plugins>
   </build>
 </project>
-
-

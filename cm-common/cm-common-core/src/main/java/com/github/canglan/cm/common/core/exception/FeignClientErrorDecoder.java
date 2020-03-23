@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
  * @date 2019/12/24
  */
 @Slf4j
-@Component
+// @Component
 public class FeignClientErrorDecoder implements ErrorDecoder {
 
   @Override

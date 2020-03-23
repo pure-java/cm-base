@@ -1,5 +1,6 @@
 package com.github.canglan.cm.gate.gateway.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.github.canglan.cm.auth.client.dto.ReqJwtTokenParam;
 import com.github.canglan.cm.auth.client.properties.OAuth2ClientProperties;
 import com.github.canglan.cm.auth.client.service.AuthService;
@@ -34,6 +35,7 @@ public class UserAuthController {
    * @return 登录结果
    */
   @PostMapping("/login")
+  @SentinelResource(value = "/user/auth/login")
   public Result login(ReqJwtTokenParam username) {
     ReqJwtTokenParam reqJwtTokenParam = new ReqJwtTokenParam();
     reqJwtTokenParam

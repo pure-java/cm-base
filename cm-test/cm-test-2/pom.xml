@@ -57,4 +57,18 @@
       <artifactId>spring-boot-starter-data-redis</artifactId>
     </dependency>
   </dependencies>
+
+  <build>
+    <finalName>cm-test-2</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <fork>true</fork>
+          <mainClass>com.github.canglan.cm.test.Test2Application</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

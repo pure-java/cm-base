@@ -2,6 +2,9 @@ package com.github.canglan.cm.auth.server.service.impl;
 
 import java.util.List;
 import javax.sql.DataSource;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
 import org.springframework.security.oauth2.provider.ClientAlreadyExistsException;
 import org.springframework.security.oauth2.provider.ClientDetails;
@@ -14,6 +17,7 @@ import org.springframework.security.oauth2.provider.client.JdbcClientDetailsServ
  * @author bairitan
  * @date 2019/12/4
  */
+@CacheConfig(cacheNames = "clientDetailService")
 public class ClientDetailService extends JdbcClientDetailsService {
 
   public ClientDetailService(DataSource dataSource) {
@@ -21,8 +25,14 @@ public class ClientDetailService extends JdbcClientDetailsService {
   }
 
   @Override
+  @Cacheable(value = {"loadClientByClientId"}, key = "#p0")
   public ClientDetails loadClientByClientId(String clientId) throws InvalidClientException {
     return super.loadClientByClientId(clientId);
+  }
+
+  @Override
+  public List<ClientDetails> listClientDetails() {
+    return super.listClientDetails();
   }
 
   @Override
@@ -31,22 +41,20 @@ public class ClientDetailService extends JdbcClientDetailsService {
   }
 
   @Override
+  @CacheEvict(value = {"loadClientByClientId"}, key = "#p0.clientId")
   public void updateClientDetails(ClientDetails clientDetails) throws NoSuchClientException {
     super.updateClientDetails(clientDetails);
   }
 
   @Override
+  @CacheEvict(value = {"loadClientByClientId"}, key = "#p0")
   public void updateClientSecret(String clientId, String secret) throws NoSuchClientException {
     super.updateClientSecret(clientId, secret);
   }
 
   @Override
+  @CacheEvict(value = {"loadClientByClientId"}, key = "#p0")
   public void removeClientDetails(String clientId) throws NoSuchClientException {
     super.removeClientDetails(clientId);
-  }
-
-  @Override
-  public List<ClientDetails> listClientDetails() {
-    return super.listClientDetails();
   }
 }
