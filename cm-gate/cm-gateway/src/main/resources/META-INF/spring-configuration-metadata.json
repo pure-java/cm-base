@@ -1,0 +1,10 @@
+{
+  "properties": [
+    {
+      "name": "gate.authentication.ignore-urls",
+      "type": "java.lang.String",
+      "sourceType": "com.github.pure.cm.gate.gateway.properties.AuthProperties",
+      "description": "网关过虑器忽略的请求路径"
+    }
+  ]
+}
