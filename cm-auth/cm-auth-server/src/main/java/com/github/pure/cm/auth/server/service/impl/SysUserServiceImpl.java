@@ -1,6 +1,7 @@
 package com.github.pure.cm.auth.server.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.github.pure.cm.auth.server.model.dto.LoginUser;
 import com.github.pure.cm.auth.server.model.entity.SysUser;
 import com.github.pure.cm.auth.server.mapper.SysUserMapper;
 import com.github.pure.cm.auth.server.service.ISysUserService;
@@ -16,6 +17,10 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @CacheConfig(cacheNames = "sysUserServiceImpl")
-public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
+public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> implements ISysUserService, UserDetailsService {
 
   @Autowired
   @Lazy
@@ -82,5 +87,21 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
   @CacheEvict(cacheNames = {"getUserByUserName"}, allEntries = true)
   public boolean removeByIds(Set<String> idList) {
     return super.daoUtil.removeByIds(idList);
+  }
+
+  /**
+   * 根据用户名加载用户
+   */
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    // 通过用户名获取用户信息
+    SysUser userByUserName = this.getUserByUserName(username);
+    if (userByUserName != null) {
+      //创建 spring security 安全用户和对应的权限（从数据库查找）
+      return new LoginUser(userByUserName.getUserName(), userByUserName.getPassword(),
+          AuthorityUtils.createAuthorityList("admin", "manager"));
+    } else {
+      throw new UsernameNotFoundException("用户[" + username + "]不存在");
+    }
   }
 }

@@ -19,6 +19,8 @@ import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.stereotype.Service;
 
 /**
+ * 权限服务类，提供权限操作
+ *
  * @author bairitan
  * @since 2019/11/18
  */

@@ -1,6 +1,5 @@
 package com.github.pure.cm.gate.gateway.filter;
 
-import com.github.pure.cm.auth.client.feign.AuthProvider;
 import com.github.pure.cm.auth.client.service.AuthService;
 import com.github.pure.cm.gate.gateway.properties.AuthProperties;
 import java.util.Map;
@@ -30,7 +29,6 @@ import reactor.core.publisher.Mono;
 public class JwtTokenFilter implements GlobalFilter {
 
   private AuthService authService;
-  private AuthProvider authValidateService;
   private AuthProperties authProperties;
 
   @Override

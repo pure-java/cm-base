@@ -14,12 +14,6 @@
       "description": "jwt 权限认证中心服务嘛名称"
     },
     {
-      "name": "hystrix.propagate.request-attribute.enabled",
-      "type": "java.lang.Boolean",
-      "sourceType": "com.github.pure.cm.auth.client.properties.HystrixRequestAttributeProperties",
-      "description": "是否启动 Hystrix 自定义并发策略，支持在拦截器中获取请求上下文"
-    },
-    {
       "name": "security.oauth2.access-token-uri",
       "type": "java.lang.String",
       "description": "认证 uri",

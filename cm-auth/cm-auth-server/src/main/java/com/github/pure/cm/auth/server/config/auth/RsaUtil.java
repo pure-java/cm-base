@@ -1,4 +1,4 @@
-package com.github.pure.cm.auth.common;
+package com.github.pure.cm.auth.server.config.auth;
 
 import java.io.DataInputStream;
 import java.io.File;

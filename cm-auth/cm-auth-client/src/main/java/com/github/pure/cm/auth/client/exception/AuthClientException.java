@@ -1,6 +1,8 @@
 package com.github.pure.cm.auth.client.exception;
 
 /**
+ * 权限相关异常
+ *
  * @author bairitan
  * @since 2019/11/14
  */

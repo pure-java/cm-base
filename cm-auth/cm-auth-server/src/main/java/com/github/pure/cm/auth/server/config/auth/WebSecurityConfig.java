@@ -1,4 +1,4 @@
-package com.github.pure.cm.auth.server.config;
+package com.github.pure.cm.auth.server.config.auth;
 
 import com.github.pure.cm.auth.server.config.headler.TokenAuthenticationFailureHandler;
 import com.github.pure.cm.auth.server.config.headler.TokenAuthenticationSuccessHandler;

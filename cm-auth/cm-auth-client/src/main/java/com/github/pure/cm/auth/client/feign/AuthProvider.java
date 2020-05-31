@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
+ * 权限认证接口
+ *
  * @author 陈欢
  * @since 2019/11/30
  */
 @Component
-@FeignClient(value = "${security.auth-service-id}")
+@FeignClient(value = "${security.auth-service-id:auth-server}", fallback = AuthProviderFail.class)
 public interface AuthProvider {
 
   /**
@@ -21,7 +23,7 @@ public interface AuthProvider {
    * @return rsa public
    */
   @GetMapping("/oauth/token_key")
-  public String publicTokenKey();
+  String publicTokenKey();
 
   /**
    * 验证to
@@ -30,7 +32,7 @@ public interface AuthProvider {
    * @return 返回检查结果
    */
   @PostMapping(value = "/oauth/check_token")
-  public Map<String, Object> checkToken(@RequestParam Map<String, Object> checkToken);
+  Map<String, Object> checkToken(@RequestParam Map<String, Object> checkToken);
 
   /**
    * 获取token 与 刷新token
@@ -39,6 +41,6 @@ public interface AuthProvider {
    * @return 返回结果
    */
   @PostMapping(value = "/oauth/token")
-  public Map<String, Object> token(@RequestParam Map<String, Object> client);
+  Map<String, Object> token(@RequestParam Map<String, Object> client);
 
 }

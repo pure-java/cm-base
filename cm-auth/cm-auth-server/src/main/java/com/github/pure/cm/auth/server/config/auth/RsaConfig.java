@@ -1,8 +1,8 @@
-package com.github.pure.cm.auth.server.config;
+package com.github.pure.cm.auth.server.config.auth;
 
-import static com.github.pure.cm.auth.common.RsaUtil.*;
+import static com.github.pure.cm.auth.server.config.auth.RsaUtil.*;
 
-import com.github.pure.cm.auth.common.RsaUtil.RsaKey;
+import com.github.pure.cm.auth.server.config.auth.RsaUtil.RsaKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;

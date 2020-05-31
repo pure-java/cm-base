@@ -6,6 +6,7 @@ import feign.RequestTemplate;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -16,6 +17,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  * @date 2019/12/9
  */
 @Slf4j
+@Component
 public class FeignAuthRequestInterceptor implements RequestInterceptor {
 
   public FeignAuthRequestInterceptor() {

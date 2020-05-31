@@ -1,8 +1,9 @@
-package com.github.pure.cm.auth.server.config;
+package com.github.pure.cm.auth.server.config.auth;
 
 import static org.apache.commons.lang.RandomStringUtils.randomAlphabetic;
 
-import com.github.pure.cm.auth.common.RsaUtil.RsaKey;
+import com.github.pure.cm.auth.server.config.auth.RsaConfig;
+import com.github.pure.cm.auth.server.config.auth.RsaUtil.RsaKey;
 import com.github.pure.cm.auth.server.handler.CustomAccessDeniedHandler;
 import com.github.pure.cm.auth.server.handler.CustomAuthPoint;
 import com.github.pure.cm.auth.server.model.dto.LoginUser;
