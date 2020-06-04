@@ -7,6 +7,16 @@ server:
         dashboard: localhost:20000
     datasource:
       server-addr: localhost:3306
+      username: root
+      password: admin
     redis:
       server-addr: localhost
       port: 6379
+
+custom:
+  config:
+    auth-server:
+      # jwt 签名redis key的名字
+      jwt-token-signer:
+        public-key-redis: AUTH_SERVER:TOKEN_RSA_PUBLIC_KEY
+        private-key-redis: AUTH_SERVER:TOKEN_RSA_PRIVATE_KEY

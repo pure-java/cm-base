@@ -9,6 +9,8 @@ server:
         dashboard: 192.168.0.200:20000
     datasource:
       server-addr: 192.168.0.200:3306
+      username: root
+      password: chen
     redis:
       server-addr: 192.168.0.200
       port: 6379
@@ -17,15 +19,17 @@ spring:
   application:
     name: auth-server
   profiles:
-    active: local
+    active: @profileActive@
   cloud:
     #  nacos 配置
     nacos:
       config:
         server-addr: ${server.address.nacos.server-addr}
-        file-extension: yaml
+        file-extension: yml
+        namespace: @profileActive@
       discovery:
         server-addr: ${server.address.nacos.server-addr}
+        namespace: @profileActive@
     # 流量控制配置
     sentinel:
       transport:
@@ -43,8 +47,8 @@ spring:
   datasource:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
     url: jdbc:p6spy:mysql://${server.address.datasource.server-addr}/ag_auth_v1?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
-    username: root
-    password: chen
+    username: ${server.address.datasource.username}
+    password: ${server.address.datasource.password}
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
       minimum-idle: 5
