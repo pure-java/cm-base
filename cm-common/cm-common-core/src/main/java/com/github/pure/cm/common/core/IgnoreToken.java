@@ -1,4 +1,4 @@
-package com.github.pure.cm.auth.client;
+package com.github.pure.cm.common.core;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

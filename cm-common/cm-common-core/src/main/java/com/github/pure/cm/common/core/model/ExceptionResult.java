@@ -1,6 +1,8 @@
 package com.github.pure.cm.common.core.model;
 
 import java.io.Serializable;
+
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,8 +17,8 @@ import lombok.experimental.Accessors;
 @Setter
 @Getter
 @ToString
-@Accessors(chain = true)
-public class ExceptionResult<T> extends Result implements Serializable {
+@Accessors(chain = true,fluent = true)
+public class ExceptionResult<T> extends Result<T> implements Serializable {
 
   private static final long serialVersionUID = 2235085689160152768L;
 

@@ -2,11 +2,10 @@ package com.github.pure.cm.auth.server.config.auth;
 
 import static org.apache.commons.lang.RandomStringUtils.randomAlphabetic;
 
-import com.github.pure.cm.auth.server.config.auth.RsaConfig;
 import com.github.pure.cm.auth.server.config.auth.RsaUtil.RsaKey;
 import com.github.pure.cm.auth.server.handler.CustomAccessDeniedHandler;
 import com.github.pure.cm.auth.server.handler.CustomAuthPoint;
-import com.github.pure.cm.auth.server.model.dto.LoginUser;
+import com.github.pure.cm.auth.server.model.dto.LoginUserVo;
 import com.github.pure.cm.auth.server.service.impl.ClientDetailService;
 import com.google.common.collect.Maps;
 import com.zaxxer.hikari.HikariDataSource;
@@ -152,7 +151,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
       }
       info.put("organization", authentication.getName() + randomAlphabetic(4));
       if (authentication.getUserAuthentication() != null && authentication.getUserAuthentication().getPrincipal() != null) {
-        LoginUser user = (LoginUser) authentication.getUserAuthentication().getPrincipal();
+        LoginUserVo user = (LoginUserVo) authentication.getUserAuthentication().getPrincipal();
         List<String> authorities = user
             .getAuthorities()
             .stream()

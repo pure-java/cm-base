@@ -25,6 +25,6 @@ public class AuthProperties {
    * 是否是忽略验证路径
    */
   public boolean ignoreAuthentication(String url) {
-    return Stream.of(this.ignoreUrls.split(",")).anyMatch(ignoreUrl -> url.startsWith(StringUtils.trim(ignoreUrl)));
+    return Stream.of(this.ignoreUrls.split(",;")).anyMatch(ignoreUrl -> url.startsWith(StringUtils.trim(ignoreUrl)));
   }
 }

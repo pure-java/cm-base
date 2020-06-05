@@ -32,6 +32,7 @@ public class FeignAuthRequestInterceptor implements RequestInterceptor {
       return;
     }
     HttpServletRequest request = requestAttributes.getRequest();
+    log.warn("feign 验证：{}",request.getRequestURI());
     String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
     if (StringUtil.isNotBlank(authorization)) {
       template.header(HttpHeaders.AUTHORIZATION, authorization);

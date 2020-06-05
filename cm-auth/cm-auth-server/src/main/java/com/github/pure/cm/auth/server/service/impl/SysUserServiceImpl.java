@@ -1,7 +1,7 @@
 package com.github.pure.cm.auth.server.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.github.pure.cm.auth.server.model.dto.LoginUser;
+import com.github.pure.cm.auth.server.model.dto.LoginUserVo;
 import com.github.pure.cm.auth.server.model.entity.SysUser;
 import com.github.pure.cm.auth.server.mapper.SysUserMapper;
 import com.github.pure.cm.auth.server.service.ISysUserService;
@@ -98,7 +98,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     SysUser userByUserName = this.getUserByUserName(username);
     if (userByUserName != null) {
       //创建 spring security 安全用户和对应的权限（从数据库查找）
-      return new LoginUser(userByUserName.getUserName(), userByUserName.getPassword(),
+      return new LoginUserVo(userByUserName.getUserName(), userByUserName.getPassword(),
           AuthorityUtils.createAuthorityList("admin", "manager"));
     } else {
       throw new UsernameNotFoundException("用户[" + username + "]不存在");

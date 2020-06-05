@@ -1,6 +1,6 @@
 package com.github.pure.cm.auth.server;
 
-import com.github.pure.cm.auth.server.model.dto.ClientInfo;
+import com.github.pure.cm.auth.server.model.dto.ClientInfoVo;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import java.util.HashMap;
@@ -24,12 +24,12 @@ public class AuthServerApplicationTest {
 
   @Test
   public void registerClient() {
-    ClientInfo clientInfo = new ClientInfo();
+    ClientInfoVo clientInfoVo = new ClientInfoVo();
     List<GrantedAuthority> grantedAuthority = AuthorityUtils.createAuthorityList("admin");
     HashMap<String, Object> additionalInformation = Maps.newHashMap();
     additionalInformation.put("test", "test");
 
-    clientInfo
+    clientInfoVo
         .setClientId("test")
         .setClientSecret("test")
         .setScope(Sets.newHashSet("test"))
@@ -54,7 +54,7 @@ public class AuthServerApplicationTest {
     // baseClientDetails.setResourceIds(Sets.newHashSet("test"));
     // baseClientDetails.setAccessTokenValiditySeconds(1000);
     // baseClientDetails.setRefreshTokenValiditySeconds(1000);
-    BeanUtils.copyProperties(clientInfo, baseClientDetails);
+    BeanUtils.copyProperties(clientInfoVo, baseClientDetails);
     System.out.println(clientDetailsService);
     System.out.println(baseClientDetails);
     clientDetailsService.addClientDetails(baseClientDetails);

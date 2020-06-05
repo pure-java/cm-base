@@ -94,17 +94,6 @@ ribbon:
   ReadTimeout: 5000 # 连接所需时间，默认3秒，一般不够
   ConnectTimeout: 5000 # 读取到可用资源的时间，默认一秒，不够，需要改为 5 秒
 
-# 日志存储路径
-log:
-#  base: "E:\\"
-  #日志等级，并且控制 logback
-  level: debug
-
-# 网关放开连接
-gate:
-  authentication:
-    ignore-urls: /oauth,/v2
-
 # 客户端认证属性配置
 security:
   oauth2:
@@ -112,7 +101,16 @@ security:
     scope: all
     client-id: test
     client-secret: admin
-
+# 网关验证忽略的url接口
+pure:
+  log:
+    # 日志存储路径
+    dir: ./
+    # 日志等级，并且控制 logback
+    level: debug
+  gate:
+    authentication:
+      ignore-urls: /oauth,/v2
 swagger2:
   enable: false
 

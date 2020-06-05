@@ -37,8 +37,6 @@ public class JwtTokenFilter implements GlobalFilter {
     String authentication = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
     String method = request.getMethodValue();
     String url = request.getURI().getPath();
-    log.debug(" exchange.getRequest().getURI().getPath() = {} ", request.getURI().getPath());
-    log.debug(" exchange.getRequest().getPath() = {}", request.getPath());
     if (StringUtils.isNotBlank(url) && authProperties.ignoreAuthentication(url)) {
       return chain.filter(exchange);
     }

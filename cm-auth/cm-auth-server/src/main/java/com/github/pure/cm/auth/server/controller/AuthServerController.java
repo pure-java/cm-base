@@ -1,6 +1,9 @@
 package com.github.pure.cm.auth.server.controller;
 
+import com.github.pure.cm.common.core.exception.BusinessException;
 import com.github.pure.cm.common.core.model.Result;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -11,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Objects;
+
 /**
  * @author bairitan
  * @since 2019/11/19
@@ -18,36 +23,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("authServer")
 @Slf4j
+@Api(value = "权限服务", tags = "权限服务")
 public class AuthServerController {
 
-  @Autowired
-  private TokenStore tokenStore;
-  // @Autowired
-  // private ClientDetailsService clientDetailsService;
-  // @Autowired
-  // private ISysAuthorityValidate userService;
-  //
-  // @PostMapping("/login")
-  // public Result login(String userName, String password) {
-  //   log.debug("用户 {} 登录", userName);
-  //   return Result.success(userService.validate(userName, password));
-  // }
-  //
-  // @PostMapping("/registerClient")
-  // public Result registerClient(ClientInfo clientInfo) {
-  //   log.debug("客户端注册 {}", clientInfo);
-  //
-  //   ClientDetails baseClientDetails = new BaseClientDetails();
-  //   BeanUtils.copyProperties(clientInfo, baseClientDetails);
-  //   ((JdbcClientDetailsService) clientDetailsService).addClientDetails(baseClientDetails);
-  //   return Result.success();
-  // }
+    @Autowired
+    private TokenStore tokenStore;
 
-
-  @PostMapping("/getUser")
-  public Result getUser(@RequestParam("token") String token) {
-    OAuth2Authentication oAuth2Authentication = tokenStore.readAuthentication(token);
-    Authentication userAuthentication = oAuth2Authentication.getUserAuthentication();
-    return Result.success(userAuthentication.getPrincipal());
-  }
+    /**
+     * 通过token获取用户信息
+     *
+     * @param token jwt token
+     * @return 用户信息
+     * @throws BusinessException 未找到用户
+     */
+    @ApiOperation(value = "通过token获取用户信息")
+    @PostMapping("/getUser")
+    public Result<Object> getUser(@RequestParam("token") String token) throws BusinessException {
+        OAuth2Authentication oAuth2Authentication = tokenStore.readAuthentication(token);
+        Authentication userAuthentication;
+        if (Objects.isNull(oAuth2Authentication) || Objects.isNull(userAuthentication = oAuth2Authentication.getUserAuthentication())) {
+            throw new BusinessException("未找到用户");
+        }
+        return Result.success(userAuthentication.getPrincipal());
+    }
 }
