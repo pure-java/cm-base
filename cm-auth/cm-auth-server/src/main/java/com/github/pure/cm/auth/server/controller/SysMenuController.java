@@ -2,16 +2,16 @@ package com.github.pure.cm.auth.server.controller;
 
 import com.github.pure.cm.auth.server.model.entity.SysMenu;
 import com.github.pure.cm.auth.server.service.ISysMenuService;
-import com.github.pure.cm.common.data.model.PageResult;
-import com.github.pure.cm.common.data.model.PageWhere;
-import com.github.pure.cm.common.data.base.BaseController;
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.StringUtil;
+import com.github.pure.cm.common.data.base.BaseController;
+import com.github.pure.cm.common.data.model.PageResult;
+import com.github.pure.cm.common.data.model.PageWhere;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import javax.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +40,7 @@ public class SysMenuController extends BaseController<ISysMenuService> {
   @ApiOperation(value = "添加")
   @PostMapping(value = "modifyIdMenu")
   @PreAuthorize(value = "hasAuthority('idMenu:modifyIdMenu')")
-  public Result modifyIdMenu(@ModelAttribute @Valid SysMenu sysMenu) {
+  public Result modifyIdMenu(@ModelAttribute @Validated SysMenu sysMenu) {
     return Result.success(super.service.saveOrUpdateIdMenu(sysMenu));
   }
 

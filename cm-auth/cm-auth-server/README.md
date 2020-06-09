@@ -1,3 +1,7 @@
+### 前言
+
+spring-cloud-starter-oauth2 不支持webflux
+
 ### 鉴权服务 
 
 ​	选择使用 oauth2认证，支持所有的认证模式。

@@ -46,4 +46,5 @@ public class AuthServerController {
         }
         return Result.success(userAuthentication.getPrincipal());
     }
+
 }

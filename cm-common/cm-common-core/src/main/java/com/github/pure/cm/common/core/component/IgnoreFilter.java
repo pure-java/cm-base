@@ -58,7 +58,10 @@ public class IgnoreFilter implements ApplicationContextAware, WebFilter {
         Map<String, Object> restController = this.applicationContext.getBeansWithAnnotation(RestController.class);
         restController.values().forEach(bean -> {
             Class<?> targetClass = AopUtils.getTargetClass(bean);
-            if (Objects.nonNull(AopUtils.getTargetClass(bean).getAnnotation(RestController.class))) {
+            if(targetClass.getName().contains("UserAuthController")){
+                System.out.println("UserAuthController");
+            }
+            if (Objects.isNull(AopUtils.getTargetClass(bean).getAnnotation(RestController.class))) {
                 return;
             }
             RequestMapping mappingAnnotation = AopUtils.getTargetClass(bean).getAnnotation(RequestMapping.class);

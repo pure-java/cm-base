@@ -4,7 +4,7 @@ import com.github.pure.cm.common.core.model.Result;
 import org.springframework.http.HttpStatus;
 
 /**
- * api 的异常
+ * 除了业务之外的异常，都可以使用该异常
  * @author bairitan
  * @date 2019/12/24
  */
@@ -28,6 +28,7 @@ public class ApiException extends Exception {
     super(message);
     this.code  = HttpStatus.INTERNAL_SERVER_ERROR.value();
   }
+
 
   public ApiException(Integer code,String message,  Throwable cause) {
     super(message, cause);

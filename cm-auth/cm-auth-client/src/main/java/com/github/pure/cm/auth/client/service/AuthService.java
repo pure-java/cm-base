@@ -3,6 +3,7 @@ package com.github.pure.cm.auth.client.service;
 import com.github.pure.cm.auth.client.exception.AuthClientException;
 import com.github.pure.cm.auth.client.feign.AuthProvider;
 import com.github.pure.cm.auth.client.dto.ReqJwtTokenParam;
+import com.github.pure.cm.common.core.exception.ApiException;
 import com.github.pure.cm.common.core.util.JacksonUtil;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -38,9 +39,8 @@ public class AuthService {
    * @param reqJwtTokenParam 客户端信息
    * @return 获取的 jwt 结果
    */
-  public Map<String, Object> token(ReqJwtTokenParam reqJwtTokenParam) {
+  public Map<String, Object> token(ReqJwtTokenParam reqJwtTokenParam) throws ApiException {
     Map<String, Object> client = reqJwtTokenParam.toMap();
-    System.out.println(client);
     return authProvider.token(client);
   }
 

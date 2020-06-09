@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.provider.ClientDetails;
 
 /**
  * 客户端信息
@@ -30,33 +31,33 @@ public class ClientInfoVo {
     private String clientId;
 
     /**
-     * 客户端秘钥
+     * 客户端秘钥，{@link ClientDetails#isSecretRequired()} 决定客户端是否需要秘钥
      */
-    @ApiModelProperty(value = "客户端秘钥")
+    @ApiModelProperty(value = "客户端秘钥，")
     private String clientSecret;
 
     /**
-     * 客户端管理域
+     * 用户授予客户端权限的范围，作用域代表用户授权给第三方的接口权限范围
      */
-    @ApiModelProperty(value = "客户端管理域")
+    @ApiModelProperty(value = "用户授予客户端权限的范围（授权域）")
     private Set<String> scope = Collections.emptySet();
 
     /**
-     * 资源ID
+     * 该客户端可以访问的资源。如果为空，则可以被调用方忽略
      */
-    @ApiModelProperty(value = "资源ID")
+    @ApiModelProperty(value = "该客户端可以访问的资源")
     private Set<String> resourceIds = Collections.emptySet();
 
     /**
-     * 权限
+     * 授权模式
      */
-    @ApiModelProperty(value = "权限")
+    @ApiModelProperty(value = "授权模式")
     private Set<String> authorizedGrantTypes = Collections.emptySet();
 
     /**
-     * 要跳转到的uri
+     * 预先设定的需要重定向的uri
      */
-    @ApiModelProperty(value = "要跳转到的uri")
+    @ApiModelProperty(value = "预先设定的需要重定向的uri")
     private Set<String> registeredRedirectUri;
 
     /**
@@ -66,9 +67,9 @@ public class ClientInfoVo {
     private Set<String> autoApproveScopes;
 
     /**
-     * 权限
+     * 返回授予OAuth客户端的权限。无法返回null。请注意，这些不是使用授权访问令牌授予用户的权限。相反，这些权限是客户本身固有的。
      */
-    @ApiModelProperty(value = "权限")
+    @ApiModelProperty(value = "授予OAuth客户端的权限")
     private List<GrantedAuthority> authorities = Collections.emptyList();
 
     /**

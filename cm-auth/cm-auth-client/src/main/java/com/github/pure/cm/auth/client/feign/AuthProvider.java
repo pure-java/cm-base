@@ -1,6 +1,8 @@
 package com.github.pure.cm.auth.client.feign;
 
 import java.util.Map;
+
+import com.github.pure.cm.common.core.exception.ApiException;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,6 +43,6 @@ public interface AuthProvider {
    * @return 返回结果
    */
   @PostMapping(value = "/oauth/token")
-  Map<String, Object> token(@RequestParam Map<String, Object> client);
+  Map<String, Object> token(@RequestParam Map<String, Object> client) throws ApiException;
 
 }

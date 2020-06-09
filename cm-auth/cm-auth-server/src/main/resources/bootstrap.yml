@@ -19,17 +19,17 @@ spring:
   application:
     name: auth-server
   profiles:
-    active: @profileActive@
+    active: '@profileActive@'
   cloud:
     #  nacos 配置
     nacos:
       config:
         server-addr: ${server.address.nacos.server-addr}
         file-extension: yml
-        namespace: @profileActive@
+        namespace: '@profileActive@'
       discovery:
         server-addr: ${server.address.nacos.server-addr}
-        namespace: @profileActive@
+        namespace: '@profileActive@'
     # 流量控制配置
     sentinel:
       transport:

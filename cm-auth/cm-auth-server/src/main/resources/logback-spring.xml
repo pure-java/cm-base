@@ -10,7 +10,7 @@
   <!-- name的值是变量的名称，source的值是spring变量定义的值。通过定义的值会被插入到logger上下文中。定义后，可以使“${}”来使用变量。 -->
   <springProperty scope="context" name="springAppName" source="spring.application.name"/>
   <!-- 该变量必须填写，在 application.yml 和 bootstrap.yml中都必须写入-->
-  <springProperty scope="context" name="logBase" source="log.base" defaultValue="./"/>
+  <springProperty scope="context" name="logBase" source="log.base" defaultValue="../"/>
   <springProperty scope="context" name="level" source="log.level" defaultValue="warn"/>
 
   <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径，并且变量名 name 不要带点符号，不然不能正确引用spring变量-->

@@ -4,7 +4,7 @@ import com.github.pure.cm.common.core.model.Result;
 import org.springframework.http.HttpStatus;
 
 /**
- * 业务异常
+ * 业务异常。
  *
  * @author 陈欢
  * @since 2020/6/5

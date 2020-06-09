@@ -1,6 +1,6 @@
 package com.github.pure.cm.gate.gateway.config;
 
-import com.github.pure.cm.gate.gateway.exception.JsonExceptionHandler;
+import com.github.pure.cm.gate.gateway.exception.GatewayExceptionHandler;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.ObjectProvider;
@@ -18,6 +18,7 @@ import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.web.reactive.result.view.ViewResolver;
 
 /**
+ * 网关错误处理器。
  * @author bairitan
  * @date 2019/12/24
  */
@@ -50,7 +51,7 @@ public class ErrorHandlerConfiguration {
   @Bean
   @Order(Ordered.HIGHEST_PRECEDENCE)
   public ErrorWebExceptionHandler errorWebExceptionHandler(ErrorAttributes errorAttributes) {
-    JsonExceptionHandler exceptionHandler = new JsonExceptionHandler(
+    GatewayExceptionHandler exceptionHandler = new GatewayExceptionHandler(
         errorAttributes,
         this.resourceProperties,
         this.serverProperties.getError(),

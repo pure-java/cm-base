@@ -54,6 +54,7 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+
 # java
 *.class
 *.war
@@ -80,3 +81,4 @@ package-lock.json
 
 ###临时文件
 ~*
+log/

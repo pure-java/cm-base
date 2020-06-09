@@ -1,6 +1,9 @@
 package com.github.pure.cm.auth.client.feign;
 
 import java.util.Map;
+
+import com.github.pure.cm.common.core.exception.ApiException;
+import com.github.pure.cm.common.core.model.Result;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,18 +13,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthProviderFail implements AuthProvider {
 
-  @Override
-  public String publicTokenKey() {
-    return null;
-  }
+    @Override
+    public String publicTokenKey() {
+        return null;
+    }
 
-  @Override
-  public Map<String, Object> checkToken(Map<String, Object> checkToken) {
-    return null;
-  }
+    @Override
+    public Map<String, Object> checkToken(Map<String, Object> checkToken) {
+        return null;
+    }
 
-  @Override
-  public Map<String, Object> token(Map<String, Object> client) {
-    return null;
-  }
+    @Override
+    public Map<String, Object> token(Map<String, Object> client) throws ApiException {
+        throw new ApiException(Result.fail("获取token发生错误"));
+    }
 }
