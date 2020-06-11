@@ -1,4 +1,4 @@
-package com.github.pure.cm.auth.client.interceptor;
+package com.github.pure.cm.auth.client.filter;
 
 import com.github.pure.cm.common.core.util.StringUtil;
 import feign.RequestInterceptor;

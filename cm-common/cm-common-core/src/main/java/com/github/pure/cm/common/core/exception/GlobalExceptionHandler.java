@@ -1,11 +1,10 @@
 package com.github.pure.cm.common.core.exception;
 
 import com.github.pure.cm.common.core.model.ExceptionResult;
-import com.github.pure.cm.common.core.util.JacksonUtil;
+import com.github.pure.cm.common.core.util.JsonUtil;
 import com.github.pure.cm.common.core.util.collection.MapUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
-import org.springframework.core.io.buffer.DataBufferFactory;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.lang.NonNull;
@@ -39,25 +38,22 @@ public class GlobalExceptionHandler implements WebExceptionHandler {
 
         Map<String, Object> param = MapUtil.newHashMap();
         exchange.getFormData().subscribe(map -> map.forEach((key, value) -> log.error("key = {},value = {}", key, value)));
+        //Mono<DataBuffer> dataBufferMono = DataBufferUtils.join(request.getBody())
+        //        .flatMap(dataBuffer -> {
+        //            byte[] bytes = new byte[dataBuffer.readableByteCount()];
+        //            dataBuffer.read(bytes);
+        //            log.error("请求参数：{}", new String(bytes));
+        //            return Mono.just(response.bufferFactory().wrap(bytes));
+        //        });
 
-        //request.getQueryParams().forEach((key, value) -> {
-        //    if (ArrayUtil.isEmpty(value)) {
-        //        param.put(key, null);
-        //    } else if (value.length == 1) {
-        //        param.put(key, value[0]);
-        //    } else {
-        //        param.put(key, Arrays.asList(value));
-        //    }
-        //});
-
-        log.error("请求参数：{}", JacksonUtil.json(param));
+        log.error("请求参数：{}", JsonUtil.json(param));
         log.error("错误信息", exception);
 
-        ExceptionResult<String> result = ExceptionUtil.exceptionHandler(exception,false);
+        ExceptionResult<String> result = ExceptionUtil.exceptionHandler(exception, false);
         return response
                 .writeWith(Mono.fromSupplier(() -> {
-                    DataBufferFactory bufferFactory = response.bufferFactory();
-                    return bufferFactory.wrap(JacksonUtil.json(result).getBytes(StandardCharsets.UTF_8));
+                    //dataBufferMono.subscribe();
+                    return response.bufferFactory().wrap(JsonUtil.json(result).getBytes(StandardCharsets.UTF_8));
                 }));
     }
 }

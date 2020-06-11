@@ -1,12 +1,11 @@
 package com.github.pure.cm.common.core.exception;
 
 import com.github.pure.cm.common.core.model.Result;
-import com.github.pure.cm.common.core.util.JacksonUtil;
+import com.github.pure.cm.common.core.util.JsonUtil;
 import feign.Response;
 import feign.Util;
 import feign.codec.ErrorDecoder;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +26,7 @@ public class FeignClientErrorDecoder implements ErrorDecoder {
     if (response.status() != HttpStatus.OK.value()) {
       try {
         String errorContent = Util.toString(response.body().asReader(StandardCharsets.UTF_8));
-        return new ApiException(JacksonUtil.singleInstance().jsonToObject(errorContent, Result.class));
+        return new ApiException(JsonUtil.singleInstance().jsonToObject(errorContent, Result.class));
       } catch (IOException e) {
         log.error("handle error exception");
         return new ApiException("unknown error");

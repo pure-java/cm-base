@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.server.UnsupportedMediaTypeStatusException;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -57,9 +58,12 @@ public class ExceptionUtil {
             MethodArgumentNotValidException argumentNotValidException = (MethodArgumentNotValidException) cause;
             String message = argumentNotValidException.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(","));
             result.setMessage(message);
+        } else if (error instanceof UnsupportedMediaTypeStatusException) {
+            result.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            result.setMessage("请求头 contentType 错误");
         } else {
             result.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            result.setMessage("发生未知异常");
+            result.setMessage("该请求发生错误");
         }
         if (isPrintException) {
             log.error("发生异常", cause);

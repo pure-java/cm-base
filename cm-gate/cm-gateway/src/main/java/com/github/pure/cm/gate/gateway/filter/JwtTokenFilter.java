@@ -41,7 +41,6 @@ public class JwtTokenFilter implements GlobalFilter {
       return chain.filter(exchange);
     }
     if (StringUtils.isNotBlank(authentication)) {
-
       Jwt jwt = authService.decodeAndVerify(authentication);
       log.debug("jwt = {}", jwt);
 

@@ -1,7 +1,7 @@
 package com.github.pure.cm.auth.server.handler;
 
 import com.github.pure.cm.common.core.model.Result;
-import com.github.pure.cm.common.core.util.JacksonUtil;
+import com.github.pure.cm.common.core.util.JsonUtil;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +21,6 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
       throws IOException {
     response.setCharacterEncoding("UTF-8");
     response.setContentType("application/json");
-    response.getWriter().write(JacksonUtil.json(Result.fail("未授权")));
+    response.getWriter().write(JsonUtil.json(Result.fail("未授权")));
   }
 }

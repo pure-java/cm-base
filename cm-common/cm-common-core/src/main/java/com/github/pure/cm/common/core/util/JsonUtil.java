@@ -27,7 +27,7 @@ import java.util.Set;
  *
  * @author bairitan
  **/
-public final class JacksonUtil {
+public final class JsonUtil {
 
 
   /**
@@ -41,7 +41,7 @@ public final class JacksonUtil {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
 
-  public JacksonUtil() {
+  public JsonUtil() {
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
   }
 
@@ -50,15 +50,15 @@ public final class JacksonUtil {
   /**
    * 创建 原型模式 对象
    */
-  public static JacksonUtil newInstance() {
-    return new JacksonUtil();
+  public static JsonUtil newInstance() {
+    return new JsonUtil();
   }
 
   /**
    * 返回 单例模式对象
    */
-  public static JacksonUtil singleInstance() {
-    return JacksonUtilEnum.INSTANCE.jacksonUtil;
+  public static JsonUtil singleInstance() {
+    return JacksonUtilEnum.INSTANCE.jsonUtil;
   }
 
   /**
@@ -98,7 +98,7 @@ public final class JacksonUtil {
    * @param include 剩余字段,使用[,]分隔
    * @param filter 过滤字段,使用[,]分隔
    */
-  public JacksonUtil filter(Class<?> clazz, String include, String filter) {
+  public JsonUtil filter(Class<?> clazz, String include, String filter) {
     // 导入
     if (StringUtil.isNotBlank(include)) {
       Set<String> hashSet = Sets.newHashSet();
@@ -120,7 +120,7 @@ public final class JacksonUtil {
    * @param clazz 类型
    * @param filter 过滤字段
    */
-  public JacksonUtil filterField(Class<?> clazz, Set<String> filter) {
+  public JsonUtil filterField(Class<?> clazz, Set<String> filter) {
     return this.filter(clazz, null, filter);
   }
 
@@ -130,7 +130,7 @@ public final class JacksonUtil {
    * @param clazz 类型
    * @param filter 过滤字段
    */
-  public JacksonUtil filterField(Class<?> clazz, String... filter) {
+  public JsonUtil filterField(Class<?> clazz, String... filter) {
     return this.filter(clazz, null, Sets.newHashSet(Arrays.asList(filter)));
   }
 
@@ -141,7 +141,7 @@ public final class JacksonUtil {
    * @param clazz 类型
    * @param include 保留属性集合
    */
-  public JacksonUtil includeField(Class<?> clazz, Set<String> include) {
+  public JsonUtil includeField(Class<?> clazz, Set<String> include) {
     return this.filter(clazz, include, null);
   }
 
@@ -151,7 +151,7 @@ public final class JacksonUtil {
    * @param include 剩余字段,使用[,]分隔
    * @param filter 过滤字段,使用[,]分隔
    */
-  public JacksonUtil filter(Class<?> clazz, Set<String> include, Set<String> filter) {
+  public JsonUtil filter(Class<?> clazz, Set<String> include, Set<String> filter) {
     if (clazz == null) {
       return null;
     }
@@ -183,11 +183,11 @@ public final class JacksonUtil {
   }
 
   public static <T> String json(T t, boolean nonEmpty) {
-    JacksonUtil jacksonUtil = new JacksonUtil();
+    JsonUtil jsonUtil = new JsonUtil();
     if (nonEmpty) {
-      jacksonUtil.objectMapper.setSerializationInclusion(Include.NON_EMPTY);
+      jsonUtil.objectMapper.setSerializationInclusion(Include.NON_EMPTY);
     }
-    return jacksonUtil.toJson(t);
+    return jsonUtil.toJson(t);
   }
 
   /**
@@ -419,14 +419,14 @@ public final class JacksonUtil {
   private static enum JacksonUtilEnum {
 
     INSTANCE();
-    JacksonUtil jacksonUtil;
+    JsonUtil jsonUtil;
 
     JacksonUtilEnum() {
-      this.jacksonUtil = new JacksonUtil();
+      this.jsonUtil = new JsonUtil();
     }
 
-    public JacksonUtil getJacksonUtil() {
-      return INSTANCE.jacksonUtil;
+    public JsonUtil getJsonUtil() {
+      return INSTANCE.jsonUtil;
     }
 
   }

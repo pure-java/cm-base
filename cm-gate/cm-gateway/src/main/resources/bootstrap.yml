@@ -104,8 +104,8 @@ security:
 # 网关验证忽略的url接口
 pure:
   log:
-    # 日志存储路径
-    dir: ./
+#    # 日志存储路径
+#    dir: ./
     # 日志等级，并且控制 logback
     level: debug
   gate:

@@ -92,8 +92,10 @@ management:
 feign:
   sentinel:
     enabled: true
-log:
-  level: debug
+
+logging:
+  config: classpath:logback-spring.xml
+
 #dubbo:
 #  scan:
 #    base-packages: com.github.pure.cm.auth.server.dubbo

@@ -1,7 +1,7 @@
 package com.github.pure.cm.auth.client.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.pure.cm.common.core.util.JacksonUtil;
+import com.github.pure.cm.common.core.util.JsonUtil;
 import java.util.Map;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -53,6 +53,6 @@ public class ReqJwtTokenParam {
   private String password;
 
   public Map<String, Object> toMap() {
-    return JacksonUtil.singleInstance().jsonToMap(JacksonUtil.json(this));
+    return JsonUtil.singleInstance().jsonToMap(JsonUtil.json(this));
   }
 }

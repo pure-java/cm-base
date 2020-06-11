@@ -111,12 +111,6 @@
       <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/p6spy/p6spy -->
-    <dependency>
-      <groupId>p6spy</groupId>
-      <artifactId>p6spy</artifactId>
-      <version>3.8.6</version>
-    </dependency>
   </dependencies>
 
 

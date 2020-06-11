@@ -1,6 +1,6 @@
 package com.github.pure.cm.auth.server.config.headler;
 
-import com.github.pure.cm.common.core.util.JacksonUtil;
+import com.github.pure.cm.common.core.util.JsonUtil;
 import com.github.pure.cm.common.core.util.StringUtil;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -28,7 +28,7 @@ public class TokenAuthenticationSuccessHandler extends SavedRequestAwareAuthenti
       throws ServletException, IOException {
     super.onAuthenticationSuccess(request, response, authentication);
 
-    log.debug("login  {}", JacksonUtil.json(authentication));
+    log.debug("login  {}", JsonUtil.json(authentication));
 
     String token = getHeaderValue(request, HttpHeaders.AUTHORIZATION);
 

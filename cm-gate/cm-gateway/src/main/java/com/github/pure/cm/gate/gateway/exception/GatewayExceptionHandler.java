@@ -1,27 +1,22 @@
 package com.github.pure.cm.gate.gateway.exception;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.github.pure.cm.common.core.exception.ExceptionUtil;
 import com.github.pure.cm.common.core.model.ExceptionResult;
-import com.github.pure.cm.common.core.util.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.boot.autoconfigure.web.reactive.error.DefaultErrorWebExceptionHandler;
 import org.springframework.boot.web.reactive.error.ErrorAttributes;
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.log.LogMessage;
 import org.springframework.http.HttpStatus;
-import org.springframework.util.StringUtils;
 import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import org.springframework.web.server.ServerWebExchange;
-import reactor.core.publisher.Mono;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author bairitan
@@ -61,12 +56,11 @@ public class GatewayExceptionHandler extends DefaultErrorWebExceptionHandler {
 
     @Override
     protected void logError(ServerRequest request, ServerResponse response, Throwable throwable) {
-        request.formData().subscribe(map -> {
-            map.forEach((key, value) -> {
-                log.error("参数 {}={}", key, value);
-            });
-        });
-        log.error("", throwable);
+        if (log.isDebugEnabled()) {
+            log.error("错误信息{}", throwable.getMessage(),throwable);
+        } else {
+            log.error("堆栈信息{}", throwable.getMessage());
+        }
     }
 
     /**

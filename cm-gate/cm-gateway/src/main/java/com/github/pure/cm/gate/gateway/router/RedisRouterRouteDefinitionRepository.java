@@ -1,6 +1,6 @@
 package com.github.pure.cm.gate.gateway.router;
 
-import com.github.pure.cm.common.core.util.JacksonUtil;
+import com.github.pure.cm.common.core.util.JsonUtil;
 import com.github.pure.cm.common.core.util.collection.CollectionUtil;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +29,7 @@ public class RedisRouterRouteDefinitionRepository implements RouteDefinitionRepo
 
   @Autowired
   private StringRedisTemplate redisTemplate;
-  private final JacksonUtil jacksonUtil = JacksonUtil.singleInstance();
+  private final JsonUtil jsonUtil = JsonUtil.singleInstance();
   private Map<String, RouteDefinition> routeDefinitionMap = new ConcurrentHashMap<>();
 
   private void loadRouterDefinition() {
@@ -39,7 +39,7 @@ public class RedisRouterRouteDefinitionRepository implements RouteDefinitionRepo
       log.debug("load redis router = {} ", list);
       if (CollectionUtil.isNotEmpty(list)) {
         list.forEach(router -> {
-          RouteDefinition routeDefinition = jacksonUtil.jsonToObject(router, RouteDefinition.class);
+          RouteDefinition routeDefinition = jsonUtil.jsonToObject(router, RouteDefinition.class);
           routeDefinitionMap.put(routeDefinition.getId(), routeDefinition);
           log.debug(" gateway router {} = {}", routeDefinition.getId(), routeDefinition);
         });
@@ -57,7 +57,7 @@ public class RedisRouterRouteDefinitionRepository implements RouteDefinitionRepo
   public Mono<Void> save(Mono<RouteDefinition> route) {
     return route.flatMap(routeDefinition -> {
           routeDefinitionMap.put(routeDefinition.getId(), routeDefinition);
-          String value = jacksonUtil.toJson(routeDefinition);
+          String value = jsonUtil.toJson(routeDefinition);
           if (value != null) {
             redisTemplate.opsForValue().set("GATEWAY_ROUTES" + routeDefinition.getId(), value);
           }
