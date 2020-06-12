@@ -110,7 +110,6 @@
       <groupId>com.alibaba.cloud</groupId>
       <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
     </dependency>
-
   </dependencies>
 
 
@@ -125,6 +124,18 @@
           <mainClass>com.github.pure.cm.auth.server.AuthServerApplication</mainClass>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <configuration>
+          <delimiters>
+            <delimiter>@</delimiter>
+          </delimiters>
+          <useDefaultDelimiters>false</useDefaultDelimiters>
+        </configuration>
+      </plugin>
+
     </plugins>
     <resources>
       <resource>
@@ -138,28 +149,4 @@
       </resource>
     </resources>
   </build>
-
-  <profiles>
-    <profile>
-      <id>local</id>
-      <properties>
-        <profileActive>local</profileActive>
-      </properties>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-    </profile>
-    <profile>
-      <id>dev</id>
-      <properties>
-        <profileActive>dev</profileActive>
-      </properties>
-    </profile>
-    <profile>
-      <id>prod</id>
-      <properties>
-        <profileActive>release</profileActive>
-      </properties>
-    </profile>
-  </profiles>
 </project>

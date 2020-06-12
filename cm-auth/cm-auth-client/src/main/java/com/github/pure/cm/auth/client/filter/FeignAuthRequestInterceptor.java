@@ -1,14 +1,16 @@
 package com.github.pure.cm.auth.client.filter;
 
 import com.github.pure.cm.common.core.util.StringUtil;
+import com.github.pure.cm.common.core.util.collection.CollectionUtil;
+import feign.Request;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * 使用 feign 时将请求头 token 转发
@@ -20,23 +22,26 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Component
 public class FeignAuthRequestInterceptor implements RequestInterceptor {
 
-  public FeignAuthRequestInterceptor() {
-    log.debug(" =================  初始化 feign 验证拦截器 =========================");
-  }
+    public FeignAuthRequestInterceptor() {
+        log.debug(" =================  初始化 feign 验证拦截器 =========================");
+    }
 
-  @Override
-  public void apply(RequestTemplate template) {
-    ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-    if (requestAttributes == null) {
-      log.debug(" 请求为空 ===================== ");
-      return;
+    @Override
+    public void apply(RequestTemplate template) {
+        Request request = template.request();
+
+        log.warn("feign 验证：{}", request.url());
+        Collection<String> authList = request.headers().get(HttpHeaders.AUTHORIZATION);
+        if (CollectionUtil.isEmpty(authList)) {
+            return;
+        }
+        ArrayList<Object> collection = new ArrayList<>(authList);
+
+        log.debug("token = {}", collection);
+        String authorization = String.valueOf(collection.get(0));
+        if (StringUtil.isNotBlank(authorization)) {
+            template.header(HttpHeaders.AUTHORIZATION, authorization);
+        }
     }
-    HttpServletRequest request = requestAttributes.getRequest();
-    log.warn("feign 验证：{}",request.getRequestURI());
-    String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
-    if (StringUtil.isNotBlank(authorization)) {
-      template.header(HttpHeaders.AUTHORIZATION, authorization);
-    }
-  }
 
 }

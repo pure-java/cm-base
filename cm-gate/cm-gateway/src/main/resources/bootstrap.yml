@@ -16,10 +16,10 @@ server:
       port: 6379
 
 spring:
-  profiles:
-    active: local
   application:
     name: api-gateway
+  profiles:
+    active: @profileActive@
   redis:
     host: ${server.address.redis.server-addr}
     password: null
@@ -35,7 +35,9 @@ spring:
       config:
         server-addr: ${server.address.nacos.server-addr}
         file-extension: yaml
+        namespace: @profileActive@
       discovery:
+        namespace: @profileActive@
         server-addr: ${server.address.nacos.server-addr}
     sentinel:
       transport:
@@ -105,7 +107,7 @@ security:
 pure:
   log:
 #    # 日志存储路径
-#    dir: ./
+    dir: ../
     # 日志等级，并且控制 logback
     level: debug
   gate:

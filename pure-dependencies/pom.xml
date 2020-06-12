@@ -25,9 +25,7 @@
     <maven.compiler.target>${java.version}</maven.compiler.target>
 
     <spring.boot.version>2.2.5.RELEASE</spring.boot.version>
-    <!-- 注册中心与配置中心 nacos ip地址-->
-    <nacos.server.ip>127.0.0.1</nacos.server.ip>
-    <swagger.version>2.8.0</swagger.version>
+    <swagger.version>2.9.2</swagger.version>
     <commons-collections4.version>4.2</commons-collections4.version>
     <commons-io.version>2.6</commons-io.version>
 
@@ -36,6 +34,13 @@
     <pagehelper.version>1.2.12</pagehelper.version>
 
     <com-pure.version>1.0-SNAPSHOT</com-pure.version>
+
+    <!-- plugin version -->
+    <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
+    <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+    <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+    <maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
+    <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
   </properties>
 
   <!-- 只有当需要使用是才引入，在这里很方便的控制使用该pom的项目的依赖-->
@@ -171,9 +176,23 @@
 
   <build>
     <plugins>
+        <!---->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>${maven-resources-plugin.version}</version>
+        <configuration>
+          <delimiters>
+            <delimiter>@</delimiter>
+          </delimiters>
+          <useDefaultDelimiters>false</useDefaultDelimiters>
+        </configuration>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin.version}</version>
         <configuration>
           <source>${maven.compiler.source}</source>
           <target>${maven.compiler.target}</target>
@@ -184,6 +203,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
+        <version>${maven-source-plugin.version}</version>
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -197,6 +217,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
         <configuration>
           <skip>true</skip>
         </configuration>
@@ -205,23 +226,32 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
+        <version>${maven-deploy-plugin.version}</version>
       </plugin>
     </plugins>
   </build>
 
   <profiles>
     <profile>
-      <id>dev</id>
+      <id>local</id>
+      <properties>
+        <profileActive>local</profileActive>
+      </properties>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
     </profile>
     <profile>
-      <id>release</id>
-      <build>
-        <plugins>
-        </plugins>
-      </build>
+      <id>dev</id>
+      <properties>
+        <profileActive>dev</profileActive>
+      </properties>
+    </profile>
+    <profile>
+      <id>prod</id>
+      <properties>
+        <profileActive>release</profileActive>
+      </properties>
     </profile>
   </profiles>
 
