@@ -3,6 +3,7 @@ package com.github.pure.cm.auth.client;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Slf4j
 @Configuration
+@ComponentScan(value = "com.github.pure.cm.auth.client")
 @EnableFeignClients({"com.github.pure.cm.auth.client.feign"})
 public class AuthClientAutoConfiguration implements InitializingBean {
 

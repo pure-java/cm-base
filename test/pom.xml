@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>cm-gateway</artifactId>
+    <artifactId>cm-test</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.github.pure</groupId>
@@ -21,16 +21,6 @@
             <groupId>com.github.pure</groupId>
             <artifactId>cm-auth-client</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-gateway</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-alibaba-sentinel-gateway</artifactId>
         </dependency>
 
         <dependency>
@@ -102,7 +92,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <fork>true</fork>
-                    <mainClass>com.github.pure.cm.gate.gateway.GatewayApplication</mainClass>
+                    <mainClass>com.github.pure.cm.gate.gateway.TestApplication</mainClass>
                 </configuration>
             </plugin>
 
@@ -117,7 +107,6 @@
                 </configuration>
             </plugin>
         </plugins>
-
 
 
         <resources>

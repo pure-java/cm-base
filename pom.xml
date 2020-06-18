@@ -14,6 +14,7 @@
         <module>cm-auth</module>
         <module>cm-common</module>
         <module>cm-gate</module>
+        <module>test</module>
     </modules>
 
     <properties>

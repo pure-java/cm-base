@@ -2,6 +2,8 @@ package com.github.pure.cm.common.core.model;
 
 import com.github.pure.cm.common.core.constants.StatusCode;
 import java.io.Serializable;
+import java.util.Objects;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -25,7 +27,7 @@ public class Result<T> implements Serializable {
   /**
    * 状态码: {@link StatusCode}
    */
-  private int code;
+  private Integer code;
   /**
    * 提示信息
    */
@@ -41,7 +43,7 @@ public class Result<T> implements Serializable {
    */
   private Boolean status;
 
-  private Result(int code, String message, T data, boolean status) {
+  private Result(Integer code, String message, T data, Boolean status) {
     this.setCode(code);
     this.setMessage(message);
     this.setData(data);
@@ -55,17 +57,17 @@ public class Result<T> implements Serializable {
   /**
    * @param status this.code = status ?  HttpStatus.OK.value() : StatusCode.FAIL;
    */
-  public static <T> Result<T> newInstance(boolean status) {
+  public static <T> Result<T> newInstance(Boolean status) {
     return newInstance(status ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(), null, null, status);
   }
 
 
-  public static <T> Result<T> newInstance(int code, String message, T data, Boolean status) {
+  public static <T> Result<T> newInstance(Integer code, String message, T data, Boolean status) {
     return new Result<T>(code, message, data, status);
   }
 
 
-  public static <T> Result<T> newIns(int code, String message, T data) {
+  public static <T> Result<T> newIns(Integer code, String message, T data) {
     return new Result<T>(code, message, data, true);
   }
 
@@ -121,9 +123,9 @@ public class Result<T> implements Serializable {
 
   // setter =================
 
-  public Result<T> setCode(int code) {
+  public Result<T> setCode(Integer code) {
     this.code = code;
-    if (code != HttpStatus.OK.value()) {
+    if (!Objects.equals(HttpStatus.OK.value(),code)) {
       this.status = false;
     } else {
       this.status = true;
