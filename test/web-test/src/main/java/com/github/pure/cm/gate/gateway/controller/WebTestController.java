@@ -1,20 +1,16 @@
 package com.github.pure.cm.gate.gateway.controller;
 
-import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.github.pure.cm.auth.client.annotation.IgnoreAuth;
 import com.github.pure.cm.auth.client.dto.ReqJwtTokenParam;
 import com.github.pure.cm.auth.client.properties.OAuth2ClientProperties;
 import com.github.pure.cm.auth.client.service.AuthService;
-import com.github.pure.cm.auth.client.annotation.IgnoreAuth;
-import com.github.pure.cm.common.core.exception.ApiException;
 import com.github.pure.cm.common.core.exception.BusinessException;
 import com.github.pure.cm.common.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
@@ -26,8 +22,8 @@ import java.util.Map;
  */
 @Slf4j
 @RestController
-@RequestMapping("/test")
-public class TestController {
+@RequestMapping("/web/test")
+public class WebTestController {
 
     @Autowired
     private AuthService authService;
@@ -41,9 +37,8 @@ public class TestController {
      * @return 登录结果
      */
     @PostMapping("/login")
-    //@SentinelResource(value = "/user/auth/login")
     @IgnoreAuth
-    public Mono<Result<Map<String, Object>>> login( ReqJwtTokenParam userInfo) throws BusinessException {
+    public Result<Map<String, Object>> login(ReqJwtTokenParam userInfo) throws BusinessException {
         ReqJwtTokenParam reqJwtTokenParam = new ReqJwtTokenParam();
         reqJwtTokenParam
                 .setGrantType(auth2ClientProperties.getGrantType())
@@ -59,8 +54,6 @@ public class TestController {
         } catch (Exception e) {
             throw new BusinessException(e);
         }
-        //log.debug("login result = {}", token);
-        //return Mono.just(Result.success(token));
-        return Mono.never();
+        return Result.success();
     }
 }
