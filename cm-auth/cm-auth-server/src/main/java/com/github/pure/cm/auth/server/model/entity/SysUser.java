@@ -3,7 +3,9 @@ package com.github.pure.cm.auth.server.model.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.pure.cm.common.data.base.BaseDomCfg;
+
 import javax.validation.constraints.NotBlank;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -22,70 +24,70 @@ import lombok.experimental.Accessors;
 @TableName("sys_user")
 public class SysUser extends BaseDomCfg<Long, SysUser> {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  // 用户系统属性开始 =============================================
-  /**
-   * 账号
-   **/
-  @TableField(value = "user_name")
-  @NotBlank(message = "请输入账号名")
-  private String userName;
+    // 用户系统属性开始 =============================================
+    /**
+     * 账号
+     **/
+    @TableField(value = "user_name")
+    @NotBlank(message = "请输入账号")
+    private String userName;
 
-  /**
-   * 用户密码
-   **/
-  @TableField(value = "password")
-  @NotBlank(message = "请输入账密码")
-  private String password;
+    /**
+     * 用户密码
+     **/
+    @TableField(value = "password")
+    @NotBlank(message = "请输入账密码")
+    private String password;
 
-  /**
-   * 可用状态： 0 - 不可用, 1 - 可用
-   */
-  @TableField(value = "usable")
-  private Integer usable;
+    /**
+     * 可用状态： 0 - 不可用, 1 - 可用
+     */
+    @TableField(value = "usable")
+    private Integer usable;
 
-  /**
-   * 登陆类型,默认需要密码登陆 0 - 密码登陆
-   */
-  @TableField(value = "login_type")
-  private Integer loginType;
+    /**
+     * 登陆类型,默认需要密码登陆 0 - 密码登陆
+     */
+    @TableField(value = "login_type")
+    private Integer loginType;
 
-  /**
-   * 账号类型，根据实际需要进行改变 <br>
-   */
-  @TableField(value = "user_type")
-  private Integer userType;
+    /**
+     * 账号类型，根据实际需要进行改变 <br>
+     */
+    @TableField(value = "user_type")
+    private Integer userType;
 
-  /**
-   * 分页行数 默认20
-   */
-  @TableField(value = "page_limit")
-  private Integer pageLimit = 20;
+    /**
+     * 分页行数 默认20
+     */
+    @TableField(value = "page_limit")
+    private Integer pageLimit = 20;
 
-  // 用户真实身份属性开始 =============================================
-  /**
-   * 真实姓名
-   **/
-  @TableField(value = "user_nick")
-  private String userNick;
+    // 用户真实身份属性开始 =============================================
+    /**
+     * 真实姓名
+     **/
+    @TableField(value = "user_nick")
+    private String userNick;
 
-  /**
-   * 性别 0 - 男 1- 女
-   */
-  @TableField(value = "sex")
-  private Integer sex;
+    /**
+     * 性别 0 - 男 1- 女
+     */
+    @TableField(value = "sex")
+    private Integer sex;
 
-  /**
-   * 电话号码
-   **/
-  @TableField(value = "telephone")
-  private String telephone;
+    /**
+     * 电话号码
+     **/
+    @TableField(value = "telephone")
+    private String telephone;
 
-  /**
-   * 邮箱地址
-   **/
-  @TableField(value = "email_address")
-  private String emailAddress;
+    /**
+     * 邮箱地址
+     **/
+    @TableField(value = "email_address")
+    private String emailAddress;
 
 }

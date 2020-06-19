@@ -1,6 +1,5 @@
-package com.github.pure.cm.common.core.exception.handler.web;
+package com.github.pure.cm.common.core.exception.handler;
 
-import com.github.pure.cm.common.core.exception.handler.webflux.WebFluxExceptionUtil;
 import com.github.pure.cm.common.core.model.ExceptionResult;
 import com.github.pure.cm.common.core.util.JsonUtil;
 import com.github.pure.cm.common.core.util.collection.MapUtil;
@@ -20,8 +19,8 @@ import java.util.Map;
  * @date 2019/12/24
  */
 @Slf4j
-@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @RestControllerAdvice
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class GlobalExceptionHandler {
 
     public GlobalExceptionHandler() {
@@ -40,6 +39,6 @@ public class GlobalExceptionHandler {
             }
         });
         log.error("请求方法：{},请求路径：{}\n请求参数：{}", request.getMethod(), requestURI, JsonUtil.json(param), exception);
-        return WebFluxExceptionUtil.exceptionHandler(exception, false);
+        return ExceptionHandlerUtil.exceptionHandler(exception, false);
     }
 }

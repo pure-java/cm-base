@@ -1,4 +1,4 @@
-package com.github.pure.cm.common.core.exception.handler.webflux;
+package com.github.pure.cm.common.core.exception.handler;
 
 import com.github.pure.cm.common.core.util.BeanUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -32,12 +32,12 @@ import java.util.stream.Collectors;
  * @since 2020/6/18
  */
 @Slf4j
-@Component
 @Order(-2)
+@Component
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
-public class GlobalErrorWebExceptionHandler extends AbstractErrorWebExceptionHandler {
+public class GlobalWebFluxExceptionHandler extends AbstractErrorWebExceptionHandler {
 
-    public GlobalErrorWebExceptionHandler(
+    public GlobalWebFluxExceptionHandler(
             ResourceProperties resourceProperties, ObjectProvider<ViewResolver> viewResolvers,
             ServerCodecConfigurer serverCodecConfigurer, ApplicationContext applicationContext) {
         super(new DefaultErrorAttributes(true), resourceProperties, applicationContext);
@@ -46,13 +46,12 @@ public class GlobalErrorWebExceptionHandler extends AbstractErrorWebExceptionHan
         super.setViewResolvers(viewResolvers.orderedStream().collect(Collectors.toList()));
     }
 
-
     /**
      * 获取异常信息
      */
     @Override
     protected Map<String, Object> getErrorAttributes(ServerRequest request, boolean includeStackTrace) {
-        return BeanUtils.beanToMap(WebFluxExceptionUtil.exceptionHandler(super.getError(request), false));
+        return BeanUtils.beanToMap(ExceptionHandlerUtil.exceptionHandler(super.getError(request), false));
     }
 
     /**
