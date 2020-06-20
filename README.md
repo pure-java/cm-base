@@ -21,7 +21,7 @@
      spring-cloud-dependencies           Greenwich.SR3
      spring-cloud-alibaba-dependencies   2.1.1.RELEASE
 
-#### 授权服务 cm-auth-server
+#### 授权服务 pure-auth-server
 
  使用 spring-security-oauth、mysql 来开发授权服务，支持各种验证模式。user信息与client信息存储在mysql中；使用 redis 缓存 
  token、refresh token、private rsa、public rsa 、user、client等信息。
@@ -72,11 +72,11 @@
      
      /oauth/token_key：获取rsa公钥
   
-#### 授权客户端 cm-auth-client
+#### 授权客户端 pure-auth-client
  
  授权客户端，提供便捷授权接口，并且便于统一管理使用了授权客户端的服务。
  
-#### 网关服务 cm-gateway
+#### 网关服务 pure-gateway
 
 对外统一提供服务的应用，外部的所有请求都需要经过 gateway 统一管理。进行权限验证、
 

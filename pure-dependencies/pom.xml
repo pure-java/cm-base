@@ -120,7 +120,7 @@
       <!---->
       <dependency>
         <groupId>com.github.pure</groupId>
-        <artifactId>cm-common-core</artifactId>
+        <artifactId>pure-common-core</artifactId>
         <version>${com-pure.version}</version>
       </dependency>
 
