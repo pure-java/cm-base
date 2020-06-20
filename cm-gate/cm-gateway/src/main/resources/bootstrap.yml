@@ -32,6 +32,7 @@ spring:
         max-wait: -1
   cloud:
     nacos:
+
       config:
         server-addr: ${server.address.nacos.server-addr}
         file-extension: yaml
