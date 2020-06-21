@@ -64,23 +64,19 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
   @Override
   public void configure(AuthorizationServerSecurityConfigurer security) {
-    // security 配置令牌端点(Token Endpoint)的安全约束.
-
     security.tokenKeyAccess("permitAll()") // 开放获取token 公钥 URL：/oauth/token_key
 
         .checkTokenAccess("permitAll()") // 开放校验tokenURL：/oauth/check_token
         // AuthenticationEntryPoint
         .authenticationEntryPoint(customAuthPoint)
         .accessDeniedHandler(customAccessDeniedHandler)
-        // 允许表单认证
+        // 允许使用 client 验证
         .allowFormAuthenticationForClients();
 
-    log.debug(" ================ 配置 AuthorizationServerSecurityConfigurer ==============================");
   }
 
   @Override
   public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-    log.debug(" ================ 配置 ClientDetailsServiceConfigurer ==============================");
     clients.withClientDetails(clientDetailsService());
   }
 

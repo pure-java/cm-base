@@ -21,6 +21,6 @@ public class CustomAuthPoint implements AuthenticationEntryPoint {
       throws IOException {
     response.setCharacterEncoding("UTF-8");
     response.setContentType("application/json");
-    response.getWriter().write(JsonUtil.json(Result.fail("token校验失败")));
+    response.getWriter().write(JsonUtil.json(Result.fail(authException.getMessage())));
   }
 }

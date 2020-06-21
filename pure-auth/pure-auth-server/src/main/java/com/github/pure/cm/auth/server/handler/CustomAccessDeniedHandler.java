@@ -21,6 +21,6 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
       throws IOException {
     response.setCharacterEncoding("UTF-8");
     response.setContentType("application/json");
-    response.getWriter().write(JsonUtil.json(Result.fail("未授权")));
+    response.getWriter().write(JsonUtil.json(Result.fail(accessDeniedException.getMessage())));
   }
 }

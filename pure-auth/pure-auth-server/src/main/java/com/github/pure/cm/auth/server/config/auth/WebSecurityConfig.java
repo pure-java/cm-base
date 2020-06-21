@@ -33,6 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   private TokenAuthenticationSuccessHandler tokenAuthenticationSuccessHandler;
 
+
   /**
    * 配置访问请求规则
    */
@@ -45,7 +46,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .successHandler(tokenAuthenticationSuccessHandler)
         // 身份验证 失败处理器
         .failureHandler(tokenAuthenticationFailureHandler);
-
     http.authorizeRequests()
         // .antMatchers("/jwt/**").permitAll()
         .antMatchers("/oauth/**").authenticated()
@@ -57,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    */
   @Override
   public void configure(WebSecurity web) throws Exception {
-    // web.ignoring().mvcMatchers("/oauth/check_token");
+
   }
 
   @Override
