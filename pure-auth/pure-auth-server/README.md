@@ -15,17 +15,33 @@ spring-cloud-starter-oauth2 不支持webflux
 
  相关接口：
 
-1. oauth/token_key（GET）
+1. oauth/token（POST）
 
-   获取公钥
+   获取token与更新token 
 
-2. oauth/check_token（POST）
+   ```txt
+   spring security oauth2 中，对该url进行限定，只有在指定了身份认证方式并且未使用“记住我”功能的用户才能访问该接口
+   ```
+
+   
+
+2. oauth/check_token（任意HTTP METHOD）
 
    验证 token
 
-3. oauth/token（POST）
+   ```
+   默认不能被访问，应修改为 可以被任意访问 permitAll()
+   ```
 
-   获取token与更新token
+   
+
+3. oauth/token_key（GET）
+
+   获取公钥
+
+   ```
+   默认不能被访问，应修改为 可以被任意访问 permitAll()
+   ```
 
    
 

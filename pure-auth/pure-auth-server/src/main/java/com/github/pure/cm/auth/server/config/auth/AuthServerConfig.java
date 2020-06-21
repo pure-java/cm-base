@@ -5,6 +5,7 @@ import static org.apache.commons.lang.RandomStringUtils.randomAlphabetic;
 import com.github.pure.cm.auth.server.config.auth.RsaUtil.RsaKey;
 import com.github.pure.cm.auth.server.handler.CustomAccessDeniedHandler;
 import com.github.pure.cm.auth.server.handler.CustomAuthPoint;
+import com.github.pure.cm.auth.server.handler.OauthWebResponseExceptionTranslator;
 import com.github.pure.cm.auth.server.model.dto.LoginUserVo;
 import com.github.pure.cm.auth.server.service.impl.ClientDetailService;
 import com.google.common.collect.Maps;
@@ -39,8 +40,9 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 /**
- * 配置认证服务
- * 使用 构造器强制注入需要的对象
+ * 配置认证服务<br>
+ * 必须强制使用构造注入需要的对象<br>
+ * /oauth/token ： 指定身份认证的用户但是未使用记住我功能的用户都能访问。
  *
  * @author bairitan
  * @since 2019/11/14
@@ -51,27 +53,28 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 @AllArgsConstructor
 public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
-  private RsaConfig rsaConfig;
-  private AuthenticationManager authenticationManager;
-  private RedisConnectionFactory redisConnectionFactory;
-  private CustomAuthPoint customAuthPoint;
-  private CustomAccessDeniedHandler customAccessDeniedHandler;
-  private HikariDataSource dataSource;
-  private PasswordEncoder passwordEncode;
-  private UserDetailsService userDetailsService;
+  private final RsaConfig rsaConfig;
+  private final AuthenticationManager authenticationManager;
+  private final RedisConnectionFactory redisConnectionFactory;
+  private final CustomAuthPoint customAuthPoint;
+  private final CustomAccessDeniedHandler customAccessDeniedHandler;
+  private final HikariDataSource dataSource;
+  private final PasswordEncoder passwordEncode;
+  private final UserDetailsService userDetailsService;
 
   @Override
   public void configure(AuthorizationServerSecurityConfigurer security) {
     // security 配置令牌端点(Token Endpoint)的安全约束.
-    // 开放/oauth/token_key
-    security.tokenKeyAccess("permitAll()")
-        // 开放/oauth/check_token
+
+    security.tokenKeyAccess("permitAll()") // 开放获取token 公钥 URL：/oauth/token_key
+
+        .checkTokenAccess("permitAll()") // 开放校验tokenURL：/oauth/check_token
         // AuthenticationEntryPoint
-        .checkTokenAccess("permitAll()")
         .authenticationEntryPoint(customAuthPoint)
         .accessDeniedHandler(customAccessDeniedHandler)
         // 允许表单认证
         .allowFormAuthenticationForClients();
+
     log.debug(" ================ 配置 AuthorizationServerSecurityConfigurer ==============================");
   }
 
@@ -82,6 +85,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
   }
 
   /**
+   * 配置客户端信息查找器，以及加密方式<Br>
    * 不能使用 bean 注解进行诸如。不然会导致冲突
    */
   public ClientDetailsService clientDetailsService() {
@@ -102,7 +106,17 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
         // 刷新token
         .reuseRefreshTokens(true)
         // 设置token存储
-        .tokenStore(tokenStore());
+        .tokenStore(tokenStore())
+
+        .exceptionTranslator(oauthWebResponseExceptionTranslator());
+  }
+
+  /**
+   * 对 oauth 错误信息进行转换
+   */
+  @Bean
+  public OauthWebResponseExceptionTranslator oauthWebResponseExceptionTranslator() {
+    return new OauthWebResponseExceptionTranslator();
   }
 
   @Bean
