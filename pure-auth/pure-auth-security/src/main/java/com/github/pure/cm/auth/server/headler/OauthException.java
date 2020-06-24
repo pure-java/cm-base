@@ -1,9 +1,9 @@
-package com.github.pure.cm.auth.server.handler;
+package com.github.pure.cm.auth.server.headler;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import com.github.pure.cm.auth.server.handler.OauthException.OauthExceptionJackson2Serializer;
+import com.github.pure.cm.auth.server.headler.OauthException.OauthExceptionJackson2Serializer;
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.JsonUtil;
 import java.io.IOException;

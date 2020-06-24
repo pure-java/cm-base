@@ -1,4 +1,4 @@
-package com.github.pure.cm.auth.server.config.auth;
+package com.github.pure.cm.auth.server.auth;
 
 import com.github.pure.cm.common.core.util.encry.RsaUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.springframework.data.redis.core.RedisTemplate;
  */
 @Configuration
 @RefreshScope
-@ConditionalOnProperty(name = "pure.auth.type", havingValue = "shiro", matchIfMissing = false)
 public class RsaConfig {
 
     @Autowired

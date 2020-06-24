@@ -1,9 +1,8 @@
-package com.github.pure.cm.auth.server.config.auth;
+package com.github.pure.cm.auth.server.auth;
 
-import com.github.pure.cm.auth.server.config.headler.TokenAuthenticationFailureHandler;
-import com.github.pure.cm.auth.server.config.headler.TokenAuthenticationSuccessHandler;
+import com.github.pure.cm.auth.server.headler.TokenAuthenticationFailureHandler;
+import com.github.pure.cm.auth.server.headler.TokenAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,7 +24,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 @Configuration
 @EnableWebSecurity
-@ConditionalOnProperty(name = "pure.auth.type", havingValue = "shiro", matchIfMissing = false)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired

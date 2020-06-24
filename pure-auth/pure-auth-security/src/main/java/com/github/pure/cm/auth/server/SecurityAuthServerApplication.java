@@ -16,10 +16,10 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableFeignClients
 @MapperScan(value = "com.github.pure.cm.auth.server.mapper")
 @EnableCaching
-public class AuthServerApplication {
+public class SecurityAuthServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AuthServerApplication.class, args);
+        SpringApplication.run(SecurityAuthServerApplication.class, args);
     }
 
 }

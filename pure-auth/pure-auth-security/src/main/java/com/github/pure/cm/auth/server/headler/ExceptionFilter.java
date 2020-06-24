@@ -1,4 +1,4 @@
-package com.github.pure.cm.auth.server.handler;
+package com.github.pure.cm.auth.server.headler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;

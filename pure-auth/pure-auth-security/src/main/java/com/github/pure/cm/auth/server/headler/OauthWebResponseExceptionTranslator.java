@@ -1,4 +1,4 @@
-package com.github.pure.cm.auth.server.handler;
+package com.github.pure.cm.auth.server.headler;
 
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.JsonUtil;

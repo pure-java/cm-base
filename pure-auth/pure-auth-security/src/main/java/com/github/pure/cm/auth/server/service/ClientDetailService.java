@@ -1,4 +1,4 @@
-package com.github.pure.cm.auth.server.service.impl;
+package com.github.pure.cm.auth.server.service;
 
 import java.util.List;
 import javax.sql.DataSource;

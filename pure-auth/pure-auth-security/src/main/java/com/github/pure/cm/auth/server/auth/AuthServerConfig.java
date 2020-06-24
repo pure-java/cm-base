@@ -1,25 +1,15 @@
-package com.github.pure.cm.auth.server.config.auth;
+package com.github.pure.cm.auth.server.auth;
 
-import static org.apache.commons.lang.RandomStringUtils.randomAlphabetic;
-
-import com.github.pure.cm.auth.server.handler.CustomAccessDeniedHandler;
-import com.github.pure.cm.auth.server.handler.CustomAuthPoint;
-import com.github.pure.cm.auth.server.handler.OauthWebResponseExceptionTranslator;
+import com.github.pure.cm.auth.server.headler.CustomAccessDeniedHandler;
+import com.github.pure.cm.auth.server.headler.CustomAuthPoint;
+import com.github.pure.cm.auth.server.headler.OauthWebResponseExceptionTranslator;
 import com.github.pure.cm.auth.server.model.dto.LoginUserVo;
-import com.github.pure.cm.auth.server.service.impl.ClientDetailService;
+import com.github.pure.cm.auth.server.service.ClientDetailService;
 import com.github.pure.cm.common.core.util.encry.RsaUtil;
 import com.google.common.collect.Maps;
 import com.zaxxer.hikari.HikariDataSource;
-
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -42,6 +32,14 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static org.apache.commons.lang.RandomStringUtils.randomAlphabetic;
+
 /**
  * 配置认证服务<br>
  * 必须强制使用构造注入需要的对象<br>
@@ -54,7 +52,6 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 @Configuration
 @EnableAuthorizationServer
 @AllArgsConstructor
-@ConditionalOnProperty(name = "pure.auth.type", havingValue = "shiro", matchIfMissing = false)
 public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
     private final RsaConfig rsaConfig;
