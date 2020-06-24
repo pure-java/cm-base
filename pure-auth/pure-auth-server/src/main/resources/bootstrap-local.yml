@@ -24,3 +24,5 @@ pure:
   log:
     dir: ../
     level: debug
+  auth:
+    type: shiro

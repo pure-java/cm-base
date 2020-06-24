@@ -15,6 +15,9 @@ server:
       server-addr: 192.168.0.200
       port: 6379
 spring:
+  security:
+    filter:
+      order: 1000
   application:
     name: auth-server
   profiles:

@@ -36,16 +36,6 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-generator</artifactId>
-        </dependency>
-
-        <!--mybatis分页插件，用于自定义分页，并且需要排除mybatis，因为版本不兼容-->
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-starter</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -59,6 +49,21 @@
         </dependency>
 
 
+        <!--jdbc-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+        </dependency>
+
+        <!--mybatis分页插件，用于自定义分页，并且需要排除mybatis，因为版本不兼容-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/p6spy/p6spy -->
         <dependency>
             <groupId>p6spy</groupId>
