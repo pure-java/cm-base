@@ -99,6 +99,13 @@
                 <version>${shiro-starter.version}</version>
             </dependency>
 
+            <!-- https://mvnrepository.com/artifact/org.apache.shiro/shiro-core -->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-core</artifactId>
+                <version>${shiro-starter.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.auth0</groupId>
                 <artifactId>java-jwt</artifactId>
