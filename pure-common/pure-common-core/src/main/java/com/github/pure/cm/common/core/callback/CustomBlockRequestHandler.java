@@ -1,6 +1,5 @@
 package com.github.pure.cm.common.core.callback;
 
-import static org.springframework.web.reactive.function.BodyInserters.fromObject;
 
 import com.alibaba.csp.sentinel.adapter.spring.webflux.callback.BlockRequestHandler;
 import com.github.pure.cm.common.core.model.Result;
@@ -8,6 +7,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.MediaType;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -28,7 +28,7 @@ public class CustomBlockRequestHandler implements BlockRequestHandler {
     }
     return ServerResponse.status(HttpStatus.TOO_MANY_REQUESTS)
         .contentType(MediaType.APPLICATION_JSON_UTF8)
-        .body(fromObject(buildErrorResult(ex)));
+        .body(BodyInserters.fromObject(buildErrorResult(ex)));
   }
 
   private Result<String> buildErrorResult(Throwable ex) {

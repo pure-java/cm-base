@@ -93,6 +93,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
    * 根据用户名加载用户
    */
   @Override
+  @CacheEvict(cacheNames = {"getUserByUserName"}, key = "#p0")
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     // 通过用户名获取用户信息
     SysUser userByUserName = this.getUserByUserName(username);
