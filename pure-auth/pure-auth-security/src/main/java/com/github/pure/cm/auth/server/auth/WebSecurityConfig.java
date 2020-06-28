@@ -2,8 +2,6 @@ package com.github.pure.cm.auth.server.auth;
 
 import com.github.pure.cm.auth.server.headler.CustomAccessDeniedHandler;
 import com.github.pure.cm.auth.server.headler.CustomAuthPoint;
-import com.github.pure.cm.auth.server.headler.TokenAuthenticationFailureHandler;
-import com.github.pure.cm.auth.server.headler.TokenAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,13 +29,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
-    @Autowired
-    private TokenAuthenticationFailureHandler tokenAuthenticationFailureHandler;
-    @Autowired
-    private TokenAuthenticationSuccessHandler tokenAuthenticationSuccessHandler;
 
     @Autowired
     private CustomAccessDeniedHandler customAccessDeniedHandler;
+
     @Autowired
     private CustomAuthPoint customAuthPoint;
 
@@ -48,42 +43,44 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .formLogin().disable()
-                // 身份验证成功 成功处理器
-                //.successHandler(tokenAuthenticationSuccessHandler)
-                // 身份验证 失败处理器
-                //.failureHandler(tokenAuthenticationFailureHandler)
+                // 关闭表单登录
+                .formLogin()
+                // 身份验证成功成功处理器
+                //.successHandler((request, response, authentication) -> {
+                //
+                //})
+                // 身份验证失败处理器
+                //.failureHandler((request, response, exception) -> {
+                //    response.setContentType("application/json;charset=utf-8");
+                //    response.getWriter().write(exception.getMessage());
+                //})
+                // 禁用表单登录
+                .disable()
                 // 由于使用token，不使用session
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/token/**").permitAll()
-                // 除上面的url外，其他url都需要权限认证
-                .anyRequest().authenticated();
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        // 有 resourceServer 配置，这里不进行权限认证配置
+        //.and()
+        //.authorizeRequests()
+        //// 所有url都需要权限认证
+        //.anyRequest().authenticated();
 
         // 配置身份认证异常和权限认证异常处理器
         http.exceptionHandling(config -> config.accessDeniedHandler(customAccessDeniedHandler).authenticationEntryPoint(customAuthPoint));
     }
 
-    /**
-     * 配置应用程序 Filter链
-     */
     @Override
     public void configure(WebSecurity web) throws Exception {
-    }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception { // 身份验证管理生成器
-        auth.userDetailsService(this.userDetailsService).passwordEncoder(passwordEncoder());
     }
 
     /**
-     * 以保证在刷新Token时能成功刷新
+     * 身份认证相关配置
+     *
+     * @param auth
+     * @throws Exception
      */
-    @Autowired
-    public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-        // 配置用户来源于数据库
-        // 配置密码加密方式  BCryptPasswordEncoder，添加用户加密的时候也用这个加密
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(this.userDetailsService).passwordEncoder(passwordEncoder());
     }
 

@@ -3,17 +3,19 @@ package com.github.pure.cm.auth.server.auth;
 import com.github.pure.cm.auth.server.headler.CustomAccessDeniedHandler;
 import com.github.pure.cm.auth.server.headler.CustomAuthPoint;
 import com.github.pure.cm.auth.server.headler.OauthWebResponseExceptionTranslator;
-import com.github.pure.cm.auth.server.model.dto.LoginUserVo;
 import com.github.pure.cm.auth.server.service.ClientDetailService;
 import com.github.pure.cm.common.core.util.encry.RsaUtil;
 import com.google.common.collect.Maps;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.jwt.crypto.sign.RsaSigner;
@@ -22,6 +24,7 @@ import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
@@ -47,31 +50,34 @@ import static org.apache.commons.lang.RandomStringUtils.randomAlphabetic;
  * @since 2019/11/14
  */
 @Slf4j
-//@Configuration
-//@EnableAuthorizationServer
+@Configuration
+@EnableAuthorizationServer
 @AllArgsConstructor
 public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
-    private final RsaConfig rsaConfig;
+    private final RsaManager rsaManager;
     private final AuthenticationManager authenticationManager;
-    private final RedisConnectionFactory redisConnectionFactory;
+
     private final CustomAuthPoint customAuthPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final HikariDataSource dataSource;
     private final PasswordEncoder passwordEncode;
     private final UserDetailsService userDetailsService;
+    private final TokenStore tokenStore;
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
-        security.tokenKeyAccess("permitAll()") // 开放获取token 公钥 URL：/oauth/token_key
-
-                .checkTokenAccess("permitAll()") // 开放校验tokenURL：/oauth/check_token
-                // AuthenticationEntryPoint
+        security
+                // 开放获取token 公钥 URL：/oauth/token_key
+                .tokenKeyAccess("permitAll()")
+                // 开放校验tokenURL：/oauth/check_token
+                .checkTokenAccess("permitAll()")
+                // 认证失败
                 .authenticationEntryPoint(customAuthPoint)
+                // 没有权限
                 .accessDeniedHandler(customAccessDeniedHandler)
-                // 允许使用 client 验证
+                // 允许 客户端 表单验证
                 .allowFormAuthenticationForClients();
-
     }
 
     @Override
@@ -101,7 +107,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 // 刷新token
                 .reuseRefreshTokens(true)
                 // 设置token存储
-                .tokenStore(tokenStore())
+                .tokenStore(tokenStore)
 
                 .exceptionTranslator(oauthWebResponseExceptionTranslator());
     }
@@ -117,7 +123,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         // RSA非对称加密方式
-        RsaUtil.RsaKey rsaKey = rsaConfig.getRsaKey();
+        RsaUtil.RsaKey rsaKey = rsaManager.getRsaKey();
         RSAPublicKey publicKey = (RSAPublicKey) rsaKey.getPublicKey();
         RSAPrivateKey privateKey = (RSAPrivateKey) rsaKey.getPrivateKey();
 
@@ -133,11 +139,6 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
         auth2AccessToken.setVerifierKey(verifierKey);
         return auth2AccessToken;
-    }
-
-    @Bean
-    public TokenStore tokenStore() {
-        return new RedisTokenStore(redisConnectionFactory);
     }
 
     /**
@@ -160,13 +161,13 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
             }
             info.put("organization", authentication.getName() + randomAlphabetic(4));
             if (authentication.getUserAuthentication() != null && authentication.getUserAuthentication().getPrincipal() != null) {
-                LoginUserVo user = (LoginUserVo) authentication.getUserAuthentication().getPrincipal();
+                User user = (User) authentication.getUserAuthentication().getPrincipal();
                 List<String> authorities = user
                         .getAuthorities()
                         .stream()
                         .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.toList());
-                info.put("oid", user.getOid());
+                //info.put("oid", user.getOid());
                 info.put("username", user.getUsername());
                 info.put("roles", authorities);
             }

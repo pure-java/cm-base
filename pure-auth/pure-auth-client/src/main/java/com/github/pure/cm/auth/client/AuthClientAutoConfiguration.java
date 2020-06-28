@@ -2,6 +2,7 @@ package com.github.pure.cm.auth.client;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -12,18 +13,19 @@ import org.springframework.context.annotation.Configuration;
  */
 @Slf4j
 @Configuration
+//@ConditionalOnProperty(value = "pure.auth.client.enabled", havingValue = "true", matchIfMissing = true)
 @ComponentScan(value = "com.github.pure.cm.auth.client")
 @EnableFeignClients({"com.github.pure.cm.auth.client.feign"})
 public class AuthClientAutoConfiguration implements InitializingBean {
 
-  public AuthClientAutoConfiguration() {
-    log.info("------------------------加载权限客户端服务------------------------");
-  }
+    public AuthClientAutoConfiguration() {
+        log.info("------------------------加载权限客户端服务------------------------");
+    }
 
-  @Override
-  public void afterPropertiesSet() throws Exception {
+    @Override
+    public void afterPropertiesSet() throws Exception {
 
-  }
+    }
 
 
 }

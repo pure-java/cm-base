@@ -14,6 +14,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.UnsupportedMediaTypeStatusException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -88,6 +89,8 @@ class ExceptionHandlerUtil {
             result.setMessage("该请求方法类型错误！！！");
 
             //  其他异常
+        } else if (instanceOf(NoHandlerFoundException.class, error, cause)) {
+            result.setMessage("not found");
         } else {
             result.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
             result.setMessage("该请求发生错误");

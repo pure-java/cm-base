@@ -50,7 +50,7 @@ public final class JsonUtil {
   /**
    * 创建 原型模式 对象
    */
-  public static JsonUtil newInstance() {
+  public static JsonUtil newIns() {
     return new JsonUtil();
   }
 

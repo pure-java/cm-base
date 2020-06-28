@@ -99,6 +99,12 @@
                 <version>${shiro-starter.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-oauth2-client</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+
             <!-- https://mvnrepository.com/artifact/org.apache.shiro/shiro-core -->
             <dependency>
                 <groupId>org.apache.shiro</groupId>
@@ -223,6 +229,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
+
     </dependencies>
 
     <build>

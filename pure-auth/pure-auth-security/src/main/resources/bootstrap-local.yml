@@ -26,5 +26,7 @@ pure:
     level: debug
   auth:
     type: shiro
+    client:
+      enabled: false
 shiro:
   enabled: false

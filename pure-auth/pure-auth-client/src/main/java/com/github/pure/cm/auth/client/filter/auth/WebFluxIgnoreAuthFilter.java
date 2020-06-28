@@ -1,11 +1,10 @@
 package com.github.pure.cm.auth.client.filter.auth;
 
 import com.github.pure.cm.auth.client.service.AuthService;
-import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.lang.NonNull;
@@ -24,6 +23,7 @@ import reactor.core.publisher.Mono;
  */
 @Slf4j
 @Component
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 public class WebFluxIgnoreAuthFilter extends IgnoreAuthFilter implements WebFilter {
     @Autowired
     private AuthService authService;

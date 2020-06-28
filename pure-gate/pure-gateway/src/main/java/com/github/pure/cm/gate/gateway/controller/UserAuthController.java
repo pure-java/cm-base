@@ -1,10 +1,9 @@
 package com.github.pure.cm.gate.gateway.controller;
 
-import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.github.pure.cm.auth.client.annotation.IgnoreAuth;
 import com.github.pure.cm.auth.client.dto.ReqJwtTokenParam;
 import com.github.pure.cm.auth.client.properties.OAuth2ClientProperties;
 import com.github.pure.cm.auth.client.service.AuthService;
-import com.github.pure.cm.auth.client.annotation.IgnoreAuth;
 import com.github.pure.cm.common.core.exception.ApiException;
 import com.github.pure.cm.common.core.exception.BusinessException;
 import com.github.pure.cm.common.core.model.Result;
@@ -41,7 +40,6 @@ public class UserAuthController {
      * @return 登录结果
      */
     @PostMapping("/login")
-    @SentinelResource(value = "/user/auth/login")
     @IgnoreAuth
     public Mono<Result<Map<String, Object>>> login(@RequestBody ReqJwtTokenParam userInfo) throws BusinessException {
         ReqJwtTokenParam reqJwtTokenParam = new ReqJwtTokenParam();
