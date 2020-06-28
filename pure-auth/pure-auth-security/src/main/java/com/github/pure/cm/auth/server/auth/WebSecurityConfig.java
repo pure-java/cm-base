@@ -1,5 +1,7 @@
 package com.github.pure.cm.auth.server.auth;
 
+import com.github.pure.cm.auth.server.headler.CustomAccessDeniedHandler;
+import com.github.pure.cm.auth.server.headler.CustomAuthPoint;
 import com.github.pure.cm.auth.server.headler.TokenAuthenticationFailureHandler;
 import com.github.pure.cm.auth.server.headler.TokenAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,23 +36,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private TokenAuthenticationSuccessHandler tokenAuthenticationSuccessHandler;
 
+    @Autowired
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
+    @Autowired
+    private CustomAuthPoint customAuthPoint;
+
     /**
      * 配置访问请求规则
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf()
-                .disable()
-                .formLogin()
+                .csrf().disable()
+                .formLogin().disable()
                 // 身份验证成功 成功处理器
-                .successHandler(tokenAuthenticationSuccessHandler)
+                //.successHandler(tokenAuthenticationSuccessHandler)
                 // 身份验证 失败处理器
-                .failureHandler(tokenAuthenticationFailureHandler)
-
+                //.failureHandler(tokenAuthenticationFailureHandler)
+                // 由于使用token，不使用session
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/oauth/**").authenticated();
+                .antMatchers("/token/**").permitAll()
+                // 除上面的url外，其他url都需要权限认证
+                .anyRequest().authenticated();
+
+        // 配置身份认证异常和权限认证异常处理器
+        http.exceptionHandling(config -> config.accessDeniedHandler(customAccessDeniedHandler).authenticationEntryPoint(customAuthPoint));
     }
 
     /**
@@ -57,7 +70,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
-
     }
 
     @Override

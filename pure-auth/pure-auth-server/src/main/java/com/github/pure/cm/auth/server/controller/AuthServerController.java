@@ -20,8 +20,8 @@ import java.util.Objects;
  * @author bairitan
  * @since 2019/11/19
  */
-@RestController
-@RequestMapping("authServer")
+//@RestController
+//@RequestMapping("authServer")
 @Slf4j
 @Api(value = "权限服务", tags = "权限服务")
 public class AuthServerController {
