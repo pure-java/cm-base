@@ -17,7 +17,7 @@ server:
 
 spring:
   application:
-    name: pure-test
+    name: pure-web-test
   profiles:
     active: '@profileActive@'
   redis:

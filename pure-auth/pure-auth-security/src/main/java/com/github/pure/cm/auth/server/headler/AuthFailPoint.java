@@ -37,5 +37,6 @@ public class AuthFailPoint implements AuthenticationEntryPoint {
         }
         fail.setCode(response.getStatus());
         response.getWriter().write(JsonUtil.json(fail));
+        authException.printStackTrace();
     }
 }

@@ -22,7 +22,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
  * @author 陈欢
  * @since 2019/11/29
  */
-//@SpringBootConfiguration
+@SpringBootConfiguration
 public class FeignByJacksonConfig {
 
     @Bean
@@ -38,15 +38,10 @@ public class FeignByJacksonConfig {
 
     public ObjectFactory<HttpMessageConverters> feignHttpMessageConverter() {
         final HttpMessageConverters httpMessageConverters = new HttpMessageConverters(new JsonJackson2HttpMessageConverter());
-        return new ObjectFactory<HttpMessageConverters>() {
-            @Override
-            public HttpMessageConverters getObject() throws BeansException {
-                return httpMessageConverters;
-            }
-        };
+        return () -> httpMessageConverters;
     }
 
-    public class JsonJackson2HttpMessageConverter extends MappingJackson2HttpMessageConverter {
+    public static class JsonJackson2HttpMessageConverter extends MappingJackson2HttpMessageConverter {
 
         JsonJackson2HttpMessageConverter() {
             List<MediaType> mediaTypes = new ArrayList<>();

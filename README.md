@@ -1,9 +1,9 @@
 ### 用于学习使用
-  
+
  主要用于学习。
- 
+
  spring-cloud-me 基于spring cloud进行开发，具有统一权限认证、用户管理、网关API等功能。
- 
+
  * 服务发现/服务注册中心：nacos  
  * 微服务监控：spring cloud admin
  * 配置中心：nacos  
@@ -14,8 +14,8 @@
  * 数据库：mysql
  * JDK：Oracle java 8
  * NOSQL：redis
- 
- ---
+
+---
      需要注意 spring boot 与 spring cloud 之间需要注意版本依赖关系。
      spring-boot-starter-parent          2.1.9.RELEASE
      spring-cloud-dependencies           Greenwich.SR3
@@ -25,12 +25,12 @@
 
  使用 spring-security-oauth、mysql 来开发授权服务，支持各种验证模式。user信息与client信息存储在mysql中；使用 redis 缓存 
  token、refresh token、private rsa、public rsa 、user、client等信息。
- 
+
  ```ClientDetailService```管理client信息，```LocalUserDetailsService``` 管理 user 信息。token使用rsa加密，
  并且spring-security 提供了获取rsa公钥接口，以便在client验证token。
- 
+
  相关接口：
- 
+
      /oauth/token：获取 token以及刷新 token
         grant_type      : 验证类型（password,authorization_code,refresh_token,client_credentials,implicit）
         
@@ -71,11 +71,11 @@
      /oauth/check_token：验证 token
      
      /oauth/token_key：获取rsa公钥
-  
+
 #### 授权客户端 pure-auth-client
- 
+
  授权客户端，提供便捷授权接口，并且便于统一管理使用了授权客户端的服务。
- 
+
 #### 网关服务 pure-gateway
 
 对外统一提供服务的应用，外部的所有请求都需要经过 gateway 统一管理。进行权限验证、
@@ -87,5 +87,5 @@
 在访问资源时，经过 JwtTokenFilter 验证是否授权以及验证 token 是否有效，如果没有授权码或者token无效，则不能访问资源。
 
 ####部署
-   
+
    如果使用docker部署，需要设置为 --network host 模式，以便 nacos 能提供宿主机的IP地址，以便其他服务正确访问。 

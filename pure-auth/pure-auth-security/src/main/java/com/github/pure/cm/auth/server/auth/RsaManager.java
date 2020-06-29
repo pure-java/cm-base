@@ -29,16 +29,15 @@ public class RsaManager implements ApplicationContextAware {
 
     public RsaUtil.RsaKey getRsaKey() {
         if (redisTemplate.hasKey(publicKeyRedis) && redisTemplate.hasKey(privateKeyRedis)) {
-            String privateKey = redisTemplate.opsForValue().get(publicKeyRedis);
-            String publicKey = redisTemplate.opsForValue().get(privateKeyRedis);
             RsaUtil.RsaKey rsaKey = new RsaUtil.RsaKey();
-            rsaKey.setPrivateKey(RsaUtil.getPrivateKey(RsaUtil.decodeBase64(privateKey)));
-            rsaKey.setPublicKey(RsaUtil.getPublicKey(RsaUtil.decodeBase64(publicKey)));
+            rsaKey.setPrivateKey(RsaUtil.getPrivateKey(RsaUtil.decodeBase64(redisTemplate.opsForValue().get(privateKeyRedis))));
+
+            rsaKey.setPublicKey(RsaUtil.getPublicKey(RsaUtil.decodeBase64(redisTemplate.opsForValue().get(publicKeyRedis))));
             return rsaKey;
         } else {
             RsaUtil.RsaKey key = RsaUtil.getKey(1024);
-            redisTemplate.opsForValue().set(publicKeyRedis, RsaUtil.encodeBase64(key.getPrivateKey()));
-            redisTemplate.opsForValue().set(privateKeyRedis, RsaUtil.encodeBase64(key.getPublicKey()));
+            redisTemplate.opsForValue().set(privateKeyRedis, RsaUtil.encodeBase64(key.getPrivateKey()));
+            redisTemplate.opsForValue().set(publicKeyRedis, RsaUtil.encodeBase64(key.getPublicKey()));
             return key;
         }
     }

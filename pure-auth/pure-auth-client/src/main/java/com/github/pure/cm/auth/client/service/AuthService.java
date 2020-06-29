@@ -141,7 +141,7 @@ public class AuthService {
      */
     private LoadingCache<String, String> cache = CacheBuilder.newBuilder()
             .maximumSize(2)
-            .expireAfterWrite(1, TimeUnit.HOURS)
+            .expireAfterWrite(10, TimeUnit.MINUTES)
             .build(new CacheLoader<String, String>() {
                 @Override
                 public String load(String key) {

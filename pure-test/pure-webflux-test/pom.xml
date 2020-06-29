@@ -18,12 +18,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.pure</groupId>
-            <artifactId>pure-auth-client</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
             <exclusions>

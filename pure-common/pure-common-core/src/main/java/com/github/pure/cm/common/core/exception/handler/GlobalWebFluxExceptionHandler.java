@@ -51,7 +51,7 @@ public class GlobalWebFluxExceptionHandler extends AbstractErrorWebExceptionHand
      */
     @Override
     protected Map<String, Object> getErrorAttributes(ServerRequest request, boolean includeStackTrace) {
-        return BeanUtils.beanToMap(ExceptionHandlerUtil.exceptionHandler(super.getError(request), false));
+        return BeanUtils.beanToMap(ExceptionHandlerUtil.exceptionHandler(super.getError(request)));
     }
 
     /**

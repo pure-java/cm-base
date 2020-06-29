@@ -9,16 +9,15 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -47,7 +46,8 @@ public class GlobalExceptionHandler implements ErrorController {
             }
         });
         log.error("请求方法：{},请求路径：{}\n请求参数：{}", request.getMethod(), requestURI, JsonUtil.json(param), exception);
-        return ExceptionHandlerUtil.exceptionHandler(exception, false);
+
+        return ExceptionHandlerUtil.exceptionHandler(exception);
     }
 
     /**

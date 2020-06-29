@@ -14,7 +14,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.UnsupportedMediaTypeStatusException;
-import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -31,7 +30,7 @@ import java.util.stream.Collectors;
 @Slf4j
 class ExceptionHandlerUtil {
 
-    public static ExceptionResult<String> exceptionHandler(Throwable error, boolean isPrintException) {
+    public static ExceptionResult<String> exceptionHandler(Throwable error) {
         ExceptionResult<String> result = new ExceptionResult<>();
 
         // 设置默认响应信息
@@ -89,16 +88,11 @@ class ExceptionHandlerUtil {
             result.setMessage("该请求方法类型错误！！！");
 
             //  其他异常
-        } else if (instanceOf(NoHandlerFoundException.class, error, cause)) {
-            result.setMessage("not found");
         } else {
             result.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            result.setMessage("该请求发生错误");
+            result.setMessage("该请求发生异常");
         }
 
-        if (isPrintException) {
-            log.error("发生异常", cause);
-        }
         return result;
     }
 
@@ -116,7 +110,7 @@ class ExceptionHandlerUtil {
      * @param <T>        异常
      * @return true：是该类型的异常，false：不是
      */
-    private static <T extends Throwable> boolean instanceOf(Class<T> tClass, Throwable... throwables) {
+    static <T extends Throwable> boolean instanceOf(Class<T> tClass, Throwable... throwables) {
         if (ArrayUtil.isEmpty(throwables)) {
             return false;
         }
