@@ -17,6 +17,7 @@
     <module>pure-auth-server</module>
     <module>pure-auth-shiro</module>
     <module>pure-auth-security</module>
+    <module>pure-auth-common</module>
   </modules>
 
   <distributionManagement>

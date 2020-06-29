@@ -1,7 +1,7 @@
 package com.github.pure.cm.auth.server.auth;
 
+import com.github.pure.cm.auth.server.headler.AuthFailPoint;
 import com.github.pure.cm.auth.server.headler.CustomAccessDeniedHandler;
-import com.github.pure.cm.auth.server.headler.CustomAuthPoint;
 import com.github.pure.cm.auth.server.headler.OauthWebResponseExceptionTranslator;
 import com.github.pure.cm.auth.server.service.ClientDetailService;
 import com.github.pure.cm.common.core.util.encry.RsaUtil;
@@ -9,10 +9,8 @@ import com.google.common.collect.Maps;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -31,7 +29,6 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -58,12 +55,13 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     private final RsaManager rsaManager;
     private final AuthenticationManager authenticationManager;
 
-    private final CustomAuthPoint customAuthPoint;
+    private final AuthFailPoint authFailPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final HikariDataSource dataSource;
     private final PasswordEncoder passwordEncode;
     private final UserDetailsService userDetailsService;
     private final TokenStore tokenStore;
+    private final OauthWebResponseExceptionTranslator oauthWebResponseExceptionTranslator;
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
@@ -73,7 +71,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 // 开放校验tokenURL：/oauth/check_token
                 .checkTokenAccess("permitAll()")
                 // 认证失败
-                .authenticationEntryPoint(customAuthPoint)
+                .authenticationEntryPoint(authFailPoint)
                 // 没有权限
                 .accessDeniedHandler(customAccessDeniedHandler)
                 // 允许 客户端 表单验证
@@ -109,15 +107,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 // 设置token存储
                 .tokenStore(tokenStore)
 
-                .exceptionTranslator(oauthWebResponseExceptionTranslator());
-    }
-
-    /**
-     * 对 oauth 错误信息进行转换
-     */
-    @Bean
-    public OauthWebResponseExceptionTranslator oauthWebResponseExceptionTranslator() {
-        return new OauthWebResponseExceptionTranslator();
+                .exceptionTranslator(oauthWebResponseExceptionTranslator);
     }
 
     @Bean

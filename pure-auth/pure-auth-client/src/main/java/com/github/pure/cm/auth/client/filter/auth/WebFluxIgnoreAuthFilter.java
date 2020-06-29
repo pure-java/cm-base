@@ -24,7 +24,7 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @Component
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
-public class WebFluxIgnoreAuthFilter extends IgnoreAuthFilter implements WebFilter {
+public class WebFluxIgnoreAuthFilter extends IgnoreAuthComponent implements WebFilter {
     @Autowired
     private AuthService authService;
 

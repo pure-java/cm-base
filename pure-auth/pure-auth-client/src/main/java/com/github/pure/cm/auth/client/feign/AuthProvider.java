@@ -5,8 +5,10 @@ import java.util.Map;
 import com.github.pure.cm.auth.client.feign.failback.AuthProviderFail;
 import com.github.pure.cm.common.core.exception.ApiException;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author 陈欢
  * @since 2019/11/30
  */
-@FeignClient(value = "${security.auth-service-id:auth-server}"/*, fallback = AuthProviderFail.class*/)
+@FeignClient(value = "${pure.security.auth-service-id:auth-server}"/*, fallback = AuthProviderFail.class*/)
 public interface AuthProvider {
 
     /**
@@ -33,7 +35,9 @@ public interface AuthProvider {
      * @return 返回检查结果
      */
     @PostMapping(value = "/oauth/check_token")
-    Map<String, Object> checkToken(@RequestParam Map<String, Object> checkToken);
+    Map<String, Object> checkToken(@RequestParam Map<String, Object> checkToken,
+                                   @RequestHeader(value = HttpHeaders.AUTHORIZATION) String authorization
+    );
 
     /**
      * 获取token 与 刷新token

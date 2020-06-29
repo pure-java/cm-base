@@ -1,7 +1,7 @@
 package com.github.pure.cm.auth.server.auth;
 
+import com.github.pure.cm.auth.server.headler.AuthFailPoint;
 import com.github.pure.cm.auth.server.headler.CustomAccessDeniedHandler;
-import com.github.pure.cm.auth.server.headler.CustomAuthPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
@@ -29,12 +28,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Autowired
-    private CustomAuthPoint customAuthPoint;
+    private AuthFailPoint authFailPoint;
 
     /**
      * 配置访问请求规则
@@ -65,7 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //.anyRequest().authenticated();
 
         // 配置身份认证异常和权限认证异常处理器
-        http.exceptionHandling(config -> config.accessDeniedHandler(customAccessDeniedHandler).authenticationEntryPoint(customAuthPoint));
+        http.exceptionHandling(config -> config.accessDeniedHandler(customAccessDeniedHandler).authenticationEntryPoint(authFailPoint));
     }
 
     @Override
@@ -81,12 +82,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(this.userDetailsService).passwordEncoder(passwordEncoder());
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        auth.userDetailsService(this.userDetailsService).passwordEncoder(passwordEncoder);
     }
 
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)

@@ -15,14 +15,20 @@
         <dependency>
             <groupId>com.github.pure</groupId>
             <artifactId>pure-common-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.github.pure</groupId>
             <artifactId>pure-common-data</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
+
+       <!-- <dependency>
+            <groupId>com.github.pure</groupId>
+            <artifactId>pure-auth-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>-->
 
         <dependency>
             <groupId>de.codecentric</groupId>
@@ -42,7 +48,6 @@
             </dependency>
         -->
 
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
@@ -57,16 +62,6 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-
-        <!-- <dependency>
-           <groupId>org.springframework.cloud</groupId>
-           <artifactId>spring-cloud-starter-oauth2</artifactId>
-         </dependency>
-
-         <dependency>
-           <groupId>org.springframework.cloud</groupId>
-           <artifactId>spring-cloud-starter-security</artifactId>
-         </dependency>-->
 
         <dependency>
             <groupId>org.springframework.security</groupId>

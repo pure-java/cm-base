@@ -3,6 +3,7 @@ package com.github.pure.cm.auth.client.service;
 import com.github.pure.cm.auth.client.dto.ReqJwtTokenParam;
 import com.github.pure.cm.auth.client.exception.AuthClientException;
 import com.github.pure.cm.auth.client.feign.AuthProvider;
+import com.github.pure.cm.auth.client.properties.OAuth2ClientProperties;
 import com.github.pure.cm.common.core.exception.ApiException;
 import com.github.pure.cm.common.core.util.JsonUtil;
 import com.github.pure.cm.common.core.util.StringUtil;
@@ -20,6 +21,8 @@ import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
@@ -31,13 +34,15 @@ import java.util.concurrent.TimeUnit;
  * @author bairitan
  * @since 2019/11/18
  */
-@Service
 @Slf4j
+@Service
 public class AuthService {
 
     private final JsonUtil jsonUtil = JsonUtil.singleInstance();
     @Autowired
     private AuthProvider authProvider;
+    @Autowired
+    private OAuth2ClientProperties oAuth2ClientProperties;
 
     /**
      * 获取 jwt
@@ -47,21 +52,8 @@ public class AuthService {
      */
     public Map<String, Object> token(ReqJwtTokenParam reqJwtTokenParam) throws ApiException {
         Map<String, Object> client = reqJwtTokenParam.toMap();
+        log.debug("获取token");
         return authProvider.token(client);
-    }
-
-    /**
-     * 检查 jwt token
-     *
-     * @param token token
-     * @return 检查结果
-     */
-    public Map<String, Object> checkToken(String token) {
-        Map<String, Object> map = Maps.newHashMap();
-        map.put("token", token);
-        Map<String, Object> userDetails = authProvider.checkToken(map);
-        log.debug(" checkToken = {}", userDetails);
-        return userDetails;
     }
 
     /**
@@ -87,13 +79,37 @@ public class AuthService {
     }
 
     /**
+     * 检查 jwt token
+     *
+     * @param token token
+     * @return 检查结果
+     */
+    public Map<String, Object> checkToken(String token) {
+        if (token.startsWith("Bearer ")) {
+            token = token.substring("Bearer ".length());
+        }
+
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("token", token);
+        String format = String.format("%s:%s", oAuth2ClientProperties.getClientId(), oAuth2ClientProperties.getClientSecret());
+        String authorization = "Basic " + new String(Base64.getEncoder().encode(format.getBytes(StandardCharsets.UTF_8)));
+        Map<String, Object> userDetails = authProvider.checkToken(map, authorization);
+        log.debug(" 检查token = {}", userDetails);
+        return userDetails;
+    }
+
+    /**
      * 刷新 jwt token
      *
      * @param reqJwtTokenParam 刷新用 token
      * @return 刷新之后新的jwt
      */
     public Map<String, Object> refreshToken(ReqJwtTokenParam reqJwtTokenParam) {
-        return authProvider.checkToken(reqJwtTokenParam.toMap());
+        String format = String.format("%s:%s", oAuth2ClientProperties.getClientId(), oAuth2ClientProperties.getClientSecret());
+        String authorization = "Basic " + new String(Base64.getEncoder().encode(format.getBytes(StandardCharsets.UTF_8)));
+        Map<String, Object> objectMap = authProvider.checkToken(reqJwtTokenParam.toMap(), authorization);
+        log.debug("刷新token = {}", objectMap);
+        return objectMap;
     }
 
     /**

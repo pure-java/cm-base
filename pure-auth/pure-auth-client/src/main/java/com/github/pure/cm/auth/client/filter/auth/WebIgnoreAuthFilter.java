@@ -1,12 +1,10 @@
 package com.github.pure.cm.auth.client.filter.auth;
 
 import com.github.pure.cm.auth.client.service.AuthService;
-import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +24,7 @@ import java.io.IOException;
 @Slf4j
 @Component
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
-public class WebIgnoreAuthFilter extends IgnoreAuthFilter implements Filter {
+public class WebIgnoreAuthFilter extends IgnoreAuthComponent implements Filter {
     @Autowired
     private AuthService authService;
 
@@ -40,8 +38,12 @@ public class WebIgnoreAuthFilter extends IgnoreAuthFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest servletRequest = (HttpServletRequest) request;
-        if (super.isIgnoreAuth(servletRequest.getRequestURI()) || authService.checkToken(servletRequest)) {
+        if (super.isIgnoreAuth(servletRequest.getRequestURI())) {
             filterChain.doFilter(request, servletResponse);
+
+        } else if (authService.checkToken(servletRequest)) {
+            filterChain.doFilter(request, servletResponse);
+
         } else {
             ServletOutputStream outputStream = servletResponse.getOutputStream();
             servletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);

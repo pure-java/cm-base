@@ -16,16 +16,10 @@ import org.springframework.context.annotation.Configuration;
 //@ConditionalOnProperty(value = "pure.auth.client.enabled", havingValue = "true", matchIfMissing = true)
 @ComponentScan(value = "com.github.pure.cm.auth.client")
 @EnableFeignClients({"com.github.pure.cm.auth.client.feign"})
-public class AuthClientAutoConfiguration implements InitializingBean {
+public class AuthClientAutoConfiguration {
 
     public AuthClientAutoConfiguration() {
         log.info("------------------------加载权限客户端服务------------------------");
     }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-
-    }
-
 
 }

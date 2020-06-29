@@ -14,16 +14,14 @@
         <dependency>
             <groupId>com.github.pure</groupId>
             <artifactId>pure-common-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.github.pure</groupId>
             <artifactId>pure-auth-client</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
-
-
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>

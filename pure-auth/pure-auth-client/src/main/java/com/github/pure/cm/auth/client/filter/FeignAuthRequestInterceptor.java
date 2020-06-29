@@ -19,7 +19,7 @@ import java.util.Collection;
  * @date 2019/12/9
  */
 @Slf4j
-@Component
+//@Component
 public class FeignAuthRequestInterceptor implements RequestInterceptor {
 
     public FeignAuthRequestInterceptor() {

@@ -30,6 +30,7 @@ spring:
         min-idle: 1
         max-active: 1000
         max-wait: -1
+    database: 1
   cloud:
     nacos:
       config:
@@ -51,34 +52,6 @@ spring:
             groupId: DEFAULT_GROUP
             ruleType: flow
             dataType: json
-    gateway:
-      discovery:
-        locator:
-          enabled: true # 启用服务注册与发现
-          lower-case-service-id: true # 将服务名大写转小写
-      routes:
-        - id: auth-server
-          uri: lb://auth-server
-          order: 8000
-          predicates:
-            - Path=/api/auth/**
-          filters:
-            - StripPrefix=2   #StripPrefix 表明 忽略前缀路径  /api/auth/xxx ==> /xxx
-        - id: auth-server
-          uri: lb://pure-test-1
-          order: 8000
-          predicates:
-            - Path=/test1/**
-          filters:
-            - StripPrefix=1   #StripPrefix 表明 忽略前缀路径  /api/auth/xxx ==> /xxx
-        - id: auth-server
-          uri: lb://pure-test-2
-          order: 8000
-          predicates:
-            - Path=/test2/**
-          filters:
-            - StripPrefix=1   #StripPrefix 表明 忽略前缀路径  /api/auth/xxx ==> /xxx
-
 #  开启熔断降级
 feign:
   client:
@@ -99,14 +72,16 @@ ribbon:
 # 客户端认证属性配置
 security:
   oauth2:
-    grant-type: password
-    scope: all
-    client-id: test
-    client-secret: admin
+    client:
+      grant-type: password
+      scope: all
+      client-id: test
+      client-secret: admin
+      access-token-uri:
 # 网关验证忽略的url接口
 pure:
   log:
-#    # 日志存储路径
+    #    # 日志存储路径
     dir: ../
     # 日志等级，并且控制 logback
     level: debug

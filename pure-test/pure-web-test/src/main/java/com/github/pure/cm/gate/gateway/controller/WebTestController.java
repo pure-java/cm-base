@@ -1,6 +1,5 @@
 package com.github.pure.cm.gate.gateway.controller;
 
-import com.github.pure.cm.auth.client.annotation.IgnoreAuth;
 import com.github.pure.cm.auth.client.dto.ReqJwtTokenParam;
 import com.github.pure.cm.auth.client.properties.OAuth2ClientProperties;
 import com.github.pure.cm.auth.client.service.AuthService;
@@ -37,7 +36,7 @@ public class WebTestController {
      * @return 登录结果
      */
     @PostMapping("/login")
-    @IgnoreAuth
+    //@IgnoreAuth
     public Result<Map<String, Object>> login(ReqJwtTokenParam userInfo) throws BusinessException {
         ReqJwtTokenParam reqJwtTokenParam = new ReqJwtTokenParam();
         reqJwtTokenParam
@@ -49,6 +48,7 @@ public class WebTestController {
                 .setScope(auth2ClientProperties.getScope());
         Map<String, Object> token;
         try {
+            //LoginUserVo.builder().
             int i = 1 / 0;
             //token = authService.token(reqJwtTokenParam);
         } catch (Exception e) {

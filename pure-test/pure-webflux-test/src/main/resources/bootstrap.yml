@@ -96,17 +96,19 @@ ribbon:
   ReadTimeout: 5000 # 连接所需时间，默认3秒，一般不够
   ConnectTimeout: 5000 # 读取到可用资源的时间，默认一秒，不够，需要改为 5 秒
 
-# 客户端认证属性配置
-security:
-  oauth2:
-    grant-type: password
-    scope: all
-    client-id: test
-    client-secret: admin
+
 # 网关验证忽略的url接口
 pure:
+  # 客户端认证属性配置
+  security:
+    oauth2:
+      client:
+        grant-type: password
+        scope: all
+        client-id: test
+        client-secret: admin
   log:
-#    # 日志存储路径
+    #    # 日志存储路径
     dir: ../
     # 日志等级，并且控制 logback
     level: debug

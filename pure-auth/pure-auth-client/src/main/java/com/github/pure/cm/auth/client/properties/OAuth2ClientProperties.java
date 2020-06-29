@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @date 2019/12/9
  */
 @Data
-@ConfigurationProperties(prefix = "security.oauth2")
+@ConfigurationProperties(prefix = "security.oauth2.client")
 @Component
 public class OAuth2ClientProperties {
 

@@ -34,7 +34,7 @@ import java.util.Set;
  * @since 2020/6/5
  */
 @Slf4j
-public class IgnoreAuthFilter implements ApplicationContextAware {
+public class IgnoreAuthComponent implements ApplicationContextAware {
 
     private Set<String> ignoreAuthUrlSet = new HashSet<>();
 
@@ -73,6 +73,9 @@ public class IgnoreAuthFilter implements ApplicationContextAware {
                 return;
             }
             RequestMapping mappingAnnotation = AopUtils.getTargetClass(bean).getAnnotation(RequestMapping.class);
+            if (Objects.isNull(mappingAnnotation)) {
+                return;
+            }
             String[] value = mappingAnnotation.value();
 
             for (Method method : targetClass.getMethods()) {

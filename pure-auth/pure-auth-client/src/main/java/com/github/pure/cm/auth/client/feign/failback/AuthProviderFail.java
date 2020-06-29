@@ -19,7 +19,7 @@ public class AuthProviderFail implements AuthProvider {
     }
 
     @Override
-    public Map<String, Object> checkToken(Map<String, Object> checkToken) {
+    public Map<String, Object> checkToken(Map<String, Object> checkToken, String authorization) {
         return null;
     }
 
