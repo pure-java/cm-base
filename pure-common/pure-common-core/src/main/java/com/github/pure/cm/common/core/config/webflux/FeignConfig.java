@@ -1,29 +1,29 @@
-package com.github.pure.cm.auth.client.properties;
+package com.github.pure.cm.common.core.config.webflux;
 
 import feign.Logger;
 import feign.codec.Decoder;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.cloud.openfeign.support.ResponseEntityDecoder;
 import org.springframework.cloud.openfeign.support.SpringDecoder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * 自定义 feign 配置，暂时不需要
+ * 设置 feign 消息转换器；当应用为 webflux 时，不会进行自动配置
  *
  * @author 陈欢
- * @since 2019/11/29
+ * @since 2020/6/29
  */
-@SpringBootConfiguration
-public class FeignByJacksonConfig {
+@Configuration
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
+public class FeignConfig {
 
     @Bean
     Logger.Level feignLoggerLevel() {
@@ -35,6 +35,7 @@ public class FeignByJacksonConfig {
         // 设置编码器
         return new ResponseEntityDecoder(new SpringDecoder(feignHttpMessageConverter()));
     }
+
 
     public ObjectFactory<HttpMessageConverters> feignHttpMessageConverter() {
         final HttpMessageConverters httpMessageConverters = new HttpMessageConverters(new JsonJackson2HttpMessageConverter());
