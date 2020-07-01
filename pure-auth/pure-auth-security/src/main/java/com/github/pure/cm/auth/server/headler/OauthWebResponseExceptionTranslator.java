@@ -36,7 +36,7 @@ public class OauthWebResponseExceptionTranslator extends DefaultWebResponseExcep
             }
             errorMessage = body.getOAuth2ErrorCode() + "," + errorMessage;
         }
-        log.error("OAuth 2 exceptions:{}", e.getMessage());
+        log.error("OAuth 2 exceptions:", e);
         String json = JsonUtil.json(Result.newIns(translate.getStatusCode().value(), errorMessage, null));
         return new ResponseEntity<>(
                 new OauthException(json, body),

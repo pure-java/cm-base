@@ -3,6 +3,7 @@ package com.github.pure.cm.common.core.exception.handler;
 import com.github.pure.cm.common.core.model.ExceptionResult;
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.JsonUtil;
+import com.github.pure.cm.common.core.util.StringUtil;
 import com.github.pure.cm.common.core.util.collection.MapUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
@@ -38,7 +39,7 @@ public class GlobalExceptionHandler implements ErrorController {
     @ResponseBody
     public ExceptionResult<String> handle(HttpServletRequest request, @NonNull Throwable exception) {
 
-        String requestURI = request.getRequestURI() + request.getQueryString();
+        String requestURI = request.getRequestURI() + (StringUtil.isNotBlank(request.getQueryString()) ? request.getQueryString() : "");
         Map<String, Object> param = MapUtil.newHashMap();
         request.getParameterMap().forEach((key, value) -> {
             if (ArrayUtils.isNotEmpty(value)) {

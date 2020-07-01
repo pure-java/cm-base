@@ -1,12 +1,12 @@
 package com.github.pure.cm.gate.gateway.router;
 
 import com.github.pure.cm.common.core.util.JsonUtil;
-import com.github.pure.cm.common.core.util.collection.CollectionUtil;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinitionRepository;
@@ -34,10 +34,10 @@ public class RedisRouterRouteDefinitionRepository implements RouteDefinitionRepo
 
   private void loadRouterDefinition() {
     Set<String> keys = redisTemplate.keys(GATEWAY_ROUTES + "*");
-    if (CollectionUtil.isNotEmpty(keys)) {
+    if (CollectionUtils.isNotEmpty(keys)) {
       List<String> list = redisTemplate.opsForValue().multiGet(keys);
       log.debug("load redis router = {} ", list);
-      if (CollectionUtil.isNotEmpty(list)) {
+      if (CollectionUtils.isNotEmpty(list)) {
         list.forEach(router -> {
           RouteDefinition routeDefinition = jsonUtil.jsonToObject(router, RouteDefinition.class);
           routeDefinitionMap.put(routeDefinition.getId(), routeDefinition);

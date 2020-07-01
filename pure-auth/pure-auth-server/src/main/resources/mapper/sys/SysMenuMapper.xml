@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.pure.cm.auth.server.mapper.SysMenuMapper">
+    <resultMap id="BaseResultMap" type="com.github.pure.cm.auth.server.model.entity.SysMenu">
+        <id column="oid" property="oid"/>
+
+        <result column="pid" property="pid"/>
+        <result column="title" property="title"/>
+        <result column="icon" property="icon"/>
+        <result column="param" property="param"/>
+        <result column="order_num" property="orderNum"/>
+
+        <result column="add_date_time" property="addDateTime"/>
+        <result column="opt_date_time" property="optDateTime"/>
+
+    </resultMap>
+
+    <resultMap id="menuAndAuthority" type="com.github.pure.cm.auth.server.model.entity.SysMenu" extends="BaseResultMap">
+        <collection property="sysAuthorities" javaType="list"
+                    resultMap="com.github.pure.cm.auth.server.mapper.SysAuthorityMapper.BaseResultMap"
+                    columnPrefix="auth_"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="sys_menu_base_sql">
+        ${tableName}.oid as ${tableAsName}_oid,
+        ${tableName}.pid as ${tableAsName}_pid,
+        ${tableName}.title as ${tableAsName}_title,
+        ${tableName}.icon as ${tableAsName}_icon,
+        ${tableName}.param as ${tableAsName}_param,
+        ${tableName}.order_num as ${tableAsName}_orderNum,
+        ${tableName}.add_date_time as ${tableAsName}_addDateTime,
+        ${tableName}.opt_date_time as ${tableAsName}_optDateTime
+    </sql>
+
+</mapper>

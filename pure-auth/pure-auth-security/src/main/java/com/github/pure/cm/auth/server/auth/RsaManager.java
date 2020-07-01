@@ -9,6 +9,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.access.vote.AffirmativeBased;
 
 /**
  * rsa 秘钥对管理器
@@ -19,7 +20,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 @Configuration
 @RefreshScope
 public class RsaManager implements ApplicationContextAware {
-
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
     @Value("${custom.config.auth-server.jwt-token-signer.public-key-redis}")
@@ -42,8 +42,8 @@ public class RsaManager implements ApplicationContextAware {
         }
     }
 
+
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-
     }
 }

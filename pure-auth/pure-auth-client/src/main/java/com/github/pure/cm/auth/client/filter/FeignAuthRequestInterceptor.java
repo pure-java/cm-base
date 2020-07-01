@@ -1,13 +1,12 @@
 package com.github.pure.cm.auth.client.filter;
 
 import com.github.pure.cm.common.core.util.StringUtil;
-import com.github.pure.cm.common.core.util.collection.CollectionUtil;
 import feign.Request;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.http.HttpHeaders;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,7 +31,7 @@ public class FeignAuthRequestInterceptor implements RequestInterceptor {
 
         log.warn("feign 验证：{}", request.url());
         Collection<String> authList = request.headers().get(HttpHeaders.AUTHORIZATION);
-        if (CollectionUtil.isEmpty(authList)) {
+        if (CollectionUtils.isEmpty(authList)) {
             return;
         }
         ArrayList<Object> collection = new ArrayList<>(authList);

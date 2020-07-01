@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.pure.cm.auth.server.mapper.SysRoleMapper">
+    <resultMap id="BaseResultMap" type="com.github.pure.cm.auth.server.model.entity.SysRole">
+        <id column="oid" property="oid"/>
+
+        <result column="pid" property="pid"/>
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="remake" property="remake"/>
+        <result column="add_date_time" property="addDateTime"/>
+        <result column="opt_date_time" property="optDateTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="sys_role_base_sql">
+      ${tableName}.oid as ${tableAsName}_oid,
+      ${tableName}.pid as ${tableAsName}_pid,
+      ${tableName}.code as ${tableAsName}_code,
+      ${tableName}.name as ${tableAsName}_name,
+      ${tableName}.remake as ${tableAsName}_remake,
+      ${tableName}.add_date_time as ${tableAsName}_addDateTime,
+      ${tableName}.opt_date_time as ${tableAsName}_optDateTime
+    </sql>
+
+    <insert id="saveBatch">
+        insert into sys_role (
+        oid,
+        pid,
+        code,
+        name,
+        remake,
+        add_date_time,
+        opt_date_time
+        ) values
+        <foreach collection="saveList" item="saveObj" separator=",">
+            (
+            #{saveObj.oid},
+            #{saveObj.pid},
+            #{saveObj.code},
+            #{saveObj.name},
+            #{saveObj.remake},
+            #{saveObj.add_date_time},
+            #{saveObj.opt_date_time}
+            )
+        </foreach>
+    </insert>
+
+    <resultMap id="roleAndMenu" extends="BaseResultMap" type="com.github.pure.cm.auth.server.model.entity.SysRole">
+        <collection property="sysMenuList"
+                    javaType="list"
+                    resultMap="com.github.pure.cm.auth.server.mapper.SysMenuMapper.menuAndAuthority"
+                    columnPrefix="menu_">
+        </collection>
+    </resultMap>
+
+    <select id="selectMenuAuth" resultMap="roleAndMenu">
+        SELECT sys_role.oid oid,
+        sys_role.pid pid,
+        sys_role.code code,
+        sys_role.name name,
+        sys_role.remake remake,
+        sys_role.add_date_time add_date_time,
+        sys_role.opt_date_time opt_date_time,
+
+        <include refid="com.github.pure.cm.auth.server.mapper.SysMenuMapper.sys_menu_base_sql">
+            <property name="tableName" value="sys_menu"/>
+            <property name="tableAsName" value="menu"/>
+        </include>
+        ,
+        <include refid="com.github.pure.cm.auth.server.mapper.SysAuthorityMapper.sys_authority_base_sql">
+            <property name="tableName" value="sys_authority"/>
+            <property name="tableAsName" value="menu_auth"/>
+        </include>
+        FROM sys_role
+        JOIN sys_role_auth ON sys_role.oid = sys_role_auth.role_id
+        JOIN sys_authority ON sys_authority.oid = sys_role_auth.auth_id
+        JOIN sys_menu ON sys_authority.menu_id = sys_menu.oid
+    </select>
+</mapper>

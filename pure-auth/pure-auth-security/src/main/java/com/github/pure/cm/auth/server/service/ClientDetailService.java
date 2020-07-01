@@ -9,6 +9,7 @@ import org.springframework.security.oauth2.common.exceptions.InvalidClientExcept
 import org.springframework.security.oauth2.provider.ClientAlreadyExistsException;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.NoSuchClientException;
+import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 
 /**
@@ -26,8 +27,8 @@ public class ClientDetailService extends JdbcClientDetailsService {
 
   @Override
   @Cacheable(value = {"loadClientByClientId"}, key = "#p0")
-  public ClientDetails loadClientByClientId(String clientId) throws InvalidClientException {
-    return super.loadClientByClientId(clientId);
+  public BaseClientDetails loadClientByClientId(String clientId) throws InvalidClientException {
+    return (BaseClientDetails) super.loadClientByClientId(clientId);
   }
 
   @Override

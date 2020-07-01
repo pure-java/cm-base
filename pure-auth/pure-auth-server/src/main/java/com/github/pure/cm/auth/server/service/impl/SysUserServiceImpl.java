@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pure.cm.auth.server.mapper.SysUserMapper;
 import com.github.pure.cm.auth.server.model.entity.SysUser;
 import com.github.pure.cm.auth.server.service.ISysUserService;
-import com.github.pure.cm.common.core.util.collection.CollectionUtil;
 import com.github.pure.cm.common.data.base.BaseServiceImpl;
 import com.github.pure.cm.common.data.constants.DatabaseConstants;
 import com.github.pure.cm.common.data.model.PageWhere;
 import com.google.common.collect.Lists;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -48,6 +48,12 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         return super.daoUtil.getOne(queryWrapper);
     }
 
+    @Override
+    @Cacheable(value = "getUserByUserName", key = "#p0")
+    public SysUser getUserAuthByUserName(String userName) {
+        return this.baseMapper.getUserAuthByUserName(userName);
+    }
+
 
     @Override
     public List<SysUser> listQueryCondition(SysUser query) {
@@ -58,7 +64,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean saveBatch(List<SysUser> saveList) {
-        if (CollectionUtil.isNotEmpty(saveList)) {
+        if (CollectionUtils.isNotEmpty(saveList)) {
             List<List<SysUser>> partition = Lists.partition(saveList, DatabaseConstants.BATCH_SAVE_SIZE);
             for (List<SysUser> list : partition) {
                 super.baseMapper.saveBatch(list);
@@ -74,7 +80,6 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         if (sysUser != null) {
             sysUser.setPassword(encode.encode(sysUser.getPassword()));
         }
-
         return super.daoUtil.saveOrUpdate(sysUser);
     }
 

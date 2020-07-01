@@ -94,7 +94,6 @@ management:
 feign:
   sentinel:
     enabled: true
-
 logging:
   config: classpath:logback-spring.xml
 
@@ -107,3 +106,5 @@ logging:
 #  registry:
 #    register: true
 #    address: nacos://192.168.0.200:8848
+mybatis-plus:
+  mapper-locations: classpath:mapper/*/*.xml

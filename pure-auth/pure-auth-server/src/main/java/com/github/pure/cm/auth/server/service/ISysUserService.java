@@ -29,6 +29,8 @@ public interface ISysUserService extends IBaseService<SysUser> {
    */
   public SysUser getUserByUserName(String userName);
 
+  public SysUser getUserAuthByUserName(String userName);
+
   /**
    * 根据条件查询
    *

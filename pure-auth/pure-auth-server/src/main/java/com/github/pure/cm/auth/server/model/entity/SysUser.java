@@ -2,14 +2,14 @@ package com.github.pure.cm.auth.server.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.github.pure.cm.common.data.base.BaseDomCfg;
-
-import javax.validation.constraints.NotBlank;
-
+import com.github.pure.cm.common.data.base.BaseDomDate;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+
+import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 /**
  * 系统用户
@@ -22,7 +22,7 @@ import lombok.experimental.Accessors;
 @ToString(callSuper = true)
 @Accessors(chain = true)
 @TableName("sys_user")
-public class SysUser extends BaseDomCfg<Long, SysUser> {
+public class SysUser extends BaseDomDate<Long, SysUser> {
 
     private static final long serialVersionUID = 1L;
 
@@ -70,6 +70,7 @@ public class SysUser extends BaseDomCfg<Long, SysUser> {
      * 真实姓名
      **/
     @TableField(value = "user_nick")
+
     private String userNick;
 
     /**
@@ -89,5 +90,11 @@ public class SysUser extends BaseDomCfg<Long, SysUser> {
      **/
     @TableField(value = "email_address")
     private String emailAddress;
+
+    /**
+     * 用户拥有的角色
+     */
+    @TableField(exist = false)
+    private List<SysRole> sysRoleList;
 
 }

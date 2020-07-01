@@ -9,6 +9,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
+
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -144,7 +146,7 @@ public class MapUtil {
         iterator.remove();
       }
     } else if (obj instanceof Collection) {
-      if (CollectionUtil.isEmpty((Collection) obj)) {
+      if (CollectionUtils.isEmpty((Collection) obj)) {
         iterator.remove();
       }
 

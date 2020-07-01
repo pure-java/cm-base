@@ -21,6 +21,7 @@ public interface ISysRoleService extends IBaseService<SysRole> {
    */
   public List<SysRole> pageIdRole(PageWhere pageWhere, SysRole sysRole);
 
+  List<SysRole> selectMenuAuth();
   /**
    * 根据条件查询
    *

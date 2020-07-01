@@ -1,4 +1,4 @@
-package com.github.pure.cm.common.core.config.webflux;
+package com.github.pure.cm.common.core.config.feign;
 
 import feign.Logger;
 import feign.codec.Decoder;

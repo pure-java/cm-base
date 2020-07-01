@@ -20,7 +20,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString(callSuper = true)
-public abstract class BaseDomCfg<FK extends Serializable, T extends BaseDom> extends BaseDomOpt<FK, T> {
+public abstract class BaseDomCfg<FK extends Serializable, T extends BaseDom<FK, T>> extends BaseDomDate<FK, T> {
 
   private static final long serialVersionUID = -6597812076301104877L;
   /**

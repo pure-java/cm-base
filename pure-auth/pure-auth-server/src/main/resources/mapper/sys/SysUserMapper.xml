@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.pure.cm.auth.server.mapper.SysUserMapper">
+    <resultMap id="BaseResultMap" type="com.github.pure.cm.auth.server.model.entity.SysUser">
+        <id column="oid" property="oid"/>
+
+        <result column="user_name" property="userName"/>
+        <result column="password" property="password"/>
+        <result column="usable" property="usable"/>
+        <result column="login_type" property="loginType"/>
+        <result column="user_type" property="userType"/>
+
+        <result column="page_limit" property="pageLimit"/>
+        <result column="user_nick" property="userNick"/>
+        <result column="sex" property="sex"/>
+        <result column="telephone" property="telephone"/>
+        <result column="email_address" property="emailAddress"/>
+
+        <result column="add_date_time" property="addDateTime"/>
+        <result column="opt_date_time" property="optDateTime"/>
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="sys_user_base_sql">
+      ${tableName}.oid as ${tableAsName}_oid,
+      ${tableName}.user_name as ${tableAsName}_userName,
+      ${tableName}.password as ${tableAsName}_password,
+      ${tableName}.usable as ${tableAsName}_usable,
+      ${tableName}.login_type as ${tableAsName}_loginType,
+      ${tableName}.user_type as ${tableAsName}_userType,
+      ${tableName}.page_limit as ${tableAsName}_pageLimit,
+      ${tableName}.user_nick as ${tableAsName}_userNick,
+      ${tableName}.sex as ${tableAsName}_sex,
+      ${tableName}.telephone as ${tableAsName}_telephone,
+      ${tableName}.email_address as ${tableAsName}_emailAddress,
+      ${tableName}.add_date_time as ${tableAsName}_addDateTime,
+      ${tableName}.opt_date_time as ${tableAsName}_optDateTime
+    </sql>
+
+    <insert id="saveBatch">
+        insert into sys_user (
+        oid,
+        user_name,
+        password,
+        usable,
+        login_type,
+        user_type,
+        page_limit,
+        user_nick,
+        sex,
+        telephone,
+        email_address,
+        add_date_time,
+        opt_date_time
+        ) values
+        <foreach collection="saveList" item="saveObj" separator=",">
+            (
+            #{saveObj.oid},
+            #{saveObj.user_name},
+            #{saveObj.password},
+            #{saveObj.usable},
+            #{saveObj.login_type},
+            #{saveObj.user_type},
+            #{saveObj.page_limit},
+            #{saveObj.user_nick},
+            #{saveObj.sex},
+            #{saveObj.telephone},
+            #{saveObj.email_address},
+            #{saveObj.add_date_time},
+            #{saveObj.opt_date_time}
+            )
+        </foreach>
+    </insert>
+
+    <resultMap id="userAndRole" extends="BaseResultMap" type="com.github.pure.cm.auth.server.model.entity.SysUser">
+        <collection property="sysRoleList"
+                    javaType="list"
+                    resultMap="com.github.pure.cm.auth.server.mapper.SysRoleMapper.roleAndMenu"
+                    columnPrefix="role_">
+        </collection>
+    </resultMap>
+
+    <select id="getUserAuthByUserName" resultMap="userAndRole">
+        SELECT
+        sys_user.*,
+        <include refid="com.github.pure.cm.auth.server.mapper.SysRoleMapper.sys_role_base_sql">
+            <property name="tableName" value="sys_role"/>
+            <property name="tableAsName" value="role"/>
+        </include>
+        ,
+        <include refid="com.github.pure.cm.auth.server.mapper.SysMenuMapper.sys_menu_base_sql">
+            <property name="tableName" value="sys_menu"/>
+            <property name="tableAsName" value="role_menu"/>
+        </include>
+        ,
+        <include refid="com.github.pure.cm.auth.server.mapper.SysAuthorityMapper.sys_authority_base_sql">
+            <property name="tableName" value="sys_authority"/>
+            <property name="tableAsName" value="role_menu_auth"/>
+        </include>
+        FROM
+        sys_user
+        JOIN sys_user_role ON sys_user_role.user_id = sys_user.oid
+        JOIN sys_role ON sys_role.oid = sys_user_role.role_id
+        JOIN sys_role_auth ON sys_role.oid = sys_role_auth.role_id
+        JOIN sys_authority ON sys_authority.oid = sys_role_auth.auth_id
+        JOIN sys_menu ON sys_authority.menu_id = sys_menu.oid
+        where sys_user.user_name = #{userName}
+    </select>
+
+</mapper>

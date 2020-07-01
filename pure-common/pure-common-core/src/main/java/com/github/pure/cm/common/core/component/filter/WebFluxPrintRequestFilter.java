@@ -2,8 +2,8 @@ package com.github.pure.cm.common.core.component.filter;
 
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.JsonUtil;
-import com.github.pure.cm.common.core.util.collection.CollectionUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.MediaType;
@@ -48,7 +48,7 @@ public class WebFluxPrintRequestFilter implements WebFilter {
 
         Map<String, Object> queryParam = new HashMap<>();
         request.getQueryParams().forEach((key, value) -> {
-            if (CollectionUtil.isNotEmpty(value) && value.size() == 1) {
+            if (CollectionUtils.isNotEmpty(value) && value.size() == 1) {
                 queryParam.put(key, value.get(0));
             } else {
                 queryParam.put(key, value);

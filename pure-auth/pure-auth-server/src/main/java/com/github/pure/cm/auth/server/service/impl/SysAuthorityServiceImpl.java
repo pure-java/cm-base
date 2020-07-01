@@ -7,10 +7,11 @@ import com.github.pure.cm.auth.server.service.ISysAuthorityService;
 import com.github.pure.cm.common.data.model.PageWhere;
 import com.github.pure.cm.common.data.constants.DatabaseConstants;
 import com.github.pure.cm.common.data.base.BaseServiceImpl;
-import com.github.pure.cm.common.core.util.collection.CollectionUtil;
 import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Set;
+
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +43,7 @@ public class SysAuthorityServiceImpl extends BaseServiceImpl<SysAuthorityMapper,
   @Override
   @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
   public boolean saveBatch(List<SysAuthority> saveList) {
-    if (CollectionUtil.isNotEmpty(saveList)) {
+    if (CollectionUtils.isNotEmpty(saveList)) {
       List<List<SysAuthority>> partition = Lists.partition(saveList, DatabaseConstants.BATCH_SAVE_SIZE);
       for (List<SysAuthority> list : partition) {
         super.baseMapper.saveBatch(list);
