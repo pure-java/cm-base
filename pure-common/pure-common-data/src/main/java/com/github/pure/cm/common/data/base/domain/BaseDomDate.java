@@ -1,19 +1,17 @@
-package com.github.pure.cm.common.data.base;
+package com.github.pure.cm.common.data.base.domain;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.github.pure.cm.common.data.config.DateTimeSerializerConverter;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 基础model
@@ -33,33 +31,29 @@ public abstract class BaseDomDate<FK extends Serializable, T extends BaseDom<FK,
      */
     @ApiModelProperty(hidden = true)
     @TableField(fill = FieldFill.INSERT)
-    @JsonSerialize(using = DateTimeSerializer.class)
-    protected Date addDateTime;
+    @JsonSerialize(using = DateTimeSerializerConverter.DateTimeSerializer.class)
+    @JsonDeserialize(using = DateTimeSerializerConverter.DateTimeDeserializer.class)
+    protected LocalDateTime addDateTime;
 
     /**
      * 记录最近一次编辑该记录的时间
      */
     @ApiModelProperty(hidden = true)
     @TableField(fill = FieldFill.UPDATE)
-    @JsonSerialize(using = DateTimeSerializer.class)
-    protected Date optDateTime;
+    @JsonSerialize(using = DateTimeSerializerConverter.DateTimeSerializer.class)
+    @JsonDeserialize(using = DateTimeSerializerConverter.DateTimeDeserializer.class)
+    protected LocalDateTime optDateTime;
 
-    public T setAddDateTime(Date addDateTime) {
+    public T setAddDateTime(LocalDateTime addDateTime) {
         this.addDateTime = addDateTime;
         return (T) this;
     }
 
-    public T setOptDateTime(Date optDateTime) {
+    public T setOptDateTime(LocalDateTime optDateTime) {
         this.optDateTime = optDateTime;
         return (T) this;
     }
 
 }
 
-class DateTimeSerializer extends JsonSerializer<Date> {
 
-    @Override
-    public void serialize(Date date, JsonGenerator gen, SerializerProvider provider) throws IOException {
-        gen.writeObject(date.getTime());
-    }
-}

@@ -1,6 +1,7 @@
 package com.github.pure.cm.common.data.base;
 
 import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
+import com.github.pure.cm.common.data.base.domain.BaseDom;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;

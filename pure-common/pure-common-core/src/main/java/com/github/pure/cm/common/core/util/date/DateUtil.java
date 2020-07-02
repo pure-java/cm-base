@@ -23,6 +23,7 @@ import java.util.function.Function;
 import org.apache.commons.lang3.StringUtils;
 
 /**
+ * 默认使用服务器设置时区
  * @author bairitan
  * @since 2019/1/11
  */
@@ -51,6 +52,11 @@ public final class DateUtil implements Comparable<DateUtil> {
   public static final String COMPACT_DATE_LONG = "yyyyMMddHHmmss";
   private final long value;
 
+  /**
+   * 时区ID
+   */
+  private static final ZoneId zone = ZoneId.systemDefault();
+
   private DateUtil(long value) {
     this.value = value;
   }
@@ -67,6 +73,11 @@ public final class DateUtil implements Comparable<DateUtil> {
   public static DateUtil newIns(long value) {
     checkArgument(value != 0, "时间戳不能为 0 ");
     return new DateUtil(value);
+  }
+
+  public static DateUtil newIns(Date date){
+    checkArgument(date != null, "时间不能为空" );
+    return new DateUtil(date.getTime());
   }
 
   /**
@@ -108,7 +119,8 @@ public final class DateUtil implements Comparable<DateUtil> {
    */
   public static DateUtil newIns(LocalDateTime localDateTime) {
     checkArgument(localDateTime != null, "localDateTime 参数不能为空");
-    return newIns(localDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+
+    return newIns(localDateTime.atZone(zone).toInstant().toEpochMilli());
   }
 
   /**
@@ -118,7 +130,7 @@ public final class DateUtil implements Comparable<DateUtil> {
    */
   public static DateUtil newIns(LocalDate date) {
     checkArgument(date != null, "localDateTime 参数不能为空");
-    return newIns(date.atTime(0, 0, 0).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+    return newIns(date.atTime(0, 0, 0).atZone(zone).toInstant().toEpochMilli());
   }
 
   /**
@@ -355,7 +367,7 @@ public final class DateUtil implements Comparable<DateUtil> {
       return null;
     }
     Instant instant = Instant.ofEpochMilli(this.value);
-    return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+    return LocalDateTime.ofInstant(instant,zone);
   }
 
   /**

@@ -150,7 +150,6 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
             if (!info.containsKey(TOKEN_ID)) {
                 info.put(TOKEN_ID, tokenId);
             }
-            info.put("organization", authentication.getName() + randomAlphabetic(4));
             if (authentication.getUserAuthentication() != null && authentication.getUserAuthentication().getPrincipal() != null) {
                 User user = (User) authentication.getUserAuthentication().getPrincipal();
                 List<String> authorities = user

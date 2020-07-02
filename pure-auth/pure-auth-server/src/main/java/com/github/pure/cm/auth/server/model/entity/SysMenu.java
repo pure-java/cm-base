@@ -2,12 +2,11 @@ package com.github.pure.cm.auth.server.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.github.pure.cm.common.data.base.BaseDomDate;
+import com.github.pure.cm.common.data.base.domain.BaseDomDate;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.beans.Transient;
 import java.util.List;
 
 /**

@@ -5,24 +5,19 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.cache.CacheManager;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
-import org.springframework.cache.annotation.EnableCaching;
 
 import java.time.Duration;
 
 /**
- * spring redis 缓存管理器，用于配置spring缓存相关数据，只有使用时 @EnableCaching ，才会生效
+ * spring redis 缓存管理器，用于配置spring缓存相关数据，只有开启了缓存功能 @EnableCaching ，该配置才会生效
  *
  * @author 陈欢
  * @see EnableCaching
@@ -31,6 +26,13 @@ import java.time.Duration;
 @Slf4j
 @Configuration
 public class SpringRedisCacheManager extends CachingConfigurerSupport {
+
+    /**
+     * 缓存前缀：项目名称为spring cache 的统一前缀<br>
+     * cache:${spring.application.name}:${cacheKey}
+     */
+    @Value("cache:${spring.application.name}:")
+    private String applicationName;
 
     /**
      * 配置spring cache 使用 json 序列化数据
@@ -47,7 +49,10 @@ public class SpringRedisCacheManager extends CachingConfigurerSupport {
         jackson2JsonRedisSerializer.setObjectMapper(om);
 
         RedisCacheConfiguration configuration = RedisCacheConfiguration.defaultCacheConfig();
-        configuration = configuration.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer)).entryTtl(Duration.ofDays(30));
+        configuration = configuration
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer))
+                .entryTtl(Duration.ofDays(1))
+                .computePrefixWith(cacheName -> applicationName + cacheName + ":");
 
         return configuration;
     }

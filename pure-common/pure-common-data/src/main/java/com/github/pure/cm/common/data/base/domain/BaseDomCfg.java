@@ -1,4 +1,4 @@
-package com.github.pure.cm.common.data.base;
+package com.github.pure.cm.common.data.base.domain;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

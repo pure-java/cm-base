@@ -42,8 +42,8 @@ public class MysqlDataSourceConfig {
    * save、update、delete是read_write权限,其它方法全是readOnly权限<br>
    *
    * @param transactionManager 事务管理器
-   * @param trInterceptor 事务拦截
-   * @param annotationMatchSource 事务拦截规则匹配器
+   * @param trInterceptor 事务拦截器
+   * @param annotationMatchSource 注解事务拦截规则匹配器
    */
   @Bean(name = "defaultTransactionInterceptor")
   public TransactionInterceptor transactionInterceptor(
@@ -55,9 +55,10 @@ public class MysqlDataSourceConfig {
     // 配置方法名称事务规则匹配器
     Map<String, TransactionAttribute> trMatchConfig = new HashMap<>();
 
-    // 回滚
+    // 支持事务回滚
     RuleBasedTransactionAttribute requiredTx = new RuleBasedTransactionAttribute();
     requiredTx.setRollbackRules(Collections.singletonList(new RollbackRuleAttribute(Exception.class)));
+    // 默认事务传播
     requiredTx.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
     trMatchConfig.put("save*", requiredTx);
     trMatchConfig.put("create*", requiredTx);
@@ -87,10 +88,11 @@ public class MysqlDataSourceConfig {
 
   /**
    * 创建 mysql 事务拦截代理对象
-   * 使用 defaultTransactionInterceptor 事务拦截器拦截以 DaoImpl 结尾的类
+   * 使用 defaultTransactionInterceptor 事务拦截器拦截以 ServiceImpl 结尾的类
    */
   @Bean("defaultBeanNameAutoProxyCreator")
   public BeanNameAutoProxyCreator transactionAutoProxy() {
+    // 它是根据拦截器和设置的Bean的名称表达式做匹配来创建代理
     BeanNameAutoProxyCreator transactionAutoProxy = new BeanNameAutoProxyCreator();
     // 这个属性为true时，表示被代理的是目标类本身而不是目标类的接口
     transactionAutoProxy.setProxyTargetClass(true);
