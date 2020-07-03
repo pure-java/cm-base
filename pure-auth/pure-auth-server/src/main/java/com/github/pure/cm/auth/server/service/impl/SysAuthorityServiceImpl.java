@@ -55,6 +55,7 @@ public class SysAuthorityServiceImpl extends BaseServiceImpl<SysAuthorityMapper,
   @Override
   @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
   public boolean saveOrUpdateIdAuthority(SysAuthority sysAuthority) {
+    super.daoUtil.lambdaQuery().in(SysAuthority::getMenuId,"");
     return super.daoUtil.saveOrUpdate(sysAuthority);
   }
 

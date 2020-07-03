@@ -8,13 +8,10 @@ import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.PathContainer;
 import org.springframework.lang.NonNull;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.pattern.PathPatternParser;
@@ -69,10 +66,10 @@ public class IgnoreAuthComponent implements ApplicationContextAware {
         Map<String, Object> restController = applicationContext.getBeansWithAnnotation(RestController.class);
         restController.values().forEach(bean -> {
             Class<?> targetClass = AopUtils.getTargetClass(bean);
-            if (Objects.isNull(AopUtils.getTargetClass(bean).getAnnotation(RestController.class))) {
+            if (Objects.isNull(targetClass.getAnnotation(RestController.class))) {
                 return;
             }
-            RequestMapping mappingAnnotation = AopUtils.getTargetClass(bean).getAnnotation(RequestMapping.class);
+            RequestMapping mappingAnnotation = targetClass.getAnnotation(RequestMapping.class);
             if (Objects.isNull(mappingAnnotation)) {
                 return;
             }
@@ -84,10 +81,14 @@ public class IgnoreAuthComponent implements ApplicationContextAware {
                     if (ArrayUtil.isNotEmpty(value)) {
                         Arrays.stream(value)
                                 .forEach(baseUrl -> methodUrls.forEach(url -> {
-                                    if (!baseUrl.endsWith("/") && !url.startsWith("/")) {
-                                        url = "/" + url;
+                                    if (baseUrl.endsWith("/") && url.startsWith("/")) {
+                                        url = baseUrl + url.substring(1);
+                                    } else if (!baseUrl.endsWith("/") && !url.startsWith("/")) {
+                                        url = baseUrl + "/" + url;
+                                    } else {
+                                        url = baseUrl + url;
                                     }
-                                    ignoreAuthUrlSet.add(baseUrl + url);
+                                    ignoreAuthUrlSet.add(url);
                                 }));
                     }
                 }
@@ -97,26 +98,14 @@ public class IgnoreAuthComponent implements ApplicationContextAware {
 
     private static Set<String> getMethodURIS(Method m) {
         Set<String> urls = new HashSet<>();
-        String[] getUris = Optional.ofNullable(m.getAnnotation(GetMapping.class)).map(GetMapping::value).orElse(null);
-        if (ArrayUtil.isNotEmpty(getUris)) {
-            urls.addAll(Arrays.asList(getUris));
-        }
-        String[] postURIS = Optional.ofNullable(m.getAnnotation(PostMapping.class)).map(PostMapping::value).orElse(null);
-        if (ArrayUtil.isNotEmpty(postURIS)) {
-            urls.addAll(Arrays.asList(postURIS));
-        }
-        String[] requestURIS = Optional.ofNullable(m.getAnnotation(RequestMapping.class)).map(RequestMapping::value).orElse(null);
-        if (ArrayUtil.isNotEmpty(requestURIS)) {
-            urls.addAll(Arrays.asList(requestURIS));
-        }
-
-        String[] putURIS = Optional.ofNullable(m.getAnnotation(PutMapping.class)).map(PutMapping::value).orElse(null);
-        if (ArrayUtil.isNotEmpty(putURIS)) {
-            urls.addAll(Arrays.asList(putURIS));
-        }
-        String[] deleteURIS = Optional.ofNullable(m.getAnnotation(DeleteMapping.class)).map(DeleteMapping::value).orElse(null);
-        if (Objects.nonNull(deleteURIS) && deleteURIS.length > 0) {
-            urls.addAll(Arrays.asList(deleteURIS));
+        String[] getUris = Optional.ofNullable(AnnotatedElementUtils.getMergedAnnotationAttributes(m, RequestMapping.class))
+                .map(var -> var.getStringArray("value")).orElse(null);
+        if (getUris != null) {
+            if (getUris.length == 0) {
+                urls.add("");
+            } else {
+                urls.addAll(Arrays.asList(getUris));
+            }
         }
         return urls;
     }
