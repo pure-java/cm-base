@@ -6,19 +6,27 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 菜单项
+ *
  * @author 陈欢
  * @since 2020/7/6
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target({})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface AuthRole {
+public @interface AuthMenuItem {
     /**
-     * 角色名称
+     * 菜单项名称
      */
     String name();
 
     /**
-     * 角色 code；如果没有带有 ROLE_ 前缀，会自动添加一个 ROLE_ 前缀
+     * 菜单项权限码
      */
     String code();
+
+    /**
+     * 父级 权限码
+     */
+    String parentCode();
+
 }
