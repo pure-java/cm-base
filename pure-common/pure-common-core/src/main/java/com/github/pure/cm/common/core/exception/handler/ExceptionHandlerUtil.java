@@ -1,13 +1,18 @@
 package com.github.pure.cm.common.core.exception.handler;
 
-import com.github.pure.cm.common.core.exception.ApiException;
 import com.github.pure.cm.common.core.exception.BusinessException;
 import com.github.pure.cm.common.core.model.ExceptionResult;
-import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.ArrayUtil;
+import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
+import org.springframework.util.ClassUtils;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -28,27 +33,36 @@ import java.util.stream.Collectors;
  * @since 2020/6/9
  */
 @Slf4j
-class ExceptionHandlerUtil {
+public class ExceptionHandlerUtil {
 
+    /**
+     * 错误码不能为200
+     */
     public static ExceptionResult<String> exceptionHandler(Throwable error) {
         ExceptionResult<String> result = new ExceptionResult<>();
-
         // 设置默认响应信息
         result.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
         result.setStatus(false);
         Throwable cause = error.getCause();
 
+        boolean invalidTokenException = ClassUtils.isPresent("org.springframework.security.oauth2.common.exceptions.InvalidTokenException", ExceptionHandlerUtil.class.getClassLoader());
+        boolean accessDeniedException = ClassUtils.isPresent("org.springframework.security.access.AccessDeniedException", ExceptionHandlerUtil.class.getClassLoader());
+        boolean insufficientAuthenticationException = ClassUtils.isPresent("org.springframework.security.authentication.InsufficientAuthenticationException", ExceptionHandlerUtil.class.getClassLoader());
+        boolean usernameNotFoundException = ClassUtils.isPresent("org.springframework.security.core.userdetails.UsernameNotFoundException", ExceptionHandlerUtil.class.getClassLoader());
+        boolean badCredentialsException = ClassUtils.isPresent("org.springframework.security.authentication.BadCredentialsException", ExceptionHandlerUtil.class.getClassLoader());
+
         // 业务异常
         if (instanceOf(BusinessException.class, error, cause)) {
             BusinessException businessException = (BusinessException) (error instanceof BusinessException ? error : cause);
-            setCode(businessException.getCode(), result);
+            result.setCode(businessException.getCode());
             result.setMessage(businessException.getMessage());
 
             // api 异常
-        } else if (instanceOf(ApiException.class, error, cause)) {
-            ApiException apiException = (ApiException) (error instanceof ApiException ? error : cause);
-            setCode(apiException.getCode(), result);
-            result.setMessage(apiException.getMessage());
+        } else if (instanceOf(BusinessException.class, error, cause)) {
+            BusinessException BusinessException = (BusinessException) (error instanceof BusinessException ? error : cause);
+            result.setCode(BusinessException.getCode());
+
+            result.setMessage(BusinessException.getMessage());
 
             //  缺少必要请求参数
         } else if (instanceOf(MissingServletRequestParameterException.class, error, cause)) {
@@ -81,26 +95,47 @@ class ExceptionHandlerUtil {
         } else if (instanceOf(ResponseStatusException.class, error, cause)) {
             ResponseStatusException statusException = (ResponseStatusException) (error instanceof ResponseStatusException ? error : cause);
             result.setMessage(statusException.getMessage());
-            setCode(statusException.getStatus().value(), result);
+            result.setCode(statusException.getStatus().value());
 
             // 请求 http method 类型错误 错误
         } else if (instanceOf(HttpRequestMethodNotSupportedException.class, error, cause)) {
             result.setMessage("该请求方法类型错误！！！");
 
-            //  其他异常
+            //  feign 异常
+        } else if (instanceOf(FeignException.class, error, cause)) {
+            FeignException statusException = (FeignException) (error instanceof FeignException ? error : cause);
+            result.setMessage(statusException.getMessage());
+
+            //  访问
+        } else if (accessDeniedException && instanceOf(AccessDeniedException.class, error, cause)) {
+            result.setMessage("没有权限!!!");
+
+            //     InvalidTokenException 无效的token
+        } else if (invalidTokenException && instanceOf(InvalidTokenException.class, error, cause)) {
+            //InvalidTokenException statusException = (InvalidTokenException) (error instanceof InvalidTokenException ? error : cause);
+            result.setMessage("无效的token!!!");
+
+        } else if (insufficientAuthenticationException && instanceOf(InsufficientAuthenticationException.class, error, cause)) {
+            result.setMessage("身份验证失败!!!");
+
+        } else if (usernameNotFoundException && instanceOf(UsernameNotFoundException.class, error, cause)) {
+            result.setMessage("账号密码不正确!!!");
+
+        } else if (badCredentialsException && instanceOf(BadCredentialsException.class, error, cause)) {
+            result.setMessage("账号密码不正确!!!");
+
         } else {
             result.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
             result.setMessage("该请求发生异常");
         }
 
+        // 响应码为200或为空，设置为 500 错误码
+        if (Objects.isNull(result.getCode()) || Objects.equals(200, result.getCode())) {
+            result.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        }
         return result;
     }
 
-    private static void setCode(Integer code, Result<?> result) {
-        if (Objects.nonNull(code)) {
-            result.setCode(code);
-        }
-    }
 
     /**
      * 判断是不是该类型的异常

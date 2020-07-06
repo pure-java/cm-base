@@ -16,12 +16,12 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableFeignClients({"com.github.pure.cm.gate.gateway"})
 public class GatewayApplication extends SpringBootServletInitializer {
 
-  public static void main(String[] args) {
-    SpringApplication.run(GatewayApplication.class, args);
-  }
+    public static void main(String[] args) {
+        SpringApplication.run(GatewayApplication.class, args);
+    }
 
-  @Override
-  protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-    return builder.sources(this.getClass());
-  }
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(this.getClass());
+    }
 }

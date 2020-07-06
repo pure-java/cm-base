@@ -1,6 +1,7 @@
 package com.github.pure.cm.common.core.model;
 
 import com.github.pure.cm.common.core.constants.StatusCode;
+
 import java.io.Serializable;
 import java.util.Objects;
 

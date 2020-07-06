@@ -1,8 +1,9 @@
 package com.github.pure.cm.gate.gateway.controller;
 
-import com.github.pure.cm.common.core.exception.BusinessException;
 import com.github.pure.cm.common.core.model.Result;
+import com.github.pure.cm.gate.gateway.feign.TestFeign;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/web/test")
 public class WebTestController {
+    @Autowired
+    TestFeign testFeign;
 
     /**
      * 登录，暂时放在网关，可以放到其他模块，但是需要为登录模块提供客户端授权
@@ -26,16 +29,7 @@ public class WebTestController {
      * @return 登录结果
      */
     @PostMapping("/login")
-    //@IgnoreAuth
-    public Result<Map<String, Object>> login() throws BusinessException {
-        Map<String, Object> token;
-        try {
-            //LoginUserVo.builder().
-            int i = 1 / 0;
-            //token = authService.token(reqJwtTokenParam);
-        } catch (Exception e) {
-            throw new BusinessException(e);
-        }
-        return Result.success();
+    public Result<Map<String, Object>> login() {
+        return testFeign.selectMenuAuth();
     }
 }

@@ -4,7 +4,7 @@ import com.github.pure.cm.auth.client.dto.ReqJwtTokenParam;
 import com.github.pure.cm.auth.client.exception.AuthClientException;
 import com.github.pure.cm.auth.client.feign.AuthProvider;
 import com.github.pure.cm.auth.client.properties.OAuth2ClientProperties;
-import com.github.pure.cm.common.core.exception.ApiException;
+import com.github.pure.cm.common.core.exception.BusinessException;
 import com.github.pure.cm.common.core.util.JsonUtil;
 import com.github.pure.cm.common.core.util.StringUtil;
 import com.google.common.cache.CacheBuilder;
@@ -50,7 +50,7 @@ public class AuthService {
      * @param reqJwtTokenParam 客户端信息
      * @return 获取的 jwt 结果
      */
-    public Map<String, Object> token(ReqJwtTokenParam reqJwtTokenParam) throws ApiException {
+    public Map<String, Object> token(ReqJwtTokenParam reqJwtTokenParam) throws BusinessException {
         Map<String, Object> client = reqJwtTokenParam.toMap();
         log.debug("获取token");
         return authProvider.token(client);
@@ -119,6 +119,10 @@ public class AuthService {
      * @return 解码后的结果
      */
     public Jwt decodeAndVerify(String token) {
+        if (token.startsWith("Bearer ")) {
+            token = token.substring("Bearer ".length());
+        }
+
         String publicKey = this.getPublicKey();
         return JwtHelper.decodeAndVerify(token, new RsaVerifier(publicKey));
     }

@@ -25,7 +25,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * 忽略权限验证接口，并打印请求url与参数；支持spring mvc 与 spring webflux
+ * 忽略权限验证接口，并打印请求url与参数；支持spring mvc 与 spring webflux；
  *
  * @author 陈欢
  * @since 2020/6/5

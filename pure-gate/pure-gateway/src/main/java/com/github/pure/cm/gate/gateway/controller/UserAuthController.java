@@ -4,7 +4,6 @@ import com.github.pure.cm.auth.client.annotation.IgnoreAuth;
 import com.github.pure.cm.auth.client.dto.ReqJwtTokenParam;
 import com.github.pure.cm.auth.client.properties.OAuth2ClientProperties;
 import com.github.pure.cm.auth.client.service.AuthService;
-import com.github.pure.cm.common.core.exception.ApiException;
 import com.github.pure.cm.common.core.exception.BusinessException;
 import com.github.pure.cm.common.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -50,12 +49,7 @@ public class UserAuthController {
                 .setUsername(userInfo.getUsername())
                 .setPassword(userInfo.getPassword())
                 .setScope(auth2ClientProperties.getScope());
-        Map<String, Object> token;
-        try {
-            token = authService.token(reqJwtTokenParam);
-        } catch (ApiException e) {
-            throw new BusinessException();
-        }
+        Map<String, Object> token = authService.token(reqJwtTokenParam);
         log.debug("login result = {}", token);
         return Mono.just(Result.success(token));
     }

@@ -2,8 +2,7 @@ package com.github.pure.cm.auth.client.feign;
 
 import java.util.Map;
 
-import com.github.pure.cm.auth.client.feign.failback.AuthProviderFail;
-import com.github.pure.cm.common.core.exception.ApiException;
+import com.github.pure.cm.common.core.exception.BusinessException;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +45,6 @@ public interface AuthProvider {
      * @return 返回结果
      */
     @PostMapping(value = "/oauth/token")
-    Map<String, Object> token(@RequestParam Map<String, Object> client) throws ApiException;
+    Map<String, Object> token(@RequestParam Map<String, Object> client) throws BusinessException;
 
 }

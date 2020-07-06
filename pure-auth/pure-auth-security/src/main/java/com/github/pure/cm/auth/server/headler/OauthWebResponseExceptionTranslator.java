@@ -1,10 +1,12 @@
 package com.github.pure.cm.auth.server.headler;
 
+import com.github.pure.cm.common.core.exception.handler.ExceptionHandlerUtil;
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.error.DefaultWebResponseExceptionTranslator;
 import org.springframework.web.util.HtmlUtils;
@@ -33,15 +35,19 @@ public class OauthWebResponseExceptionTranslator extends DefaultWebResponseExcep
             errorMessage = body.getMessage();
             if (errorMessage != null) {
                 errorMessage = HtmlUtils.htmlEscape(errorMessage);
+
+                // 统一处理
+                if (e instanceof InvalidTokenException) {
+                    errorMessage = "无效的token";
+                }
             }
-            errorMessage = body.getOAuth2ErrorCode() + "," + errorMessage;
         }
-        log.error("OAuth 2 exceptions:", e);
+        log.error("oauth2 身份验证失败\n{}:", Objects.isNull(body) ? "" : ExceptionHandlerUtil.exceptionHandler(body), e);
         String json = JsonUtil.json(Result.newIns(translate.getStatusCode().value(), errorMessage, null));
         return new ResponseEntity<>(
                 new OauthException(json, body),
                 translate.getHeaders(),
-                HttpStatus.valueOf(translate.getStatusCode().value())
+                HttpStatus.INTERNAL_SERVER_ERROR
         );
     }
 }

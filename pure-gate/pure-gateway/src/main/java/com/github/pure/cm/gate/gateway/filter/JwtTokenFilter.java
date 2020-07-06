@@ -24,7 +24,7 @@ import reactor.core.publisher.Mono;
  * @date 2019/12/4
  */
 @Slf4j
-//@Configuration
+@Configuration
 @AllArgsConstructor
 public class JwtTokenFilter implements GlobalFilter {
 

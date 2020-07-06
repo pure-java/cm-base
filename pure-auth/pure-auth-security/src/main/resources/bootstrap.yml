@@ -98,7 +98,6 @@ management:
 feign:
   sentinel:
     enabled: true
-
 logging:
   config: classpath:logback-spring.xml
 

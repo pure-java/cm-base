@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>pure-common-core</artifactId>
+    <artifactId>pure-auth-sdk</artifactId>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -1,4 +1,4 @@
-package com.github.pure.cm.common.core.auth.support;
+package com.github.pure.cm.common.core.support;
 
 import java.util.Arrays;
 import java.util.Objects;

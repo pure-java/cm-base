@@ -30,9 +30,9 @@ spring:
         min-idle: 1
         max-active: 1000
         max-wait: -1
+    database: 3
   cloud:
     nacos:
-
       config:
         server-addr: ${server.address.nacos.server-addr}
         file-extension: yaml
@@ -89,8 +89,11 @@ feign:
         readTimeout: 12000
   sentinel:
     enabled: true
+  hystrix:
+    enabled: false
   httpclient:
     connection-timeout: 5000
+
 # 设置 负载均衡 ribbon 的重试次数以及读取超时时间
 ribbon:
   MaxAutoRetries: 3

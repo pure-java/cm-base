@@ -1,8 +1,9 @@
 package com.github.pure.cm.auth.client.feign.failback;
 
 import com.github.pure.cm.auth.client.feign.AuthProvider;
-import com.github.pure.cm.common.core.exception.ApiException;
+import com.github.pure.cm.common.core.exception.BusinessException;
 import com.github.pure.cm.common.core.model.Result;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
@@ -10,7 +11,7 @@ import java.util.Map;
  * @author bairitan
  * @date 2019/12/23
  */
-//@Component
+@Component
 public class AuthProviderFail implements AuthProvider {
 
     @Override
@@ -20,11 +21,11 @@ public class AuthProviderFail implements AuthProvider {
 
     @Override
     public Map<String, Object> checkToken(Map<String, Object> checkToken, String authorization) {
-        return null;
+        throw new BusinessException(200, "token校验失败");
     }
 
     @Override
-    public Map<String, Object> token(Map<String, Object> client) throws ApiException {
-        throw new ApiException(Result.fail("获取token发生错误"));
+    public Map<String, Object> token(Map<String, Object> client) throws BusinessException {
+        throw new BusinessException(Result.fail("获取token发生错误"));
     }
 }

@@ -37,8 +37,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.apache.commons.lang.RandomStringUtils.randomAlphabetic;
-
 /**
  * 配置认证服务<br>
  * 必须强制使用构造注入需要的对象<br>

@@ -11,11 +11,11 @@ import org.springframework.context.annotation.ComponentScan;
  * @author bairitan
  * @since 2019/11/11
  */
-@SpringBootApplication
-@ComponentScan(value = "com.github.pure.cm")
-@EnableFeignClients
-@MapperScan(value = "com.github.pure.cm.auth.server.mapper")
-@EnableCaching
+//@SpringBootApplication
+//@ComponentScan(value = "com.github.pure.cm")
+//@EnableFeignClients
+//@MapperScan(value = "com.github.pure.cm.auth.server.mapper")
+//@EnableCaching
 public class AuthServerApplication {
 
     public static void main(String[] args) {

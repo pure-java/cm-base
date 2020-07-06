@@ -9,42 +9,43 @@ import org.springframework.http.HttpStatus;
  * @author 陈欢
  * @since 2020/6/5
  */
-public class BusinessException extends Exception {
+public class BusinessException extends RuntimeException {
 
     protected Integer code;
 
 
     public BusinessException() {
-        this.code  = HttpStatus.INTERNAL_SERVER_ERROR.value();
+        this.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
     }
 
     public BusinessException(Integer code) {
         this.code = code;
     }
 
-    public BusinessException(Integer code,String message) {
+    public BusinessException(Integer code, String message) {
         super(message);
         this.code = code;
     }
+
     public BusinessException(String message) {
         super(message);
-        this.code  = HttpStatus.INTERNAL_SERVER_ERROR.value();
+        this.code = HttpStatus.INTERNAL_SERVER_ERROR.value();
     }
 
-    public BusinessException(Integer code,String message,  Throwable cause) {
+    public BusinessException(Integer code, String message, Throwable cause) {
         super(message, cause);
         this.code = code;
     }
 
-    public BusinessException(Result result){
-        this(result.getCode(),result.getMessage());
+    public BusinessException(Result result) {
+        this(result.getCode(), result.getMessage());
     }
 
     public BusinessException(Throwable cause) {
         super(cause);
     }
 
-    public BusinessException( Integer code, String message,Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public BusinessException(Integer code, String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
         this.code = code;
     }

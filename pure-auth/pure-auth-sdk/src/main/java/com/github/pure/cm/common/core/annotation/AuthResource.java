@@ -1,6 +1,5 @@
-package com.github.pure.cm.common.core.auth.annotation;
+package com.github.pure.cm.common.core.annotation;
 
-import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -11,7 +10,7 @@ import java.lang.annotation.Target;
  * @author 陈欢
  * @since 2020/7/2
  */
-@Target(value = {ElementType.METHOD})
+@Target(value = {})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AuthResource {
 
@@ -21,13 +20,13 @@ public @interface AuthResource {
     String name();
 
     /**
-     * 权限表达式
+     * 权限码
      */
-    String code()/* default "*"*/;
+    String code();
 
     /**
-     * 组名
+     * 父级：菜单项code
      */
-    String groupCode() default "root";
+    String menuItemCode();
 
 }

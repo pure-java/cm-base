@@ -64,6 +64,7 @@ public class SysRoleController extends BaseController<ISysRoleService> {
         List<SysRole> sysRoles = super.service.selectMenuAuth();
         for (SysRole sysRole : sysRoles) {
             System.out.println(sysRole);
+            int i = 1 / 0;
         }
         return Result.success();
     }

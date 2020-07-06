@@ -2,6 +2,7 @@ package com.github.pure.cm.common.core.exception.handler;
 
 import com.github.pure.cm.common.core.util.BeanUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
@@ -10,7 +11,6 @@ import org.springframework.boot.web.reactive.error.DefaultErrorAttributes;
 import org.springframework.boot.web.reactive.error.ErrorAttributes;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.stereotype.Component;
@@ -60,9 +60,9 @@ public class GlobalWebFluxExceptionHandler extends AbstractErrorWebExceptionHand
     @Override
     protected void logError(ServerRequest request, ServerResponse response, Throwable throwable) {
         if (log.isDebugEnabled()) {
-            log.error("错误信息{}", throwable.getMessage(), throwable);
+            log.error("异常处理器统一处理：错误信息{}", throwable.getMessage(), throwable);
         } else {
-            log.error("堆栈信息{}", throwable.getMessage());
+            log.error("异常处理器统一处理：堆栈信息{}", throwable.getMessage());
         }
     }
 
@@ -74,11 +74,15 @@ public class GlobalWebFluxExceptionHandler extends AbstractErrorWebExceptionHand
      */
     @Override
     protected RouterFunction<ServerResponse> getRoutingFunction(final ErrorAttributes errorAttributes) {
+
         return RouterFunctions.route(RequestPredicates.all(),
-                (request) -> ServerResponse
-                        .status(HttpStatus.OK)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(BodyInserters.fromValue(getErrorAttributes(request, true)))
+                (request) -> {
+                    Map<String, Object> attributes = getErrorAttributes(request, true);
+                    return ServerResponse
+                            .status(MapUtils.getInteger(attributes, "code"))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .body(BodyInserters.fromValue(attributes));
+                }
         );
     }
 }

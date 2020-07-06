@@ -2,7 +2,6 @@ package com.github.pure.cm.auth.server.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.github.pure.cm.common.core.util.JsonUtil;
 import com.github.pure.cm.common.data.base.domain.BaseDomDate;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,8 +9,6 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 /**
