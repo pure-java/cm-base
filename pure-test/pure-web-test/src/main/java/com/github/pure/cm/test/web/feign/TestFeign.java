@@ -1,6 +1,6 @@
 package com.github.pure.cm.test.web.feign;
 
-import com.github.pure.cm.common.model.Result;
+import com.github.pure.cm.common.core.model.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 

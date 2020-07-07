@@ -5,9 +5,8 @@ import com.github.pure.cm.auth.server.service.ISysRoleService;
 import com.github.pure.cm.common.data.base.BaseController;
 import com.github.pure.cm.common.data.model.PageResult;
 import com.github.pure.cm.common.data.model.PageWhere;
-import com.github.pure.cm.common.model.Result;
-import com.github.pure.cm.common.util.StringUtil;
-import io.swagger.annotations.Api;
+import com.github.pure.cm.common.core.model.Result;
+import com.github.pure.cm.common.core.util.StringUtil;import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 

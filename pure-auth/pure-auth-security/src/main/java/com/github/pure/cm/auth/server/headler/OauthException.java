@@ -3,8 +3,8 @@ package com.github.pure.cm.auth.server.headler;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import com.github.pure.cm.common.model.Result;
-import com.github.pure.cm.common.util.JsonUtil;
+import com.github.pure.cm.common.core.model.Result;
+import com.github.pure.cm.common.core.util.JsonUtil;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 
 import java.io.IOException;

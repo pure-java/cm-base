@@ -2,7 +2,7 @@ package com.github.pure.cm.auth.server.api;
 
 import com.github.pure.cm.auth.server.model.entity.SysAuthority;
 import com.github.pure.cm.auth.server.service.ISysAuthorityService;
-import com.github.pure.cm.common.util.StringUtil;
+import com.github.pure.cm.common.core.util.StringUtil;
 import com.github.pure.cm.common.data.base.BaseController;
 import com.github.pure.cm.common.data.model.PageResult;
 import com.github.pure.cm.common.data.model.PageWhere;

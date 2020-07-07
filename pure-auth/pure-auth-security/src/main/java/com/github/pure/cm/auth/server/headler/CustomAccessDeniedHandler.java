@@ -1,7 +1,7 @@
 package com.github.pure.cm.auth.server.headler;
 
-import com.github.pure.cm.common.model.Result;
-import com.github.pure.cm.common.util.JsonUtil;
+import com.github.pure.cm.common.core.model.Result;
+import com.github.pure.cm.common.core.util.JsonUtil;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

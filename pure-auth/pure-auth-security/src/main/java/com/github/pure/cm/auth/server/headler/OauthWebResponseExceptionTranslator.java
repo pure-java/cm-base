@@ -1,7 +1,7 @@
 package com.github.pure.cm.auth.server.headler;
 
-import com.github.pure.cm.common.model.Result;
-import com.github.pure.cm.common.util.JsonUtil;
+import com.github.pure.cm.common.core.model.Result;
+import com.github.pure.cm.common.core.util.JsonUtil;
 import com.github.pure.cm.common.web.exception.handler.ExceptionHandlerUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

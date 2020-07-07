@@ -5,7 +5,7 @@ import com.github.pure.cm.auth.server.headler.AuthFailPoint;
 import com.github.pure.cm.auth.server.headler.CustomAccessDeniedHandler;
 import com.github.pure.cm.auth.server.headler.OauthWebResponseExceptionTranslator;
 import com.github.pure.cm.auth.server.service.ClientDetailService;
-import com.github.pure.cm.common.util.encry.RsaUtil;
+import com.github.pure.cm.common.core.util.encry.RsaUtil;
 import com.google.common.collect.Maps;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.AllArgsConstructor;

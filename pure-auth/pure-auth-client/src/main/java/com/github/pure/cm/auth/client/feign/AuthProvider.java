@@ -1,14 +1,14 @@
 package com.github.pure.cm.auth.client.feign;
 
-import java.util.Map;
-
-import com.github.pure.cm.common.exception.BusinessException;
+import com.github.pure.cm.common.core.exception.BusinessException;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Map;
 
 /**
  * 权限认证接口

@@ -1,10 +1,11 @@
 package com.github.pure.cm.auth.client.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.pure.cm.common.util.JsonUtil;
-import java.util.Map;
+import com.github.pure.cm.common.core.util.JsonUtil;
 import lombok.Data;
 import lombok.experimental.Accessors;
+
+import java.util.Map;
 
 /**
  * 关于 oauth2  jwt token 相关请求参数

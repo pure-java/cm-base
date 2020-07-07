@@ -2,9 +2,8 @@ package com.github.pure.cm.auth.server.service;
 
 import com.github.pure.cm.auth.server.model.dto.LoginUserVo;
 import com.github.pure.cm.auth.server.model.entity.SysUser;
-import com.github.pure.cm.common.util.JsonUtil;
-import com.github.pure.cm.common.util.StringUtil;
-import com.google.common.collect.Sets;
+import com.github.pure.cm.common.core.util.JsonUtil;
+import com.github.pure.cm.common.core.util.StringUtil;import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;

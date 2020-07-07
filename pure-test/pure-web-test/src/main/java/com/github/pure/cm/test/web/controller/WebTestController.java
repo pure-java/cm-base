@@ -5,7 +5,7 @@ import com.github.pure.cm.auth.sdk.core.annotation.AuthMenuItem;
 import com.github.pure.cm.auth.sdk.core.annotation.AuthOption;
 import com.github.pure.cm.auth.sdk.core.annotation.AuthResource;
 import com.github.pure.cm.auth.sdk.core.annotation.AuthRole;
-import com.github.pure.cm.common.model.Result;
+import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.test.web.feign.TestFeign;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

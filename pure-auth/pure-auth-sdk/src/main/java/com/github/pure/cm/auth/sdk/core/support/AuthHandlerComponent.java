@@ -5,7 +5,7 @@ import com.github.pure.cm.auth.sdk.core.annotation.AuthMenuItem;
 import com.github.pure.cm.auth.sdk.core.annotation.AuthOption;
 import com.github.pure.cm.auth.sdk.core.annotation.AuthResource;
 import com.github.pure.cm.auth.sdk.core.annotation.AuthRole;
-import com.github.pure.cm.common.util.JsonUtil;
+import com.github.pure.cm.common.core.util.JsonUtil;
 import com.github.pure.cm.model.auth.vo.AuthMenuGroupVo;
 import com.github.pure.cm.model.auth.vo.AuthMenuItemVo;
 import com.github.pure.cm.model.auth.vo.AuthResourceVo;

@@ -1,7 +1,6 @@
 package com.github.pure.cm.auth.server.api;
 
-import com.github.pure.cm.common.exception.BusinessException;
-import io.swagger.annotations.Api;
+import com.github.pure.cm.common.core.exception.BusinessException;import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
