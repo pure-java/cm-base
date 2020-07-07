@@ -1,7 +1,7 @@
 package com.github.pure.cm.auth.client.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.pure.cm.common.core.util.JsonUtil;
+import com.github.pure.cm.common.util.JsonUtil;
 import java.util.Map;
 import lombok.Data;
 import lombok.experimental.Accessors;

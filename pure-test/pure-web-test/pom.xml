@@ -17,11 +17,17 @@
             <version>${project.version}</version>
         </dependency>
 
-       <!-- <dependency>
+        <!-- <dependency>
+             <groupId>com.github.pure</groupId>
+             <artifactId>pure-auth-client</artifactId>
+             <version>${project.version}</version>
+         </dependency>-->
+
+        <dependency>
             <groupId>com.github.pure</groupId>
-            <artifactId>pure-auth-client</artifactId>
+            <artifactId>pure-auth-sdk</artifactId>
             <version>${project.version}</version>
-        </dependency>-->
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -85,7 +91,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <fork>true</fork>
-                    <mainClass>com.github.pure.cm.gate.gateway.WebTestApplication</mainClass>
+                    <mainClass>com.github.pure.cm.test.web.WebTestApplication</mainClass>
                 </configuration>
             </plugin>
 

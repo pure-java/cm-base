@@ -18,11 +18,17 @@
             <version>${com-pure.version}</version>
         </dependency>
 
-       <!-- <dependency>
+        <dependency>
             <groupId>com.github.pure</groupId>
-            <artifactId>pure-auth-common</artifactId>
+            <artifactId>pure-common-web</artifactId>
             <version>${com-pure.version}</version>
-        </dependency>-->
+        </dependency>
+
+        <!-- <dependency>
+             <groupId>com.github.pure</groupId>
+             <artifactId>pure-auth-common</artifactId>
+             <version>${com-pure.version}</version>
+         </dependency>-->
 
         <dependency>
             <groupId>com.github.pure</groupId>

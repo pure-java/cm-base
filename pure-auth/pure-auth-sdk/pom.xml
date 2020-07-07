@@ -17,6 +17,18 @@
         </dependency>
 
         <dependency>
+            <groupId>com.github.pure</groupId>
+            <artifactId>pure-common-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.pure</groupId>
+            <artifactId>pure-model-auth</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <scope>provided</scope>

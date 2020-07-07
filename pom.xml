@@ -15,6 +15,7 @@
         <module>pure-common</module>
         <module>pure-gate</module>
         <module>pure-test</module>
+        <module>pure-model</module>
     </modules>
 
     <properties>

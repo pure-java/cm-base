@@ -1,6 +1,6 @@
 package com.github.pure.cm.auth.server.auth;
 
-import com.github.pure.cm.common.core.util.encry.RsaUtil;
+import com.github.pure.cm.common.util.encry.RsaUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

@@ -24,11 +24,16 @@
             <version>${project.version}</version>
         </dependency>
 
-       <!-- <dependency>
+        <dependency>
             <groupId>com.github.pure</groupId>
-            <artifactId>pure-auth-common</artifactId>
+            <artifactId>pure-model-auth</artifactId>
             <version>${project.version}</version>
-        </dependency>-->
+        </dependency>
+        <!-- <dependency>
+             <groupId>com.github.pure</groupId>
+             <artifactId>pure-auth-common</artifactId>
+             <version>${project.version}</version>
+         </dependency>-->
 
         <dependency>
             <groupId>de.codecentric</groupId>

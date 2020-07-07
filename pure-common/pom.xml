@@ -14,6 +14,7 @@
   <modules>
     <module>pure-common-core</module>
     <module>pure-common-data</module>
+    <module>pure-common-web</module>
   </modules>
 
 </project>

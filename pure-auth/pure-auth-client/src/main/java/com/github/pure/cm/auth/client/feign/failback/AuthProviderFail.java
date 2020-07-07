@@ -1,8 +1,8 @@
 package com.github.pure.cm.auth.client.feign.failback;
 
 import com.github.pure.cm.auth.client.feign.AuthProvider;
-import com.github.pure.cm.common.core.exception.BusinessException;
-import com.github.pure.cm.common.core.model.Result;
+import com.github.pure.cm.common.exception.BusinessException;
+import com.github.pure.cm.common.model.Result;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;

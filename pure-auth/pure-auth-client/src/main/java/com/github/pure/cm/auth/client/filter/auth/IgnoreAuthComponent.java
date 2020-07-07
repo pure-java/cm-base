@@ -1,8 +1,8 @@
 package com.github.pure.cm.auth.client.filter.auth;
 
 import com.github.pure.cm.auth.client.annotation.IgnoreAuth;
-import com.github.pure.cm.common.core.model.Result;
-import com.github.pure.cm.common.core.util.ArrayUtil;
+import com.github.pure.cm.common.model.Result;
+import com.github.pure.cm.common.util.ArrayUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.BeansException;
