@@ -31,10 +31,10 @@ public class AuthResourceVo {
     private String url;
 
     /**
-     * 资源权限码
+     * 资源ID
      */
-    @ApiModelProperty("资源权限码")
-    private String code;
+    @ApiModelProperty("资源ID")
+    private String resourceId;
     /**
      * 资源权限名称
      */
@@ -42,21 +42,26 @@ public class AuthResourceVo {
     private String name;
 
     /**
-     * 父级权限码
+     * 父级ID
      */
-    @ApiModelProperty("父级权限码")
-    private String parentCode;
+    @ApiModelProperty("父级ID")
+    private String parentId;
 
+    /**
+     * 资源权限码
+     */
+    @ApiModelProperty(value = "资源权限码", example = "ROLE_ADMIN;_auth_server_test")
+    private String authCode;
     /**
      * 服务名称
      */
     @ApiModelProperty(value = "服务名称", example = "pure-auth-server")
-    private String serverName;
+    private String appName;
     /**
      * 服务编码
      */
     @ApiModelProperty(value = "服务编码", example = "pure-auth-server")
-    private String serverCode;
+    private String appCode;
     /**
      * 角色
      */

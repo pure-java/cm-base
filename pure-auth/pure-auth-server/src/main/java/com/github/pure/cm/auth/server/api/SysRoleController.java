@@ -1,7 +1,7 @@
 package com.github.pure.cm.auth.server.api;
 
 import com.github.pure.cm.auth.server.model.entity.SysRole;
-import com.github.pure.cm.auth.server.service.ISysRoleService;
+import com.github.pure.cm.auth.server.service.SysRoleService;
 import com.github.pure.cm.common.data.base.BaseController;
 import com.github.pure.cm.common.data.model.PageResult;
 import com.github.pure.cm.common.data.model.PageWhere;
@@ -32,7 +32,7 @@ import java.util.List;
 @Api(tags = "")
 @RestController
 @RequestMapping("/identity/idRole")
-public class SysRoleController extends BaseController<ISysRoleService> {
+public class SysRoleController extends BaseController<SysRoleService> {
 
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "pageIdRole")

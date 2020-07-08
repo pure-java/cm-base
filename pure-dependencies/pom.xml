@@ -90,6 +90,12 @@
                 <optional>true</optional>
             </dependency>
 
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-autoconfigure</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+
             <!-- 安全相关-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -236,6 +242,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <dependency>

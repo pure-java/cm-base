@@ -1,6 +1,6 @@
 package com.github.pure.cm.common.core.model;
 
-import com.github.pure.cm.common.core.constants.StatusCode;
+import com.github.pure.cm.common.core.constants.ExceptionCode;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -26,7 +26,7 @@ public class Result<T> implements Serializable {
   private static final long serialVersionUID = 2235085689160152768L;
 
   /**
-   * 状态码: {@link StatusCode}
+   * 状态码: {@link ExceptionCode}
    */
   private Integer code;
   /**

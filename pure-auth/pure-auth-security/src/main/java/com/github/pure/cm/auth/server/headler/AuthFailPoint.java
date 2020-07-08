@@ -2,7 +2,7 @@ package com.github.pure.cm.auth.server.headler;
 
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.JsonUtil;
-import com.github.pure.cm.common.web.exception.handler.ExceptionHandlerUtil;
+import com.github.pure.cm.base.web.exception.handler.ExceptionHandlerUtil;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

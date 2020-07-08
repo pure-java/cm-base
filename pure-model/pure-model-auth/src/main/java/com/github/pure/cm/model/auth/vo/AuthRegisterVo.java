@@ -2,8 +2,11 @@ package com.github.pure.cm.model.auth.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.List;
@@ -17,6 +20,9 @@ import java.util.List;
 @Data
 @ApiModel(value = "注册权限vo")
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @EqualsAndHashCode
 public class AuthRegisterVo {
     /**

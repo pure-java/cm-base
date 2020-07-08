@@ -14,6 +14,13 @@
     <packaging>jar</packaging>
 
     <dependencies>
+        <dependency>
+            <groupId>com.github.pure</groupId>
+            <artifactId>pure-common-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!--RESTful API文档-->
         <dependency>
             <groupId>io.springfox</groupId>

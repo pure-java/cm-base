@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.github.pure.cm.common.data.config.DateTimeSerializerConverter;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -24,6 +25,7 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public abstract class BaseDomDate<FK extends Serializable, T extends BaseDom<FK, T>> extends BaseDom<FK, T> {
 
     /**

@@ -80,6 +80,8 @@ security:
 
 # 网关验证忽略的url接口
 pure:
+  application:
+    code: webflux-test
   log:
     #    # 日志存储路径
     dir: ../

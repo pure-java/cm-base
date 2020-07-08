@@ -2,7 +2,7 @@ package com.github.pure.cm.auth.server.headler;
 
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.JsonUtil;
-import com.github.pure.cm.common.web.exception.handler.ExceptionHandlerUtil;
+import com.github.pure.cm.base.web.exception.handler.ExceptionHandlerUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +43,7 @@ public class OauthWebResponseExceptionTranslator extends DefaultWebResponseExcep
             }
         }
         log.error("oauth2 身份验证失败\n{}:", Objects.isNull(body) ? "" : ExceptionHandlerUtil.exceptionHandler(body), e);
-        String json = JsonUtil.json(Result.newIns(translate.getStatusCode().value(), errorMessage, null));
+        String json = JsonUtil.json(Result.newIns(translate.getStatusCode().value(), errorMessage, null).setStatus(false));
         return new ResponseEntity<>(
                 new OauthException(json, body),
                 translate.getHeaders(),

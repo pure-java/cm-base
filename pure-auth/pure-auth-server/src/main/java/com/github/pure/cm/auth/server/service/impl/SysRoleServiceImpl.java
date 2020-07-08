@@ -3,7 +3,7 @@ package com.github.pure.cm.auth.server.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pure.cm.auth.server.model.entity.SysRole;
 import com.github.pure.cm.auth.server.mapper.SysRoleMapper;
-import com.github.pure.cm.auth.server.service.ISysRoleService;
+import com.github.pure.cm.auth.server.service.SysRoleService;
 import com.github.pure.cm.common.data.model.PageWhere;
 import com.github.pure.cm.common.data.constants.DatabaseConstants;
 import com.github.pure.cm.common.data.base.BaseServiceImpl;
@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @since 2019/11/20
  */
 @Service
-public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> implements ISysRoleService {
+public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
 
   @Override
   public List<SysRole> pageIdRole(PageWhere pageWhere, SysRole sysRole) {
@@ -32,7 +32,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
 
   @Override
   public List<SysRole> selectMenuAuth() {
-    return this.baseMapper.selectMenuAuth();
+    return this.baseMapper.selectRoleResource();
   }
 
   @Override

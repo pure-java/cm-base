@@ -3,7 +3,8 @@ package com.github.pure.cm.auth.server.service;
 import com.github.pure.cm.auth.server.model.dto.LoginUserVo;
 import com.github.pure.cm.auth.server.model.entity.SysUser;
 import com.github.pure.cm.common.core.util.JsonUtil;
-import com.github.pure.cm.common.core.util.StringUtil;import com.google.common.collect.Sets;
+import com.github.pure.cm.common.core.util.StringUtil;
+import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -23,7 +24,7 @@ import java.util.Set;
 @Service
 public class UserService implements UserDetailsService {
     @Autowired
-    ISysUserService sysUserService;
+    SysUserService sysUserService;
 
     /**
      * 根据用户名加载用户
@@ -39,9 +40,7 @@ public class UserService implements UserDetailsService {
                 if (StringUtil.isNotBlank(role.getCode())) {
                     list.add("ROLE_" + role.getCode());
                 }
-                role.getSysMenuList().forEach(menu -> {
-                    menu.getSysAuthorities().forEach(auth -> list.add(auth.getExpression()));
-                });
+                role.getSysResourceList().forEach(menu -> list.add(menu.getAppCode()));
             });
 
 
@@ -51,11 +50,5 @@ public class UserService implements UserDetailsService {
         } else {
             throw new UsernameNotFoundException("用户[" + username + "]不存在");
         }
-    }
-
-    public static void main(String[] args) {
-        String s = "{ \"scope\": [\"all\"],\"client_id\": \"test\", \"client_secret\": \"$2a$10$Y31Y7qEwjVowsCEqTdPWieJwa7BVEavfUksfTXTRFAFn1bjKrMS.O\", \"authorized_grant_types\": [\"password\", \"authorization_code\"]}";
-        BaseClientDetails baseClientDetails = JsonUtil.newIns().jsonToObject(s, BaseClientDetails.class);
-        System.out.println(baseClientDetails);
     }
 }

@@ -60,12 +60,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 禁用表单登录
                 .disable()
                 // 由于使用token，不使用session
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        // 有 resourceServer 配置，这里不进行权限认证配置
-        //.and()
-        //.authorizeRequests()
-        //// 所有url都需要权限认证
-        //.anyRequest().authenticated();
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                // 有 resourceServer 配置，这里不进行权限认证配置
+                .and()
+                .authorizeRequests() 
+                //// 所有url都需要权限认证
+                .anyRequest().authenticated();
 
         // 配置身份认证异常和权限认证异常处理器
         http.exceptionHandling(config -> config.accessDeniedHandler(customAccessDeniedHandler).authenticationEntryPoint(authFailPoint));

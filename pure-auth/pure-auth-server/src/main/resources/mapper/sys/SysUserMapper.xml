@@ -71,10 +71,11 @@
         </foreach>
     </insert>
 
+
     <resultMap id="userAndRole" extends="BaseResultMap" type="com.github.pure.cm.auth.server.model.entity.SysUser">
         <collection property="sysRoleList"
                     javaType="list"
-                    resultMap="com.github.pure.cm.auth.server.mapper.SysRoleMapper.roleAndMenu"
+                    resultMap="com.github.pure.cm.auth.server.mapper.SysRoleMapper.roleAndResource"
                     columnPrefix="role_">
         </collection>
     </resultMap>
@@ -87,22 +88,16 @@
             <property name="tableAsName" value="role"/>
         </include>
         ,
-        <include refid="com.github.pure.cm.auth.server.mapper.SysMenuMapper.sys_menu_base_sql">
-            <property name="tableName" value="sys_menu"/>
-            <property name="tableAsName" value="role_menu"/>
-        </include>
-        ,
-        <include refid="com.github.pure.cm.auth.server.mapper.SysAuthorityMapper.sys_authority_base_sql">
-            <property name="tableName" value="sys_authority"/>
-            <property name="tableAsName" value="role_menu_auth"/>
+        <include refid="com.github.pure.cm.auth.server.mapper.SysResourceMapper.sys_authority_base_sql">
+            <property name="tableName" value="sys_resource"/>
+            <property name="tableAsName" value="sys_resource_"/>
         </include>
         FROM
         sys_user
-        JOIN sys_user_role ON sys_user_role.user_id = sys_user.oid
-        JOIN sys_role ON sys_role.oid = sys_user_role.role_id
-        JOIN sys_role_auth ON sys_role.oid = sys_role_auth.role_id
-        JOIN sys_authority ON sys_authority.oid = sys_role_auth.auth_id
-        JOIN sys_menu ON sys_authority.menu_id = sys_menu.oid
+        left JOIN sys_user_role ON sys_user_role.user_id = sys_user.oid
+        left JOIN sys_role ON sys_role.oid = sys_user_role.role_id
+        left JOIN sys_role_resource ON sys_role_resource.role_id = sys_role.oid
+        left JOIN sys_resource ON sys_resource.oid = sys_role_resource.resource_id
         where sys_user.user_name = #{userName}
     </select>
 

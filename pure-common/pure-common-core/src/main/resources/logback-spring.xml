@@ -170,7 +170,7 @@
     <!-- 本地环境 -->
     <!-- 开发环境时激活 -->
     <springProfile name="local">
-        <root level="info">
+        <root level="${level}">
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="ERROR_FILE"/>
         </root>

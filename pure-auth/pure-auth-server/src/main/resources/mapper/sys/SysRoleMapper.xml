@@ -46,15 +46,17 @@
         </foreach>
     </insert>
 
-    <resultMap id="roleAndMenu" extends="BaseResultMap" type="com.github.pure.cm.auth.server.model.entity.SysRole">
-        <collection property="sysMenuList"
+
+    <resultMap id="roleAndResource" extends="com.github.pure.cm.auth.server.mapper.SysRoleMapper.BaseResultMap"
+               type="com.github.pure.cm.auth.server.model.entity.SysRole">
+        <collection property="sysResourceList"
                     javaType="list"
-                    resultMap="com.github.pure.cm.auth.server.mapper.SysMenuMapper.menuAndAuthority"
-                    columnPrefix="menu_">
+                    resultMap="com.github.pure.cm.auth.server.mapper.SysResourceMapper.BaseResultMap"
+                    columnPrefix="sys_role_resource_">
         </collection>
     </resultMap>
 
-    <select id="selectMenuAuth" resultMap="roleAndMenu">
+    <select id="selectRoleResource" resultMap="roleAndResource">
         SELECT sys_role.oid oid,
         sys_role.pid pid,
         sys_role.code code,
@@ -63,18 +65,12 @@
         sys_role.add_date_time add_date_time,
         sys_role.opt_date_time opt_date_time,
 
-        <include refid="com.github.pure.cm.auth.server.mapper.SysMenuMapper.sys_menu_base_sql">
-            <property name="tableName" value="sys_menu"/>
-            <property name="tableAsName" value="menu"/>
-        </include>
-        ,
-        <include refid="com.github.pure.cm.auth.server.mapper.SysAuthorityMapper.sys_authority_base_sql">
-            <property name="tableName" value="sys_authority"/>
-            <property name="tableAsName" value="menu_auth"/>
+        <include refid="com.github.pure.cm.auth.server.mapper.SysResourceMapper.sys_authority_base_sql">
+            <property name="tableName" value="sys_resource"/>
+            <property name="tableAsName" value="sys_resource_"/>
         </include>
         FROM sys_role
-        JOIN sys_role_auth ON sys_role.oid = sys_role_auth.role_id
-        JOIN sys_authority ON sys_authority.oid = sys_role_auth.auth_id
-        JOIN sys_menu ON sys_authority.menu_id = sys_menu.oid
+        JOIN sys_role_resource ON sys_role.oid = sys_role_resource.role_id
+        JOIN sys_resource ON sys_resource.oid = sys_role_resource.resource_id
     </select>
 </mapper>

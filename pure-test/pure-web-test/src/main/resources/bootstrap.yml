@@ -80,6 +80,8 @@ security:
       access-token-uri:
 # 网关验证忽略的url接口
 pure:
+  application:
+    code: web-test
   log:
     #    # 日志存储路径
     dir: ../

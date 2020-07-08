@@ -31,8 +31,8 @@ public class AuthMenuItemVo {
     /**
      * 菜单项权限码
      */
-    @ApiModelProperty("菜单项权限码")
-    private String code;
+    @ApiModelProperty("菜单")
+    private String itemId;
 
     /**
      * 菜单项url，只用于展示
@@ -40,10 +40,10 @@ public class AuthMenuItemVo {
     @ApiModelProperty("菜单项url，只用于展示")
     private String url;
     /**
-     * 父级权限码
+     * 父级id
      */
-    @ApiModelProperty("菜单项父级权限码")
-    private String parentCode;
+    @ApiModelProperty("菜单项父级权限ID")
+    private String parentId;
     /**
      * 菜单项角色
      */
@@ -53,10 +53,16 @@ public class AuthMenuItemVo {
      * 服务名称
      */
     @ApiModelProperty(value = "服务名称", example = "pure-auth-server")
-    private String serverName;
+    private String appName;
     /**
      * 服务编码
      */
     @ApiModelProperty(value = "服务编码", example = "pure-auth-server")
-    private String serverCode;
+    private String appCode;
+
+    /**
+     * 资源权限码
+     */
+    @ApiModelProperty(value = "资源权限码", example = "ROLE_ADMIN;_auth_server_test")
+    private String authCode;
 }

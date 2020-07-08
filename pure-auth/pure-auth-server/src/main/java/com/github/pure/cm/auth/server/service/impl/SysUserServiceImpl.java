@@ -3,7 +3,7 @@ package com.github.pure.cm.auth.server.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pure.cm.auth.server.mapper.SysUserMapper;
 import com.github.pure.cm.auth.server.model.entity.SysUser;
-import com.github.pure.cm.auth.server.service.ISysUserService;
+import com.github.pure.cm.auth.server.service.SysUserService;
 import com.github.pure.cm.common.data.base.BaseServiceImpl;
 import com.github.pure.cm.common.data.constants.DatabaseConstants;
 import com.github.pure.cm.common.data.model.PageWhere;
@@ -27,7 +27,7 @@ import java.util.Set;
  */
 @Service
 @CacheConfig(cacheNames = "sysUserServiceImpl")
-public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
+public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
     @Autowired
     @Lazy

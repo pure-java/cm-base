@@ -1,7 +1,7 @@
 package com.github.pure.cm.auth.server.api;
 
-import com.github.pure.cm.auth.server.model.entity.SysAuthority;
-import com.github.pure.cm.auth.server.service.ISysAuthorityService;
+import com.github.pure.cm.auth.server.model.entity.SysResource;
+import com.github.pure.cm.auth.server.service.SysResourceService;
 import com.github.pure.cm.common.core.util.StringUtil;
 import com.github.pure.cm.common.data.base.BaseController;
 import com.github.pure.cm.common.data.model.PageResult;
@@ -29,21 +29,21 @@ import javax.validation.Valid;
 @Api(tags = "")
 @RestController
 @RequestMapping("/identity/idAuthority")
-public class SysAuthorityController extends BaseController<ISysAuthorityService> {
+public class SysAuthorityController extends BaseController<SysResourceService> {
 
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "pageIdAuthority")
     //@PreAuthorize(value = "hasAuthority('sysAuthority:pageIdAuthority') and hasRole('default_user')")
-    public PageResult<SysAuthority> pageIdAuthority(@ModelAttribute PageWhere pageWhere, @ModelAttribute SysAuthority sysAuthority) {
-        return PageResult.of(super.service.pageIdAuthority(pageWhere, sysAuthority));
+    public PageResult<SysResource> pageIdAuthority(@ModelAttribute PageWhere pageWhere, @ModelAttribute SysResource sysResource) {
+        return PageResult.of(super.service.pageIdAuthority(pageWhere, sysResource));
     }
 
     @ApiOperation(value = "添加")
     @PostMapping(value = "modifyIdAuthority")
     @PreAuthorize(value = "hasAuthority('sysAuthority:modifyIdAuthority')")
     //@AuthResource(name = "权限权限", code = "'sysAuthority:modifyIdAuthority'", groupCode = "sysAuthority")
-    public Boolean modifyIdAuthority(@ModelAttribute @Valid SysAuthority sysAuthority) {
-        return super.service.saveOrUpdateIdAuthority(sysAuthority);
+    public Boolean modifyIdAuthority(@ModelAttribute @Valid SysResource sysResource) {
+        return super.service.saveOrUpdateIdAuthority(sysResource);
     }
 
     @ApiOperation(value = "删除")

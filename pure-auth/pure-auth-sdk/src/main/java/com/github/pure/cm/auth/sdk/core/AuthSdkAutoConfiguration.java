@@ -1,5 +1,6 @@
 package com.github.pure.cm.auth.sdk.core;
 
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @since 2020/6/18
  */
 @ComponentScan(value = "com.github.pure.cm.auth.sdk.core.support")
+@EnableFeignClients(value = "com.github.pure.cm.auth.sdk.core.feign")
 public class AuthSdkAutoConfiguration {
 
 }

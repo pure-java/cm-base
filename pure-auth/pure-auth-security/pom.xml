@@ -20,15 +20,9 @@
 
         <dependency>
             <groupId>com.github.pure</groupId>
-            <artifactId>pure-common-web</artifactId>
+            <artifactId>pure-base-web</artifactId>
             <version>${com-pure.version}</version>
         </dependency>
-
-        <!-- <dependency>
-             <groupId>com.github.pure</groupId>
-             <artifactId>pure-auth-common</artifactId>
-             <version>${com-pure.version}</version>
-         </dependency>-->
 
         <dependency>
             <groupId>com.github.pure</groupId>

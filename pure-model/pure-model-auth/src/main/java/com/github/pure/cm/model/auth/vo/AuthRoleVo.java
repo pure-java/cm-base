@@ -32,10 +32,10 @@ public class AuthRoleVo {
     @ApiModelProperty(value = "服务名称", example = "pure-auth-server")
     private String serverName;
     /**
-     * 角色code
+     * 角色权限code
      */
-    @ApiModelProperty("角色code")
-    private String code;
+    @ApiModelProperty("角色权限code")
+    private String authCode;
     /**
      * 服务编码
      */

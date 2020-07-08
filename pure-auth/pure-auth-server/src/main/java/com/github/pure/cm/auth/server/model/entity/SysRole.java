@@ -49,6 +49,6 @@ public class SysRole extends BaseDomDate<Long, SysRole> {
      * 菜单
      */
     @TableField(exist = false)
-    private List<SysMenu> sysMenuList;
+    private List<SysResource> sysResourceList;
 
 }

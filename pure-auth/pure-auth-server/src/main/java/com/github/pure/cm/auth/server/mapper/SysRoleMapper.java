@@ -28,5 +28,5 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
      *
      * @return 角色拥有的菜单和权限
      */
-    public List<SysRole> selectMenuAuth();
+    public List<SysRole> selectRoleResource();
 }

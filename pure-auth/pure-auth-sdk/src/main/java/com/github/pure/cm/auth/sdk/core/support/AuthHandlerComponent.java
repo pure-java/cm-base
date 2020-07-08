@@ -5,16 +5,23 @@ import com.github.pure.cm.auth.sdk.core.annotation.AuthMenuItem;
 import com.github.pure.cm.auth.sdk.core.annotation.AuthOption;
 import com.github.pure.cm.auth.sdk.core.annotation.AuthResource;
 import com.github.pure.cm.auth.sdk.core.annotation.AuthRole;
+import com.github.pure.cm.auth.sdk.core.feign.AuthRegisterClient;
+import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.JsonUtil;
 import com.github.pure.cm.model.auth.vo.AuthMenuGroupVo;
 import com.github.pure.cm.model.auth.vo.AuthMenuItemVo;
+import com.github.pure.cm.model.auth.vo.AuthRegisterVo;
 import com.github.pure.cm.model.auth.vo.AuthResourceVo;
 import com.github.pure.cm.model.auth.vo.AuthRoleVo;
 import com.github.pure.cm.model.auth.vo.AuthVo;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -27,6 +34,10 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
+ * 根据方法上的权限注解解析权限.<br>
+ * 类上的 {@link AuthRole#authCode()} 和 方法上的 {@link AuthOption#authCode()} 来为每一个方法设置权限编码，然后将该权限编码<br>
+ * 自动注册到权限中心，并赋予权限
+ *
  * @author 陈欢
  * @since 2020/7/7
  */
@@ -34,28 +45,16 @@ import java.util.Set;
 public abstract class AuthHandlerComponent implements ApplicationListener<ApplicationReadyEvent> {
 
     /**
-     * 权限前缀
-     */
-    @Value("_${spring.application.name}_")
-    protected String applicationPrefix;
-    /**
      * 项目名称
      */
     @Value("${spring.application.name}")
     protected String applicationName;
     /**
-     * code
+     * 项目 code
      */
-    @Value("${spring.application.name}")
+    @Value("${pure.application.code}")
     protected String applicationCode;
 
-    @Override
-    @Async
-    public void onApplicationEvent(ApplicationReadyEvent event) {
-        AuthVo authVo = new AuthVo();
-        Set<RequestMappingVO> parse = getRequestMappingInfo(authVo);
-        parse.forEach(vo -> this.fillAuthVo(authVo, vo));
-    }
 
     /**
      * 获取请求映射信息
@@ -64,6 +63,29 @@ public abstract class AuthHandlerComponent implements ApplicationListener<Applic
      * @return
      */
     protected abstract Set<RequestMappingVO> getRequestMappingInfo(AuthVo authVo);
+
+    @Override
+    @Async
+    public void onApplicationEvent(ApplicationReadyEvent event) {
+        AuthVo authVo = new AuthVo();
+        Set<RequestMappingVO> parse = getRequestMappingInfo(authVo);
+        parse.forEach(vo -> this.fillAuthVo(authVo, vo));
+
+        AuthRegisterVo authRegisterVo = AuthRegisterVo.builder()
+                .authMenuGroupVos(Lists.newArrayList(authVo.getAuthMenuGroupVos().values()))
+                .authMenuItemVos(Lists.newArrayList(authVo.getAuthMenuItemVos().values()))
+                .authResourceVos(Lists.newArrayList(authVo.getAuthResourceVos().values()))
+                .authRoleVos(Lists.newArrayList(authVo.getAuthRoleVos().values()))
+                .serverCode(this.applicationCode)
+                .serverName(this.applicationName)
+                .build();
+        //Result<Boolean> booleanResult = authRegisterClient.registerAuth(authRegisterVo);
+        //if (booleanResult.getData()) {
+        //    log.info("注册成功!!!");
+        //} else {
+        //    log.info("注册失败!!!");
+        //}
+    }
 
     /**
      * 填充要注册的权限信息 authVo
@@ -75,41 +97,36 @@ public abstract class AuthHandlerComponent implements ApplicationListener<Applic
         String methodUrl = vo.getMethodUrl();
         Class<?> beanType = vo.getBeanType();
         Method method = vo.getMethod();
+
+        Set<String> securityCodes = Sets.newHashSet();
         {
             // 类上的角色注解
             AuthRole classAuthRole = beanType.getAnnotation(AuthRole.class);
             if (Objects.nonNull(classAuthRole)) {
-                authVo.getAuthRoleVos().computeIfAbsent(classAuthRole.code(),
-                        key -> AuthRoleVo.builder()
-                                .serverName(this.applicationName)
-                                .serverCode(this.applicationCode)
-                                .code(this.convertAuthCode(classAuthRole.code()))
-                                .name(classAuthRole.name())
-                                .build()
-                );
+                // 自动添加前缀
+                String roleAuthority = classAuthRole.authCode().startsWith("ROLE_") ? classAuthRole.authCode() : "ROLE_" + classAuthRole.authCode();
+
+                authVo.getAuthRoleVos()
+                        .computeIfAbsent(roleAuthority,
+                                key -> AuthRoleVo.builder()
+                                        .serverName(this.applicationName)
+                                        .serverCode(this.applicationCode)
+                                        .authCode(this.convertAuthCode(roleAuthority))
+                                        .name(classAuthRole.name())
+                                        .build()
+                        );
+                securityCodes.add(roleAuthority);
             }
         }
+
         // 解析
         {
-            // 方法上的注解
-            AuthRole methodRole = method.getAnnotation(AuthRole.class);
-            if (Objects.nonNull(methodRole)) {
-                authVo.getAuthRoleVos().computeIfAbsent(methodRole.code(),
-                        key -> AuthRoleVo.builder()
-                                .serverName(this.applicationName)
-                                .serverCode(this.applicationCode)
-                                .code(this.convertAuthCode(methodRole.code()))
-                                .name(methodRole.name())
-                                .build()
-                );
-            }
-
             AuthOption authOption = method.getAnnotation(AuthOption.class);
             if (Objects.isNull(authOption)) {
                 return;
             }
 
-            String optionAuthCode = this.convertAuthCode(authOption.authCode());
+            securityCodes.add(this.convertAuthCode(authOption.authCode()));
 
             // 处理权限组
             AuthMenuGroup[] groups = authOption.menuGroup();
@@ -123,7 +140,7 @@ public abstract class AuthHandlerComponent implements ApplicationListener<Applic
             AuthMenuItem[] items = authOption.menuItems();
             if (ArrayUtils.isNotEmpty(items)) {
                 for (AuthMenuItem authMenuItem : items) {
-                    putAuthMenuItem(authVo.getAuthMenuItemVos(), methodUrl, optionAuthCode, authMenuItem);
+                    putAuthMenuItem(authVo.getAuthMenuItemVos(), methodUrl, securityCodes, authMenuItem);
                 }
             }
 
@@ -131,7 +148,7 @@ public abstract class AuthHandlerComponent implements ApplicationListener<Applic
             AuthResource[] resources = authOption.resources();
             if (ArrayUtils.isNotEmpty(resources)) {
                 for (AuthResource resource : resources) {
-                    putAuthResource(authVo.getAuthResourceVos(), methodUrl, optionAuthCode, resource);
+                    putAuthResource(authVo.getAuthResourceVos(), methodUrl, securityCodes, resource);
                 }
             }
         }
@@ -142,18 +159,18 @@ public abstract class AuthHandlerComponent implements ApplicationListener<Applic
      * 添加菜单组权限
      */
     protected void putAuthMenuGroup(Map<String, AuthMenuGroupVo> authMenuGroupVos, AuthMenuGroup group) {
-        String groupCode = this.convertAuthCode(group.groupCode());
+        String groupCode = this.convertAuthCode(group.groupId());
 
         Assert.state(!authMenuGroupVos.containsKey(groupCode), String.format("@AuthMenuGroup.code()重复:`%s`", groupCode));
 
         authMenuGroupVos.put(groupCode,
                 AuthMenuGroupVo.builder()
-                        .serverName(this.applicationName)
-                        .serverCode(this.applicationCode)
+                        .appName(this.applicationName)
+                        .appCode(this.applicationCode)
                         //.authRoleVos()
-                        .code(groupCode)
+                        .groupId(groupCode)
                         .groupName(group.groupName())
-                        .parentCode(this.convertAuthCode(group.parentGroupCode()))
+                        .parentId(this.convertAuthCode(group.parentGroupId()))
                         .build());
     }
 
@@ -165,19 +182,20 @@ public abstract class AuthHandlerComponent implements ApplicationListener<Applic
      * @param optionAuthCode  操作码
      * @param authMenuItem    菜单项
      */
-    private void putAuthMenuItem(Map<String, AuthMenuItemVo> authMenuItemVos, String methodUrl, String optionAuthCode, AuthMenuItem authMenuItem) {
-        String menuCode = this.convertAuthCode(authMenuItem.code());
+    private void putAuthMenuItem(Map<String, AuthMenuItemVo> authMenuItemVos, String methodUrl, Set<String> optionAuthCode, AuthMenuItem authMenuItem) {
+        String menuCode = this.convertAuthCode(authMenuItem.itemId());
 
         Assert.state(!authMenuItemVos.containsKey(menuCode), String.format("@AuthMenuItem.code()重复:`%s`", menuCode));
 
         authMenuItemVos.put(menuCode,
                 AuthMenuItemVo.builder()
-                        .serverName(this.applicationName)
-                        .serverCode(this.applicationCode)
+                        .appName(this.applicationName)
+                        .appCode(this.applicationCode)
                         // 拼接上 optionAuthCode
-                        .code(menuCode + ";" + optionAuthCode)
+                        .itemId(menuCode)
                         .name(authMenuItem.name())
-                        .parentCode(this.convertAuthCode(authMenuItem.parentCode()))
+                        .authCode(StringUtils.join(optionAuthCode, ";"))
+                        .parentId(this.convertAuthCode(authMenuItem.parentId()))
                         .url(methodUrl)
                         .build());
     }
@@ -190,18 +208,19 @@ public abstract class AuthHandlerComponent implements ApplicationListener<Applic
      * @param optionAuthCode
      * @param resource        资源
      */
-    private void putAuthResource(Map<String, AuthResourceVo> authResourceVos, String methodUrl, String optionAuthCode, AuthResource resource) {
-        String resourceCode = this.convertAuthCode(resource.code());
+    private void putAuthResource(Map<String, AuthResourceVo> authResourceVos, String methodUrl, Set<String> optionAuthCode, AuthResource resource) {
+        String resourceCode = this.convertAuthCode(resource.resId());
 
         Assert.state(!authResourceVos.containsKey(resourceCode), String.format("@AuthResource.code()重复:`%s`", resourceCode));
 
         authResourceVos.put(resourceCode, AuthResourceVo.builder()
-                .serverName(this.applicationName)
-                .serverCode(this.applicationCode)
+                .appName(this.applicationName)
+                .appCode(this.applicationCode)
                 // 拼接上 optionAuthCode
-                .code(resourceCode + ";" + optionAuthCode)
+                .resourceId(resourceCode)
                 .name(resource.name())
-                .parentCode(this.convertAuthCode(resource.menuItemCode()))
+                .authCode(StringUtils.join(optionAuthCode, ";"))
+                .parentId(this.convertAuthCode(resource.menuItemId()))
                 .url(methodUrl)
                 .build());
     }
@@ -211,7 +230,13 @@ public abstract class AuthHandlerComponent implements ApplicationListener<Applic
      */
     protected String convertAuthCode(String authCode) {
         // 转换为小写，并将 多个 中划线和下划线转换为一个下划线
-        return authCode.toLowerCase().replaceAll("[-_]+", "_");
+        authCode = authCode.replaceAll("[-_]+", "_");
+
+        String prefix = ("_" + this.applicationCode + "_").replaceAll("[-_]+", "_");
+        authCode = authCode.startsWith(prefix) ? authCode : prefix + authCode;
+
+        authCode = authCode.replaceAll("[-_]+", "_");
+        return authCode.toLowerCase();
     }
 
     @Data

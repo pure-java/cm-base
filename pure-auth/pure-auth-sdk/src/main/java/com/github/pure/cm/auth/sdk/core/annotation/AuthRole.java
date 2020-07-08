@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * @author 陈欢
  * @since 2020/7/6
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AuthRole {
     /**
@@ -18,7 +18,7 @@ public @interface AuthRole {
     String name();
 
     /**
-     * 角色 code；如果没有带有 ROLE_ 前缀，会自动添加一个 ROLE_ 前缀
+     * 角色 权限code；如果没有带有 ROLE_ 前缀，会自动添加一个 ROLE_ 前缀
      */
-    String code();
+    String authCode();
 }

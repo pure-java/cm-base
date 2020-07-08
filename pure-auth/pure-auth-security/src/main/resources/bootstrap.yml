@@ -23,7 +23,7 @@ spring:
     filter:
       order: 1000
   application:
-    name: auth-server
+    name: pure-auth-server
   profiles:
     active: '@profileActive@'
   cloud:

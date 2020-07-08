@@ -47,15 +47,22 @@ public class AuthServerResourceConfig extends ResourceServerConfigurerAdapter {
      */
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/**").authenticated();
+        http
+                .authorizeRequests()
+                .mvcMatchers("/authServer/registerAuth")
+                .permitAll()
 
-        // 配置身份认证异常和权限认证异常处理器
-        http.exceptionHandling(config ->
-                config
-                        .authenticationEntryPoint(authFailPoint)
-                        .accessDeniedHandler(customAccessDeniedHandler)
-        );
-        super.configure(http);
+                .antMatchers("/**")
+                .authenticated()
+
+                // 配置身份认证异常和权限认证异常处理器
+                .and()
+                .exceptionHandling(config ->
+                        config
+                                .authenticationEntryPoint(authFailPoint)
+                                .accessDeniedHandler(customAccessDeniedHandler)
+                );
+        //super.configure(http);
     }
 
 }

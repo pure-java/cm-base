@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 public @interface AuthOption {
 
     /**
-     * 权限编码，应该加上服务名称前缀，如果没加，可以考虑自动添加前缀 _${project-name}_
+     * 权限编码，应该加上服务名称前缀，如果没加，可以考虑自动添加前缀 _${project-code}_
      */
     String authCode();
 

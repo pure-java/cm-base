@@ -19,13 +19,13 @@ public @interface AuthMenuItem {
     String name();
 
     /**
-     * 菜单项权限码，应该加上服务名称前缀，如果没加，可以考虑自动添加前缀 _${project-name}_
+     * 菜单项 ID，应该加上服务名称前缀，如果没加，可以考虑自动添加前缀 _${project-code}_
      */
-    String code();
+    String itemId();
 
     /**
-     * 父级 权限码，应该加上服务名称前缀，如果没加，可以考虑自动添加前缀 _${project-name}_
+     * 父级ID ，应该加上服务名称前缀，如果没加，可以考虑自动添加前缀 _${project-code}_
      */
-    String parentCode();
+    String parentId();
 
 }

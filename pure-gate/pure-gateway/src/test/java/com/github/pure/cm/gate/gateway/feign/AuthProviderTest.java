@@ -11,7 +11,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = GatewayApplication.class)
-
 public class AuthProviderTest {
 
   @Autowired
@@ -24,7 +23,7 @@ public class AuthProviderTest {
     reqJwtTokenParam.setClientSecret("admin");
     reqJwtTokenParam.setGrantType("refresh_token");
     reqJwtTokenParam.setRefreshToken(
-        "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbImFsbCJdLCJhdGkiOiJjNzQ4NWI0Ni1jODVhLTQyNDgtODU1MC04NGYyYTA1MjYxMmMiLCJleHAiOjE1ODU2MjEyNzcsImF1dGhvcml0aWVzIjpbIm1hbmFnZXIiLCJhZG1pbiJdLCJqdGkiOiJkNzZiMDZjMy0zMmIxLTRhNmUtYmVmMy05MzNiN2IyYWU3OWYiLCJjbGllbnRfaWQiOiJ0ZXN0In0.AodzkB6J7PoDGg9Y7JbArE93I1DlZX1-YcAfj7ZtwfZo_-FqesdWujweGkn5VfK1xbvMk6-5EFUdHU8OHniL4EMvrRSYQT_rqJEyK3KE_4tyVB95DjwDuwmxEQnOoO2MLhJPNpMraSs3gSmYpPrPj-1Rvt4_Gw7MBl2rasGBu_I");
+        "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbImFsbCJdLCJyb2xlcyI6W10sImV4cCI6MTU5NDI0MDkxOSwianRpIjoiMGJhNDYwNWUtOTBjOC00ODBkLWEzNGEtNTk0ODYxNWE5ODYzIiwiY2xpZW50X2lkIjoidGVzdCIsInVzZXJuYW1lIjoiYWRtaW4ifQ.KVLsQfXL_wzqv81zjRcdhM12w9wV0xn2VJvnNHgU2lfrqnYhDqQGlBWBlHfDX-QMZSy3RSvhwB5wxMRzun3S8RqaHlGFc8AFg1e174UG8Vejksg1UNYxmdw3OxlxwjaWvGJE6C8cUkMoqy1dPTHRUPtuJCXgCMzX4et8jbTzR4k");
     Map<String, Object> objectMap = authProvider.refreshToken(reqJwtTokenParam);
     System.out.println(objectMap);
   }

@@ -1,7 +1,7 @@
 package com.github.pure.cm.auth.server.api;
 
 import com.github.pure.cm.auth.server.model.entity.SysUser;
-import com.github.pure.cm.auth.server.service.ISysUserService;
+import com.github.pure.cm.auth.server.service.SysUserService;
 import com.github.pure.cm.common.data.model.PageResult;
 import com.github.pure.cm.common.data.model.PageWhere;
 import com.github.pure.cm.common.data.base.BaseController;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "")
 @RestController
 @RequestMapping("/identity/idUser")
-public class SysUserController extends BaseController<ISysUserService> {
+public class SysUserController extends BaseController<SysUserService> {
 
   @ApiOperation(value = "分页查询")
   @PostMapping(value = "pageIdUser")

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.pure.cm.auth.server.mapper.SysResourceMapper">
+    <resultMap id="BaseResultMap" type="com.github.pure.cm.auth.server.model.entity.SysResource">
+        <id column="oid" property="oid"/>
+        <result column="app_code" property="appCode"/>
+        <result column="app_name" property="appName"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="auth_code" property="authCode"/>
+        <result column="order_num" property="orderNum"/>
+        <result column="url" property="url"/>
+        <result column="type" property="type"/>
+        <result column="remark" property="remark"/>
+        <result column="add_date_time" property="addDateTime"/>
+        <result column="opt_date_time" property="optDateTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="sys_authority_base_sql">
+      ${tableName}.oid                    as ${tableAsName}oid                    ,
+      ${tableName}.app_code               as ${tableAsName}app_code               ,
+      ${tableName}.app_name               as ${tableAsName}app_name               ,
+      ${tableName}.parent_id              as ${tableAsName}parent_id              ,
+      ${tableName}.name                   as ${tableAsName}name                   ,
+      ${tableName}.code                   as ${tableAsName}code                   ,
+      ${tableName}.auth_code              as ${tableAsName}auth_code              ,
+      ${tableName}.order_num              as ${tableAsName}order_num              ,
+      ${tableName}.url                    as ${tableAsName}url                    ,
+      ${tableName}.type                   as ${tableAsName}type                   ,
+      ${tableName}.remark                 as ${tableAsName}remark                 ,
+      ${tableName}.add_date_time          as ${tableAsName}add_date_time
+    </sql>
+
+    <insert id="saveBatch">
+        insert into sys_resource (
+        oid,
+        app_code,
+        app_name,
+        parent_id,
+        name,
+        code,
+        auth_code,
+        order_num,
+        url,
+        type,
+        remark,
+        add_date_time,
+        opt_date_time
+        ) values
+        <foreach collection="saveList" item="saveObj" separator=",">
+            (
+            #{saveObj.oid},
+            #{saveObj.appCode},
+            #{saveObj.appName},
+            #{saveObj.parentId},
+            #{saveObj.name},
+            #{saveObj.code},
+            #{saveObj.authCode},
+            #{saveObj.orderNum},
+            #{saveObj.url},
+            #{saveObj.type},
+            #{saveObj.remark},
+            #{saveObj.add_date_time},
+            #{saveObj.opt_date_time}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

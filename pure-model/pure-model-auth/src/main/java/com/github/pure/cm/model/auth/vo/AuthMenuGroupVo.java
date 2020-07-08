@@ -30,30 +30,30 @@ public class AuthMenuGroupVo {
     private String groupName;
 
     /**
-     * 权限编码
+     * 菜单组ID
      */
-    @ApiModelProperty("权限编码")
-    private String code;
+    @ApiModelProperty("菜单组ID")
+    private String groupId;
 
     /**
-     * 父级权限编码
+     * 父级ID
      */
-    @ApiModelProperty("父级权限编码")
-    private String parentCode;
+    @ApiModelProperty("父级ID")
+    private String parentId;
 
-    /**
-     * 权限角色
-     */
-    @ApiModelProperty("权限角色")
-    private List<AuthRoleVo> authRoleVos;
+    ///**
+    // * 权限角色
+    // */
+    //@ApiModelProperty("权限角色")
+    //private List<AuthRoleVo> authRoleVos;
     /**
      * 服务名称
      */
     @ApiModelProperty(value = "服务名称", example = "pure-auth-server")
-    private String serverName;
+    private String appName;
     /**
      * 服务编码
      */
     @ApiModelProperty(value = "服务编码", example = "pure-auth-server")
-    private String serverCode;
+    private String appCode;
 }

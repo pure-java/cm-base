@@ -1,6 +1,6 @@
 package com.github.pure.cm.auth.server.auth;
 
-import com.github.pure.cm.auth.server.mapper.SysAuthorityMapper;
+import com.github.pure.cm.auth.server.mapper.SysResourceMapper;
 import com.github.pure.cm.auth.server.mapper.SysRoleMapper;
 import com.github.pure.cm.auth.server.model.entity.SysRole;
 import com.google.common.collect.Lists;
@@ -11,7 +11,6 @@ import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.access.prepost.PrePostAnnotationSecurityMetadataSource;
 import org.springframework.security.access.prepost.PrePostInvocationAttributeFactory;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.lang.reflect.Method;
@@ -35,7 +34,7 @@ public class AccessSecurityMetadataSource extends PrePostAnnotationSecurityMetad
 
     // 从数据库取出权限数据，代码略
     private SysRoleMapper authRoleMapper;
-    private SysAuthorityMapper sysAuthorityMapper;
+    private SysResourceMapper sysResourceMapper;
 
     public AccessSecurityMetadataSource(PrePostInvocationAttributeFactory attributeFactory) {
         super(attributeFactory);
@@ -49,29 +48,22 @@ public class AccessSecurityMetadataSource extends PrePostAnnotationSecurityMetad
     @PostConstruct
     private void loadResourceDefine() {
         permissionMap = new LinkedHashMap<>();
-        // 查询所有url
-        List<SysRole> sysRoles = authRoleMapper.selectMenuAuth();
+        // 查询所有权限
+        List<SysRole> sysRoles = authRoleMapper.selectRoleResource();
 
         Map<String, List<String>> urlExpressionMap = Maps.newHashMap();
 
-        sysRoles.stream()
-                .filter(role -> CollectionUtils.isNotEmpty(role.getSysMenuList()))
-                .forEach(role -> {
-                    role
-                            .getSysMenuList()
-                            .forEach(menu -> menu.getSysAuthorities().forEach(auth -> {
-                                String expression = auth.getExpression();
-                                // url -> 表达式：登录用户访问该url时，拥有表达式代表权限则可访问
-                                List<String> ifAbsent = urlExpressionMap.computeIfAbsent(expression, var -> Lists.newArrayList());
-                                //ifAbsent.add(auth.getExpression());
-                                // url -> role：登录用户访问该url时，拥有该角色可访问该url
-                                ifAbsent.add(role.getOid() + "");
-                            }));
-                });
+        //sysRoles.stream()
+        //        .filter(role -> CollectionUtils.isNotEmpty(role.getSysResourceList()))
+        //        .forEach(role -> {
+        //            role
+        //                    .getSysResourceList()
+        //                    .forEach(resource -> urlExpressionMap.put()));
+        //        });
 
-        urlExpressionMap.forEach((key, value) -> {
-            permissionMap.put(key, value.stream().map(SecurityConfig::new).collect(Collectors.toList()));
-        });
+        //urlExpressionMap.forEach((key, value) -> {
+        //    permissionMap.put(key, value.stream().map(SecurityConfig::new).collect(Collectors.toList()));
+        //});
 
         //// 需要鉴权的url资源，@needAuth标志
         //List<SysAuthority> permissionList = sysAuthorityMapper.selectList(new QueryWrapper<>());

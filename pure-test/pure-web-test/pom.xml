@@ -17,11 +17,11 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!-- <dependency>
-             <groupId>com.github.pure</groupId>
-             <artifactId>pure-auth-client</artifactId>
-             <version>${project.version}</version>
-         </dependency>-->
+        <dependency>
+            <groupId>com.github.pure</groupId>
+            <artifactId>pure-base-web</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.github.pure</groupId>
@@ -39,10 +39,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>io.github.openfeign</groupId>
-            <artifactId>feign-httpclient</artifactId>
-        </dependency>
 
         <!--ali服务注册中心与配置中心-->
         <!-- https://mvnrepository.com/artifact/com.alibaba.cloud/spring-cloud-starter-alibaba-nacos-discovery -->
@@ -64,11 +60,6 @@
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-transport-simple-http</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
         <!--RESTful API文档-->
