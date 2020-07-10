@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2019/12/4
  */
 @Configuration
-@ConfigurationProperties("gate.authentication")
+@ConfigurationProperties("pure.gateway.authentication")
 @Getter
 @Setter
 @ToString

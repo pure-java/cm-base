@@ -90,9 +90,19 @@ management:
 feign:
   sentinel:
     enabled: true
+
 logging:
   config: classpath:logback-spring.xml
 
+pure:
+  log:
+    dir: ../
+    level: debug
+  auth-server:
+    # jwt 签名redis key的名字
+    jwt-token-signer:
+      public-redis-key: PURE_AUTH_SERVER:TOKEN_RSA_PUBLIC_KEY
+      private-redis-key: PURE_AUTH_SERVER:TOKEN_RSA_PRIVATE_KEY
 #dubbo:
 #  scan:
 #    base-packages: com.github.pure.cm.auth.server.dubbo

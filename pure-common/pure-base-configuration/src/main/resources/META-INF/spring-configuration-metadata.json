@@ -104,7 +104,7 @@
       "description": "项目 code,是用于服务认证"
     },
     {
-      "name": "pure.gate.authentication.ignore-urls",
+      "name": "pure.gateway.authentication.ignore-urls",
       "type": "java.lang.String",
       "description": "忽略权限认证url前缀"
     },
