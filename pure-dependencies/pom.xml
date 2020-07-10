@@ -22,6 +22,7 @@
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <!-- 设置能识别 @ 符号，使用 @ 引用 maven 变量-->
         <resource.delimiter>@</resource.delimiter>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -233,6 +234,12 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.pure</groupId>
+            <artifactId>pure-base-configuration</artifactId>
+            <version>${com-pure.version}</version>
         </dependency>
 
         <dependency>

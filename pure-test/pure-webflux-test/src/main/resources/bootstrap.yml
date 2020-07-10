@@ -87,9 +87,6 @@ pure:
     dir: ../
     # 日志等级，并且控制 logback
     level: debug
-  gate:
-    authentication:
-      ignore-urls: /oauth,/v2
 swagger2:
   enable: false
 

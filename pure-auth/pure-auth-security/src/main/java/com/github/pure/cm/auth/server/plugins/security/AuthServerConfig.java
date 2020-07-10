@@ -1,6 +1,5 @@
-package com.github.pure.cm.auth.server.auth.config;
+package com.github.pure.cm.auth.server.plugins.security;
 
-import com.github.pure.cm.auth.server.auth.RsaManager;
 import com.github.pure.cm.auth.server.headler.AuthFailPoint;
 import com.github.pure.cm.auth.server.headler.CustomAccessDeniedHandler;
 import com.github.pure.cm.auth.server.headler.OauthWebResponseExceptionTranslator;

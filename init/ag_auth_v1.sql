@@ -11,7 +11,7 @@
  Target Server Version : 80019
  File Encoding         : 65001
 
- Date: 01/07/2020 17:41:17
+ Date: 10/07/2020 18:19:29
 */
 
 SET NAMES utf8mb4;
@@ -67,7 +67,7 @@ CREATE TABLE `oauth_client_details`  (
 -- ----------------------------
 -- Records of oauth_client_details
 -- ----------------------------
-INSERT INTO `oauth_client_details` VALUES ('test', NULL, '$2a$10$Y31Y7qEwjVowsCEqTdPWieJwa7BVEavfUksfTXTRFAFn1bjKrMS.O', 'all', 'password,authorization_code', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `oauth_client_details` VALUES ('test', NULL, '$2a$10$Y31Y7qEwjVowsCEqTdPWieJwa7BVEavfUksfTXTRFAFn1bjKrMS.O', 'all', 'password,authorization_code,refresh_token', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for oauth_client_token
@@ -102,37 +102,13 @@ CREATE TABLE `oauth_refresh_token`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
--- Table structure for sys_authority
--- ----------------------------
-DROP TABLE IF EXISTS `sys_authority`;
-CREATE TABLE `sys_authority`  (
-  `oid` bigint(0) NOT NULL AUTO_INCREMENT,
-  `menu_id` bigint(0) NOT NULL COMMENT '父级',
-  `order_num` int(0) NOT NULL COMMENT '角色标签',
-  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '请求url',
-  `type` tinyint(0) NULL DEFAULT 0 COMMENT '类型：0 - 菜单 1 - 按钮',
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '名称',
-  `remark` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '备注',
-  `expression` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `add_date_time` datetime(0) NULL DEFAULT NULL,
-  `opt_date_time` datetime(0) NULL DEFAULT NULL,
-  PRIMARY KEY (`oid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of sys_authority
--- ----------------------------
-INSERT INTO `sys_authority` VALUES (1, 1, 1, NULL, NULL, '1', '', 'sysAuthority:pageIdAuthority', NULL, NULL);
-INSERT INTO `sys_authority` VALUES (2, 1, 2, NULL, NULL, '2', '', 'sysAuthority:modifyIdAuthority', NULL, NULL);
-INSERT INTO `sys_authority` VALUES (3, 2, 3, NULL, NULL, '3', '', 'idAuthority:removeIdAuthority', NULL, NULL);
-
--- ----------------------------
 -- Table structure for sys_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu`  (
   `oid` bigint(0) NOT NULL AUTO_INCREMENT,
   `pid` bigint(0) NOT NULL COMMENT '父节点oid',
+  `serverName` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '服务名称',
   `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '菜单名称',
   `herf` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单路径',
   `icon` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '登陆类型',
@@ -140,18 +116,46 @@ CREATE TABLE `sys_menu`  (
   `order_num` int(0) NOT NULL DEFAULT 0 COMMENT '序号',
   `add_date_time` datetime(0) NULL DEFAULT NULL,
   `opt_date_time` datetime(0) NULL DEFAULT NULL,
-  PRIMARY KEY (`oid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`oid`) USING BTREE,
+  UNIQUE INDEX `title`(`title`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of sys_menu
+-- Table structure for sys_resource
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES (1, 0, '1', NULL, '', '', 0, NULL, NULL);
-INSERT INTO `sys_menu` VALUES (2, 0, '2', NULL, '', '', 0, NULL, NULL);
-INSERT INTO `sys_menu` VALUES (3, 1, '3', NULL, '', '', 0, NULL, NULL);
-INSERT INTO `sys_menu` VALUES (4, 1, '4', NULL, '', '', 0, NULL, NULL);
-INSERT INTO `sys_menu` VALUES (5, 2, '5', NULL, '', '', 0, NULL, NULL);
-INSERT INTO `sys_menu` VALUES (6, 2, '6', NULL, '', '', 0, NULL, NULL);
+DROP TABLE IF EXISTS `sys_resource`;
+CREATE TABLE `sys_resource`  (
+  `oid` bigint(0) NOT NULL AUTO_INCREMENT,
+  `app_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '所属服务编码',
+  `app_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `parent_id` bigint(0) NULL DEFAULT NULL COMMENT '父级ID',
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '名称',
+  `code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '表达式',
+  `auth_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '权限code',
+  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '请求url',
+  `type` tinyint(0) NULL DEFAULT 0 COMMENT '类型：0 - menuGroup 1 - menuItem 2 resource',
+  `order_num` int(0) NOT NULL DEFAULT 0 COMMENT '角色标签',
+  `remark` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '备注',
+  `add_date_time` datetime(0) NULL DEFAULT NULL,
+  `opt_date_time` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`oid`) USING BTREE,
+  INDEX `index_parent_id`(`parent_id`) USING BTREE,
+  INDEX `index_code`(`code`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_resource
+-- ----------------------------
+INSERT INTO `sys_resource` VALUES (1, 'webflux-test', 'pure-webflux-test', NULL, '查询权限', '_webflux_test_sys_authority', NULL, NULL, 0, 0, '', NULL, NULL);
+INSERT INTO `sys_resource` VALUES (2, 'webflux-test', 'pure-webflux-test', 1, '用户权限管理', '_webflux_test_sys_authority_list', 'ROLE_权限12;_webflux_test_sys_authority_list_all', '/webFlux/feignTest/errorTest', 1, 0, '', NULL, NULL);
+INSERT INTO `sys_resource` VALUES (3, 'webflux-test', 'pure-webflux-test', 1, '用户权限查询', '_webflux_test_sys_authority_select', 'ROLE_权限12;_webflux_test_sys_authority_list_all', '/webFlux/feignTest/errorTest', 1, 0, '', NULL, NULL);
+INSERT INTO `sys_resource` VALUES (4, 'webflux-test', 'pure-webflux-test', 2, '权限列表', '_webflux_test_sys_authority_list_page', 'ROLE_权限12;_webflux_test_sys_authority_list_all', '/webFlux/feignTest/errorTest', 2, 0, '', NULL, NULL);
+INSERT INTO `sys_resource` VALUES (5, 'webflux-test', 'pure-webflux-test', 3, '权限列表', '_webflux_test_sys_authority_select_page', 'ROLE_权限12;_webflux_test_sys_authority_list_all', '/webFlux/feignTest/errorTest', 2, 0, '', NULL, NULL);
+INSERT INTO `sys_resource` VALUES (16, 'web-test', 'pure-web-test', NULL, '查询权限', '_web_test_sys_authority', NULL, NULL, 0, 0, '', NULL, NULL);
+INSERT INTO `sys_resource` VALUES (17, 'web-test', 'pure-web-test', 16, '用户权限管理', '_web_test_sys_authority_list', 'ROLE_权限1;_web_test_sys_authority_list_all', '/web/test/login', 1, 0, '', NULL, NULL);
+INSERT INTO `sys_resource` VALUES (18, 'web-test', 'pure-web-test', 16, '用户权限查询', '_web_test_sys_authority_select', 'ROLE_权限1;_web_test_sys_authority_list_all', '/web/test/login', 1, 0, '', NULL, NULL);
+INSERT INTO `sys_resource` VALUES (19, 'web-test', 'pure-web-test', 17, '权限列表', '_web_test_sys_authority_list_page', 'ROLE_权限1;_web_test_sys_authority_list_all', '/web/test/login', 2, 0, '', NULL, NULL);
+INSERT INTO `sys_resource` VALUES (20, 'web-test', 'pure-web-test', 18, '权限列表', '_web_test_sys_authority_select_page', 'ROLE_权限1;_web_test_sys_authority_list_all', '/web/test/login', 2, 0, '', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -166,29 +170,17 @@ CREATE TABLE `sys_role`  (
   `add_date_time` datetime(0) NULL DEFAULT NULL,
   `opt_date_time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`oid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of sys_role
+-- Table structure for sys_role_resource
 -- ----------------------------
-INSERT INTO `sys_role` VALUES (1, 0, 'default_user', '', '', NULL, NULL);
-
--- ----------------------------
--- Table structure for sys_role_auth
--- ----------------------------
-DROP TABLE IF EXISTS `sys_role_auth`;
-CREATE TABLE `sys_role_auth`  (
+DROP TABLE IF EXISTS `sys_role_resource`;
+CREATE TABLE `sys_role_resource`  (
   `role_id` bigint(0) NOT NULL COMMENT '菜单ID',
-  `auth_id` bigint(0) NOT NULL COMMENT '权限ID',
-  PRIMARY KEY (`role_id`, `auth_id`) USING BTREE
+  `resource_id` bigint(0) NOT NULL COMMENT '权限ID',
+  PRIMARY KEY (`role_id`, `resource_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of sys_role_auth
--- ----------------------------
-INSERT INTO `sys_role_auth` VALUES (1, 1);
-INSERT INTO `sys_role_auth` VALUES (1, 2);
-INSERT INTO `sys_role_auth` VALUES (1, 3);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -210,7 +202,7 @@ CREATE TABLE `sys_user`  (
   `opt_date_time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`oid`) USING BTREE,
   UNIQUE INDEX `index_un_id_user_user_name`(`user_name`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user
@@ -226,11 +218,5 @@ CREATE TABLE `sys_user_role`  (
   `role_id` bigint(0) NOT NULL,
   PRIMARY KEY (`user_id`, `role_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of sys_user_role
--- ----------------------------
-INSERT INTO `sys_user_role` VALUES (1, 1);
-INSERT INTO `sys_user_role` VALUES (1, 2);
 
 SET FOREIGN_KEY_CHECKS = 1;

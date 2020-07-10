@@ -1,4 +1,4 @@
-package com.github.pure.cm.auth.server.auth;
+package com.github.pure.cm.auth.server.plugins.security;
 
 import com.github.pure.cm.common.core.util.encry.RsaUtil;
 import org.springframework.beans.BeansException;
@@ -21,9 +21,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 public class RsaManager implements ApplicationContextAware {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
-    @Value("${custom.config.auth-server.jwt-token-signer.public-key-redis}")
+    @Value("${pure.auth-server.jwt-token-signer.public-redis-key}")
     private String publicKeyRedis;
-    @Value("${custom.config.auth-server.jwt-token-signer.private-key-redis}")
+    @Value("${pure.auth-server.jwt-token-signer.private-redis-key}")
     private String privateKeyRedis;
 
     public RsaUtil.RsaKey getRsaKey() {

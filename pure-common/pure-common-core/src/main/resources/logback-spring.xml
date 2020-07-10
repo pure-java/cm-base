@@ -26,11 +26,12 @@
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <withJansi>true</withJansi>
         <encoder>
-            <!---->
+            <!--@formatter:off-->
             <!--格式化输出：%d:表示日期    %thread:表示线程名     %-5level:级别从左显示5个字符宽度  %msg:日志消息    %n:是换行符-->
             <pattern>%red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{36}) - %cyan(%msg%n)
             </pattern>
             <charset>UTF-8</charset>
+            <!--@formatter:on-->
         </encoder>
     </appender>
 
@@ -185,11 +186,11 @@
         </logger>
 
         <logger name="com.alibaba.nacos.client" level="error" additivity="false">
-<!--            <appender-ref ref="CONSOLE"/>-->
+            <!--            <appender-ref ref="CONSOLE"/>-->
             <appender-ref ref="ERROR_FILE"/>
         </logger>
         <logger name="com.zaxxer.hikari" level="error" additivity="false">
-<!--            <appender-ref ref="CONSOLE"/>-->
+            <!--            <appender-ref ref="CONSOLE"/>-->
             <appender-ref ref="ERROR_FILE"/>
         </logger>
     </springProfile>

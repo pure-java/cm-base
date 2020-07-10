@@ -1,0 +1,19 @@
+{
+  "groups": [
+    {
+      "name": "custom"
+    }
+  ],
+  "properties": [
+    {
+      "name": "pure.auth-server.jwt-token-signer.public-redis-key",
+      "type": "java.lang.String",
+      "description": "存放到redis的加密oauth2 jwt rsa 公钥key"
+    },
+    {
+      "name": "pure.auth-server.jwt-token-signer.private-redis-key",
+      "type": "java.lang.String",
+      "description": "存放到redis的加密oauth2 jwt rsa 私钥key"
+    }
+  ]
+}
