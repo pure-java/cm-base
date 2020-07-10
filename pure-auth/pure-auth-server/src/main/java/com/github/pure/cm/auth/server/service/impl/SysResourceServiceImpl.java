@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pure.cm.auth.server.mapper.SysResourceMapper;
 import com.github.pure.cm.auth.server.model.entity.SysResource;
 import com.github.pure.cm.auth.server.service.SysResourceService;
+import com.github.pure.cm.common.core.exception.BusinessException;
 import com.github.pure.cm.common.core.util.BusAsserts;
 import com.github.pure.cm.common.core.util.StringUtil;
 import com.github.pure.cm.common.core.util.collection.CollectUtils;
@@ -18,6 +19,7 @@ import com.github.pure.cm.model.auth.vo.AuthResourceVo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.ListUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -106,8 +108,11 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResourceMapper, S
         return true;
     }
 
-
+    @Override
     public SysResource byCodeAndAppCode(String appCode, String code) {
+        //if (CollectionUtils.size(list.size()) != 1) {
+        //    throw new BusinessException(AuthExceptionCode.NOT_FOUND_PARENT);
+        //}
         return super.daoUtil.lambdaQuery().eq(SysResource::getAppCode, appCode).eq(SysResource::getCode, code).oneOpt().orElse(null);
     }
 
@@ -150,7 +155,7 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResourceMapper, S
                 SysResource sysResource = this.byCodeAndAppCode(resource.getAppCode(), parentCode);
 
                 // 查找不到父节点
-                BusAsserts.nonNull(sysResource, AuthExceptionCode.NOT_FOUND_PARENT);
+                BusAsserts.nonNull(sysResource, AuthExceptionCode.NOT_FOUND_PARENT, "找不到父级菜单：父级`%s`", parentCode);
 
                 parentId = sysResource.getOid();
                 // 将code添加进去
@@ -162,12 +167,13 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResourceMapper, S
         // 查询数据库，找到则，进行修改；如果未找到，则进行添加
         SysResource dbCurrGroup = this.byCodeAndAppCode(resource.getAppCode(), resource.getCode());
 
-        if (resource.equals(dbCurrGroup)) {
+        if (resource.resourceEquals(dbCurrGroup)) {
             resource.setOid(dbCurrGroup.getOid());
             this.daoUtil.updateById(resource);
         } else {
             this.daoUtil.save(resource);
         }
+
         resourceIdMap.put(resource.getCode(), resource.getOid());
     }
 }

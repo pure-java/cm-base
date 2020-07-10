@@ -52,7 +52,7 @@ public class FeignConfig {
         JsonJackson2HttpMessageConverter() {
             List<MediaType> mediaTypes = new ArrayList<>();
             // 设置数据类型
-            mediaTypes.add(MediaType.valueOf(MediaType.TEXT_HTML_VALUE + ";charset=UTF-8")); //关键
+            mediaTypes.add(MediaType.valueOf(MediaType.APPLICATION_JSON_UTF8_VALUE)); //关键
             setSupportedMediaTypes(mediaTypes);
         }
     }

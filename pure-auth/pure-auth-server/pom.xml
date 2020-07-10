@@ -20,6 +20,12 @@
 
         <dependency>
             <groupId>com.github.pure</groupId>
+            <artifactId>pure-model-auth</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.pure</groupId>
             <artifactId>pure-common-data</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -115,7 +121,7 @@
 
 
     <build>
-        <finalName>pure-auth-server</finalName>
+        <finalName>${project.name}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

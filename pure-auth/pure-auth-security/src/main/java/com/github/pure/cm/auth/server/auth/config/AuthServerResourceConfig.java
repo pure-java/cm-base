@@ -24,8 +24,10 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 public class AuthServerResourceConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     private TokenStore tokenStore;
+
     @Autowired
     private AuthFailPoint authFailPoint;
+
     @Autowired
     private CustomAccessDeniedHandler customAccessDeniedHandler;
 
@@ -52,16 +54,16 @@ public class AuthServerResourceConfig extends ResourceServerConfigurerAdapter {
                 .mvcMatchers("/authServer/registerAuth")
                 .permitAll()
 
+                // 除上面的url外将受到权限保护
                 .antMatchers("/**")
                 .authenticated()
 
-                // 配置身份认证异常和权限认证异常处理器
                 .and()
-                .exceptionHandling(config ->
-                        config
-                                .authenticationEntryPoint(authFailPoint)
-                                .accessDeniedHandler(customAccessDeniedHandler)
-                );
+
+                // 配置身份认证异常和权限认证异常处理器
+                .exceptionHandling()
+                .authenticationEntryPoint(authFailPoint)
+                .accessDeniedHandler(customAccessDeniedHandler);
         //super.configure(http);
     }
 

@@ -1,5 +1,6 @@
 package com.github.pure.cm.common.core.exception;
 
+import com.github.pure.cm.common.core.constants.ExceptionCode;
 import com.github.pure.cm.common.core.model.Result;
 import org.springframework.http.HttpStatus;
 
@@ -20,6 +21,10 @@ public class BusinessException extends RuntimeException {
 
     public BusinessException(Integer code) {
         this.code = code;
+    }
+
+    public BusinessException(ExceptionCode code) {
+        this(code.getCode(), code.getDesc());
     }
 
     public BusinessException(Integer code, String message) {

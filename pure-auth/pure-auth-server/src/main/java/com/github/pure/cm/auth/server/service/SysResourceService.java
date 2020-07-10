@@ -35,6 +35,15 @@ public interface SysResourceService extends IBaseService<SysResource> {
     boolean registerAuth(AuthRegisterVo authRegisterVo);
 
     /**
+     * 根据 资源码 和 app code 查询资源
+     *
+     * @param appCode app code
+     * @param code    资源code
+     * @return
+     */
+     SysResource byCodeAndAppCode(String appCode, String code);
+
+    /**
      * 批量添加
      *
      * @param saveList 添加内容

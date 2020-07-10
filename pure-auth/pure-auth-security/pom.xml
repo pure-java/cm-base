@@ -120,7 +120,7 @@
 
 
     <build>
-        <finalName>pure-auth-server</finalName>
+        <finalName>${project.name}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

@@ -44,6 +44,8 @@ import java.util.Set;
 @Slf4j
 public abstract class AuthHandlerComponent implements ApplicationListener<ApplicationReadyEvent> {
 
+    @Autowired
+    private AuthRegisterClient authRegisterClient;
     /**
      * 项目名称
      */
@@ -79,12 +81,12 @@ public abstract class AuthHandlerComponent implements ApplicationListener<Applic
                 .serverCode(this.applicationCode)
                 .serverName(this.applicationName)
                 .build();
-        //Result<Boolean> booleanResult = authRegisterClient.registerAuth(authRegisterVo);
-        //if (booleanResult.getData()) {
-        //    log.info("注册成功!!!");
-        //} else {
-        //    log.info("注册失败!!!");
-        //}
+        Boolean booleanResult = authRegisterClient.registerAuth(authRegisterVo);
+        if (booleanResult) {
+            log.info("注册成功!!!");
+        } else {
+            log.info("注册失败!!!");
+        }
     }
 
     /**
@@ -229,6 +231,9 @@ public abstract class AuthHandlerComponent implements ApplicationListener<Applic
      * 对权限码进行转换
      */
     protected String convertAuthCode(String authCode) {
+        if (StringUtils.isBlank(authCode)) {
+            return "";
+        }
         // 转换为小写，并将 多个 中划线和下划线转换为一个下划线
         authCode = authCode.replaceAll("[-_]+", "_");
 

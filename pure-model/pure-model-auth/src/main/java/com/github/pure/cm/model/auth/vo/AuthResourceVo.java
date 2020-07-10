@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 /**
@@ -34,23 +35,27 @@ public class AuthResourceVo {
      * 资源ID
      */
     @ApiModelProperty("资源ID")
+    @NotBlank(message = "资源ID不能为空")
     private String resourceId;
     /**
-     * 资源权限名称
+     * 资源名称
      */
-    @ApiModelProperty("资源权限名称")
+    @ApiModelProperty("资源名称")
+    @NotBlank(message = "资源名称不能为空")
     private String name;
 
     /**
      * 父级ID
      */
-    @ApiModelProperty("父级ID")
+    @ApiModelProperty("资源父级ID")
+    @NotBlank(message = "资源父级ID不能为空")
     private String parentId;
 
     /**
      * 资源权限码
      */
     @ApiModelProperty(value = "资源权限码", example = "ROLE_ADMIN;_auth_server_test")
+    @NotBlank(message = "资源权限码不能为空")
     private String authCode;
     /**
      * 服务名称

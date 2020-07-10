@@ -5,7 +5,6 @@ import com.github.pure.cm.common.data.base.domain.BaseDomDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -16,14 +15,12 @@ import java.util.Objects;
  * @since 2018-03-01 16:36
  **/
 @Data
-@TableName("sys_authority")
-@EqualsAndHashCode(callSuper = true)
+@Builder
+@TableName("sys_resource")
+@ToString(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@ToString(callSuper = true)
 public class SysResource extends BaseDomDate<Long, SysResource> {
-
 
     /**
      * app code
@@ -70,11 +67,15 @@ public class SysResource extends BaseDomDate<Long, SysResource> {
      */
     private String remark;
 
-    @Override
-    public boolean equals(Object o) {
+    /**
+     * hashCode 和 equals 用于比较对象资源是否相等，不能修改
+     *
+     * @param o
+     * @return
+     */
+    public boolean resourceEquals(Object o) {
         if (this == o) return true;
         if (!(o instanceof SysResource)) return false;
-        if (!super.equals(o)) return false;
         SysResource that = (SysResource) o;
         return Objects.equals(getAppCode(), that.getAppCode()) &&
                 Objects.equals(getAppName(), that.getAppName()) &&
@@ -85,8 +86,4 @@ public class SysResource extends BaseDomDate<Long, SysResource> {
                 Objects.equals(getType(), that.getType());
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), getAppCode(), getAppName(), getParentId(), getName(), getCode(), getUrl(), getType());
-    }
 }

@@ -39,7 +39,6 @@ public class WebFluxFeignTest {
     @PostMapping("/errorTest")
     public Result errorTest() {
         throw new BusinessException(501, "自定义");
-        //return Result.success();
     }
 
     @Autowired

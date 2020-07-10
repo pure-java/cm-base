@@ -17,11 +17,11 @@
             <version>${project.version}</version>
         </dependency>
 
-       <!-- <dependency>
+        <dependency>
             <groupId>com.github.pure</groupId>
-            <artifactId>pure-auth-common</artifactId>
+            <artifactId>pure-auth-resource</artifactId>
             <version>${project.version}</version>
-        </dependency>-->
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>

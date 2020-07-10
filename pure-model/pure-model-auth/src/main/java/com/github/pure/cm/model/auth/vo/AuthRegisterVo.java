@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 /**
@@ -34,7 +35,8 @@ public class AuthRegisterVo {
     /**
      * 服务code
      */
-    @ApiModelProperty(value = "服务code", example = "pure-auth-server")
+    @ApiModelProperty(value = "服务code", example = "pure-auth-server", required = true)
+    @NotBlank(message = "服务code不能为空")
     private String serverCode;
 
     /**

@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 /**
@@ -23,22 +24,26 @@ import java.util.List;
 @AllArgsConstructor
 @ApiModel("菜单组")
 public class AuthMenuGroupVo {
+
     /**
-     * 权限组名称
+     * 菜单组名称
      */
-    @ApiModelProperty("权限组名称")
+    @ApiModelProperty("菜单组名称")
+    @NotBlank(message = "菜单组名称不能为空")
     private String groupName;
 
     /**
      * 菜单组ID
      */
     @ApiModelProperty("菜单组ID")
+    @NotBlank(message = "菜单组ID不能为空")
     private String groupId;
 
     /**
      * 父级ID
      */
     @ApiModelProperty("父级ID")
+    @NotBlank(message = "父级ID不能为空")
     private String parentId;
 
     ///**

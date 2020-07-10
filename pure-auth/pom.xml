@@ -19,6 +19,7 @@
         <module>pure-auth-security</module>
         <module>pure-auth-common</module>
         <module>pure-auth-sdk</module>
+        <module>pure-auth-resource</module>
     </modules>
 
     <distributionManagement>

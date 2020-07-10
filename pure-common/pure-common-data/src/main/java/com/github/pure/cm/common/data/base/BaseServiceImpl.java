@@ -33,11 +33,10 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseDom> impleme
   protected IDao<M, T> daoUtil;
 
   public BaseServiceImpl() {
-    // 获取 实体类 的类名称
-    Class<T> tableClass = (Class<T>) ReflectionKit.getSuperClassGenericType(getClass(), 1);
-
     daoUtil = new DaoImpl<>();
-    daoUtil.setTableClass(tableClass);
+
+    // 获取 实体类 的类名称
+    daoUtil.setTableClass( (Class<T>) ReflectionKit.getSuperClassGenericType(getClass(), 1));
   }
 
   @Override

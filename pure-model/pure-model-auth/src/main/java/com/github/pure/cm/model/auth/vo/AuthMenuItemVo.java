@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 /**
@@ -27,11 +28,13 @@ public class AuthMenuItemVo {
      * 菜单项名称
      */
     @ApiModelProperty("菜单项名称")
+    @NotBlank(message = "菜单项名称不能为空")
     private String name;
     /**
-     * 菜单项权限码
+     * 菜单项ID
      */
-    @ApiModelProperty("菜单")
+    @ApiModelProperty("菜单ID")
+    @NotBlank(message = "菜单ID不能为空")
     private String itemId;
 
     /**
@@ -42,7 +45,8 @@ public class AuthMenuItemVo {
     /**
      * 父级id
      */
-    @ApiModelProperty("菜单项父级权限ID")
+    @ApiModelProperty("菜单项父级ID")
+    @NotBlank(message = "菜单项父级ID不能为空")
     private String parentId;
     /**
      * 菜单项角色
@@ -61,8 +65,9 @@ public class AuthMenuItemVo {
     private String appCode;
 
     /**
-     * 资源权限码
+     * 菜单项权限码
      */
-    @ApiModelProperty(value = "资源权限码", example = "ROLE_ADMIN;_auth_server_test")
+    @ApiModelProperty(value = "菜单项权限码", example = "ROLE_ADMIN;_auth_server_test")
+    @NotBlank(message = "菜单项权限码不能为空")
     private String authCode;
 }

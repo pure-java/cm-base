@@ -51,7 +51,6 @@ public final class BusAsserts {
             throw new BusinessException(exceptionCode.getCode(), exceptionCode.getDesc());
         }
     }
-
     /**
      * 对象不为空抛出异常
      *
@@ -59,9 +58,9 @@ public final class BusAsserts {
      * @param exceptionCode 异常码
      * @param errorMsg      错误信息
      */
-    public static void isNull(Object expression, ExceptionCode exceptionCode, String errorMsg) {
+    public static void isNull(Object expression, ExceptionCode exceptionCode, String errorMsg, String... arg) {
         if (!Objects.isNull(expression)) {
-            throw new BusinessException(exceptionCode.getCode(), errorMsg);
+            throw new BusinessException(exceptionCode.getCode(), ArrayUtil.isNotEmpty(arg) ? String.format(errorMsg, (Object[]) arg) : errorMsg);
         }
     }
 
@@ -82,11 +81,12 @@ public final class BusAsserts {
      *
      * @param expression    表达式
      * @param exceptionCode 异常码
-     * @param errorMsg      错误信息
+     * @param format        错误信息格式
+     * @param arg           当
      */
-    public static void nonNull(Object expression, ExceptionCode exceptionCode, String errorMsg) {
+    public static void nonNull(Object expression, ExceptionCode exceptionCode, String format, String... arg) {
         if (!Objects.nonNull(expression)) {
-            throw new BusinessException(exceptionCode.getCode(), errorMsg);
+            throw new BusinessException(exceptionCode.getCode(), ArrayUtil.isNotEmpty(arg) ? String.format(format, (Object[]) arg) : format);
         }
     }
 }

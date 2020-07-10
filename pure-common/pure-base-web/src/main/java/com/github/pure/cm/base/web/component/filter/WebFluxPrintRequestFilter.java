@@ -65,23 +65,23 @@ public class WebFluxPrintRequestFilter implements WebFilter {
             return chain.filter(exchange);
 
             //   json
-        } else if (MediaType.APPLICATION_JSON.isCompatibleWith(contentType)) {
-            return request.getBody().flatMap(dataBuffer -> {
-                byte[] bytes = new byte[dataBuffer.readableByteCount()];
-                dataBuffer.read(bytes);
-                log.debug("请求method:{},请求url:{}\nURL参数:{}\n请求体:{}", request.getMethod(), uri, JsonUtil.json(queryParam), new String(bytes));
-                Flux<DataBuffer> bufferFlux = Flux.defer(() -> Flux.just(response.bufferFactory().wrap(bytes)));
-                ServerHttpRequest mutatedRequest = new ServerHttpRequestDecorator(exchange.getRequest()) {
-                    @Override
-                    @NonNull
-                    public Flux<DataBuffer> getBody() {
-                        return bufferFlux;
-                    }
-                };
-                return chain.filter(exchange.mutate().request(mutatedRequest).build());
-            }).then(chain.filter(exchange.mutate().request(request).build()));
+            //} else if (MediaType.APPLICATION_JSON.isCompatibleWith(contentType)) {
+            //    return request.getBody().flatMap(dataBuffer -> {
+            //        byte[] bytes = new byte[dataBuffer.readableByteCount()];
+            //        dataBuffer.read(bytes);
+            //        log.debug("请求method:{},请求url:{}\nURL参数:{}\n请求体:{}", request.getMethod(), uri, JsonUtil.json(queryParam), new String(bytes));
+            //        Flux<DataBuffer> bufferFlux = Flux.defer(() -> Flux.just(response.bufferFactory().wrap(bytes)));
+            //        ServerHttpRequest mutatedRequest = new ServerHttpRequestDecorator(exchange.getRequest()) {
+            //            @Override
+            //            @NonNull
+            //            public Flux<DataBuffer> getBody() {
+            //                return bufferFlux;
+            //            }
+            //        };
+            //        return chain.filter(exchange.mutate().request(mutatedRequest).build());
+            //    }).then(chain.filter(exchange.mutate().request(request).build()));
         } else {
-            log.debug("请求method:{},请求url:{}\nURL参数:{}", request.getMethod(), uri, JsonUtil.json(queryParam));
+            log.debug("\n请求http method:`{}`,请求url:`{}`,URL参数:`{}`", request.getMethod(), uri, JsonUtil.json(queryParam));
             return chain.filter(exchange.mutate().request(request).build());
         }
     }
