@@ -33,7 +33,6 @@
         <dependency>
             <groupId>com.github.pure</groupId>
             <artifactId>pure-common-data</artifactId>
-            <version>${com-pure.version}</version>
         </dependency>
 
         <dependency>

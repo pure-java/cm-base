@@ -22,6 +22,17 @@
         <module>pure-auth-resource</module>
     </modules>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.github.pure</groupId>
+                <artifactId>pure-common-data</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
     <distributionManagement>
         <repository>
             <id>rdc-releases</id>

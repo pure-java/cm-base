@@ -4,8 +4,9 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.pure.cm.common.data.base.domain.BaseDomDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.util.Objects;
@@ -14,7 +15,8 @@ import java.util.Objects;
  * @author 陈欢
  * @since 2018-03-01 16:36
  **/
-@Data
+@Getter
+@Setter
 @Builder
 @TableName("sys_resource")
 @ToString(callSuper = true)
@@ -68,10 +70,7 @@ public class SysResource extends BaseDomDate<Long, SysResource> {
     private String remark;
 
     /**
-     * hashCode 和 equals 用于比较对象资源是否相等，不能修改
-     *
-     * @param o
-     * @return
+     * hashCode 和 equals 用于比较对象资源是否相等，该方法不要修改
      */
     public boolean resourceEquals(Object o) {
         if (this == o) return true;
@@ -82,6 +81,7 @@ public class SysResource extends BaseDomDate<Long, SysResource> {
                 Objects.equals(getParentId(), that.getParentId()) &&
                 Objects.equals(getName(), that.getName()) &&
                 Objects.equals(getCode(), that.getCode()) &&
+                Objects.equals(getAuthCode(), that.getAuthCode()) &&
                 Objects.equals(getUrl(), that.getUrl()) &&
                 Objects.equals(getType(), that.getType());
     }

@@ -37,9 +37,11 @@
 
         <swagger.version>2.9.2</swagger.version>
 
+
         <shiro-starter.version>1.5.3</shiro-starter.version>
         <java-jwt.version>3.10.3</java-jwt.version>
         <spring-security-jwt.version>1.1.1.RELEASE</spring-security-jwt.version>
+        <spring-security.version>5.2.5.RELEASE</spring-security.version>
 
         <!-- 辅助工具 -->
         <google-guava.version>29.0-jre</google-guava.version>
@@ -59,7 +61,7 @@
     <!-- 只有当需要使用是才引入，在这里很方便的控制使用该pom的项目的依赖-->
     <dependencyManagement>
         <dependencies>
-            <!---->
+            <!--本项目依赖-->
             <dependency>
                 <groupId>com.github.pure</groupId>
                 <artifactId>pure-common-core</artifactId>
@@ -114,6 +116,13 @@
                 <artifactId>spring-boot-starter-oauth2-client</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-core</artifactId>
+                <version>${spring-security.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-jwt</artifactId>

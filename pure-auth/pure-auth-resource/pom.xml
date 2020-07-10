@@ -15,36 +15,17 @@
         <dependency>
             <groupId>com.github.pure</groupId>
             <artifactId>pure-common-core</artifactId>
-            <version>${com-pure.version}</version>
         </dependency>
-
-   <!--     <dependency>
-            <groupId>com.github.pure</groupId>
-            <artifactId>pure-base-web</artifactId>
-            <version>${com-pure.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.pure</groupId>
-            <artifactId>pure-auth-server</artifactId>
-            <version>${com-pure.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.pure</groupId>
-            <artifactId>pure-common-data</artifactId>
-            <version>${com-pure.version}</version>
-        </dependency>-->
-
-       <!--<dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <scope>provided</scope>
-        </dependency>-->
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webflux</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>5.2.5.RELEASE</version>
         </dependency>
 
         <dependency>

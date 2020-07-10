@@ -58,7 +58,7 @@ public class WebTestController {
     private AuthRegisterClient authRegisterClient;
 
     @PostMapping("/register")
-    public Boolean register(@RequestBody AuthRegisterVo authRegisterVo) {
+    public Result<Boolean> register(@RequestBody AuthRegisterVo authRegisterVo) {
         return authRegisterClient.registerAuth(authRegisterVo);
     }
 }

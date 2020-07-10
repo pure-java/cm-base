@@ -15,13 +15,6 @@ server:
       server-addr: 192.168.0.200
       port: 6379
 spring:
-#  resources:
-#    add-mappings: false
-  mvc:
-    throw-exception-if-no-handler-found: true
-  security:
-    filter:
-      order: 1000
   application:
     name: pure-auth-server
   profiles:
@@ -55,16 +48,15 @@ spring:
     url: jdbc:p6spy:mysql://${server.address.datasource.server-addr}/ag_auth_v1?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
     username: ${server.address.datasource.username}
     password: ${server.address.datasource.password}
-    type: com.zaxxer.hikari.HikariDataSource
     hikari:
       minimum-idle: 5
-      maximum-pool-size: 15
+      maximum-pool-size: 20
       auto-commit: true
-      idle-timeout: 30000
+      idle-timeout: 60000
       pool-name: AuthServerDataSourceHikariCP
-      max-lifetime: 1800000
-      connection-timeout: 30000
-      connection-test-query: SELECT 1
+      max-lifetime: 60000
+      connection-timeout: 60000
+  #      connection-test-query: SELECT 1 # 不建议设置该属性
   ### redis 配置
   redis:
     host: ${server.address.redis.server-addr}

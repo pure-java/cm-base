@@ -67,26 +67,28 @@ public abstract class AuthHandlerComponent implements ApplicationListener<Applic
     protected abstract Set<RequestMappingVO> getRequestMappingInfo(AuthVo authVo);
 
     @Override
-    @Async
     public void onApplicationEvent(ApplicationReadyEvent event) {
-        AuthVo authVo = new AuthVo();
-        Set<RequestMappingVO> parse = getRequestMappingInfo(authVo);
-        parse.forEach(vo -> this.fillAuthVo(authVo, vo));
+        new Thread(() -> {
+            log.info("开始注册----------------------");
+            AuthVo authVo = new AuthVo();
+            Set<RequestMappingVO> parse = getRequestMappingInfo(authVo);
+            parse.forEach(vo -> this.fillAuthVo(authVo, vo));
 
-        AuthRegisterVo authRegisterVo = AuthRegisterVo.builder()
-                .authMenuGroupVos(Lists.newArrayList(authVo.getAuthMenuGroupVos().values()))
-                .authMenuItemVos(Lists.newArrayList(authVo.getAuthMenuItemVos().values()))
-                .authResourceVos(Lists.newArrayList(authVo.getAuthResourceVos().values()))
-                .authRoleVos(Lists.newArrayList(authVo.getAuthRoleVos().values()))
-                .serverCode(this.applicationCode)
-                .serverName(this.applicationName)
-                .build();
-        Boolean booleanResult = authRegisterClient.registerAuth(authRegisterVo);
-        if (booleanResult) {
-            log.info("注册成功!!!");
-        } else {
-            log.info("注册失败!!!");
-        }
+            AuthRegisterVo authRegisterVo = AuthRegisterVo.builder()
+                    .authMenuGroupVos(Lists.newArrayList(authVo.getAuthMenuGroupVos().values()))
+                    .authMenuItemVos(Lists.newArrayList(authVo.getAuthMenuItemVos().values()))
+                    .authResourceVos(Lists.newArrayList(authVo.getAuthResourceVos().values()))
+                    .authRoleVos(Lists.newArrayList(authVo.getAuthRoleVos().values()))
+                    .serverCode(this.applicationCode)
+                    .serverName(this.applicationName)
+                    .build();
+            Result<Boolean> booleanResult = authRegisterClient.registerAuth(authRegisterVo);
+            if (booleanResult.getStatus()) {
+                log.info("注册成功!!!");
+            } else {
+                log.info("注册失败!!!");
+            }
+        }).start();
     }
 
     /**

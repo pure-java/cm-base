@@ -20,6 +20,12 @@
 
         <dependency>
             <groupId>com.github.pure</groupId>
+            <artifactId>pure-auth-resource</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.pure</groupId>
             <artifactId>pure-model-auth</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -27,14 +33,8 @@
         <dependency>
             <groupId>com.github.pure</groupId>
             <artifactId>pure-common-data</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.pure</groupId>
-            <artifactId>pure-model-auth</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <!-- <dependency>
              <groupId>com.github.pure</groupId>
              <artifactId>pure-auth-common</artifactId>

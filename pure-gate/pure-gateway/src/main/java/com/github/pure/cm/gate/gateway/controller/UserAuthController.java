@@ -3,7 +3,6 @@ package com.github.pure.cm.gate.gateway.controller;
 import com.github.pure.cm.auth.client.dto.ReqJwtTokenParam;
 import com.github.pure.cm.auth.client.properties.OAuth2ClientProperties;
 import com.github.pure.cm.auth.client.service.AuthService;
-import com.github.pure.cm.auth.resource.annoation.AuthIgnore;
 import com.github.pure.cm.common.core.exception.BusinessException;
 import com.github.pure.cm.common.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +38,6 @@ public class UserAuthController {
      * @return 登录结果
      */
     @PostMapping("/login")
-    @AuthIgnore
     public Mono<Result<Map<String, Object>>> login(@RequestBody ReqJwtTokenParam userInfo) throws BusinessException {
         ReqJwtTokenParam reqJwtTokenParam = new ReqJwtTokenParam();
         reqJwtTokenParam

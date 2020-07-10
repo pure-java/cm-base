@@ -1,0 +1,64 @@
+{
+  "properties": [
+    {
+      "name": "server.address.nacos",
+      "type": "java.lang.String",
+      "description": "nacos 服务器相关配置"
+    },
+    {
+      "name": "server.address.nacos.server-addr",
+      "type": "java.lang.String",
+      "description": "nacos 服务器地址与端口(spring.cloud.nacos.[config|discovery].server-addr) 例：localhost:8848."
+    },
+    {
+      "name": "server.address.sentinel",
+      "type": "java.lang.String",
+      "description": "sentinel 相关配置."
+    },
+    {
+      "name": "server.address.sentinel.transport.port",
+      "type": "java.lang.String",
+      "description": "sentinel 管理端数据传输端口:20000; spring.cloud.sentinel.transport.port."
+    },
+    {
+      "name": "server.address.sentinel.transport.dashboard",
+      "type": "java.lang.String",
+      "description": "sentinel 管理端地址与端口(spring.cloud.sentinel.transport.dashboard.) 例：localhost:8848"
+    },
+    {
+      "name": "server.address.datasource.",
+      "type": "java.lang.String",
+      "description": "数据库相关配置."
+    },
+    {
+      "name": "server.address.datasource.server-addr",
+      "type": "java.lang.String",
+      "description": "数据库服务器地址与端口:localhost:3306; spring.datasource.url."
+    },
+    {
+      "name": "server.address.datasource.username",
+      "type": "java.lang.String",
+      "description": "数据库用户名；spring.datasource.url.username"
+    },
+    {
+      "name": "server.address.datasource.password",
+      "type": "java.lang.String",
+      "description": "数据库密码； spring.datasource.url.password."
+    },
+    {
+      "name": "server.address.redis",
+      "type": "java.lang.String",
+      "description": "redis相关配置."
+    },
+    {
+      "name": "server.address.redis.server-addr",
+      "type": "java.lang.String",
+      "description": "redis 服务器地址"
+    },
+    {
+      "name": "server.address.redis.port",
+      "type": "java.lang.String",
+      "description": "redis 服务器端口"
+    }
+  ]
+}

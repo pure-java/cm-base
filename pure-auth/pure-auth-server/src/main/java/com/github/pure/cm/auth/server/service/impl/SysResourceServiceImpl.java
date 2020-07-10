@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pure.cm.auth.server.mapper.SysResourceMapper;
 import com.github.pure.cm.auth.server.model.entity.SysResource;
 import com.github.pure.cm.auth.server.service.SysResourceService;
-import com.github.pure.cm.common.core.exception.BusinessException;
 import com.github.pure.cm.common.core.util.BusAsserts;
 import com.github.pure.cm.common.core.util.StringUtil;
 import com.github.pure.cm.common.core.util.collection.CollectUtils;
@@ -19,7 +18,6 @@ import com.github.pure.cm.model.auth.vo.AuthResourceVo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.ListUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,59 +55,56 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResourceMapper, S
 
         // 菜单组
         CollectUtils
-                .stream(authRegisterVo.getAuthMenuGroupVos())
                 // 根据key自然排序
-                .sorted(Comparator.comparing(AuthMenuGroupVo::getGroupId))
-                .forEach(group -> {
-                    // 处理根节点，没有父节点
-                    SysResource resource = SysResource.builder()
-                            .appCode(group.getAppCode())
-                            .appName(group.getAppName())
-                            .name(group.getGroupName())
-                            .code(group.getGroupId())
-                            .type(0)
-                            .build();
-                    registerResource(resourceIdMap, group.getParentId(), resource);
-                });
+                .sort(authRegisterVo.getAuthMenuGroupVos(), Comparator.comparing(AuthMenuGroupVo::getGroupId))
+                // 处理根节点，没有父节点
+                .forEach(group ->
+                        registerResource(resourceIdMap, group.getParentId(),
+                                SysResource.builder()
+                                        .appCode(group.getAppCode())
+                                        .appName(group.getAppName())
+                                        .name(group.getGroupName())
+                                        .code(group.getGroupId())
+                                        .type(0)
+                                        .build())
+                );
 
         // 菜单项
         CollectUtils
-                .stream(authRegisterVo.getAuthMenuItemVos())
-                .sorted(Comparator.comparing(AuthMenuItemVo::getItemId))
-                .forEach(itemVo -> {
-                    SysResource item = SysResource.builder()
-                            .appCode(itemVo.getAppCode())
-                            .appName(itemVo.getAppName())
-                            .name(itemVo.getName())
-                            .code(itemVo.getItemId())
-                            .authCode(itemVo.getAuthCode())
-                            .type(1)
-                            .url(itemVo.getUrl())
-                            .build();
-                    registerResource(resourceIdMap, itemVo.getParentId(), item);
-                });
+                .sort(authRegisterVo.getAuthMenuItemVos(), Comparator.comparing(AuthMenuItemVo::getItemId))
+                .forEach(itemVo ->
+                        registerResource(resourceIdMap, itemVo.getParentId(),
+                                SysResource.builder()
+                                        .appCode(itemVo.getAppCode())
+                                        .appName(itemVo.getAppName())
+                                        .name(itemVo.getName())
+                                        .code(itemVo.getItemId())
+                                        .authCode(itemVo.getAuthCode())
+                                        .type(1)
+                                        .url(itemVo.getUrl())
+                                        .build())
+                );
 
         // 菜单资源
         CollectUtils
-                .stream(authRegisterVo.getAuthResourceVos())
-                .sorted(Comparator.comparing(AuthResourceVo::getResourceId))
-                .forEach(itemVo -> {
-                    SysResource item = SysResource.builder()
-                            .appCode(itemVo.getAppCode())
-                            .appName(itemVo.getAppName())
-                            .name(itemVo.getName())
-                            .code(itemVo.getResourceId())
-                            .authCode(itemVo.getAuthCode())
-                            .type(2)
-                            .url(itemVo.getUrl())
-                            .build();
-                    registerResource(resourceIdMap, itemVo.getParentId(), item);
-                });
+                .sort(authRegisterVo.getAuthResourceVos(), Comparator.comparing(AuthResourceVo::getResourceId))
+                .forEach(itemVo ->
+                        registerResource(resourceIdMap, itemVo.getParentId(),
+                                SysResource.builder()
+                                        .appCode(itemVo.getAppCode())
+                                        .appName(itemVo.getAppName())
+                                        .name(itemVo.getName())
+                                        .code(itemVo.getResourceId())
+                                        .authCode(itemVo.getAuthCode())
+                                        .type(2)
+                                        .url(itemVo.getUrl())
+                                        .build())
+                );
         return true;
     }
 
     @Override
-    public SysResource byCodeAndAppCode(String appCode, String code) {
+    public SysResource getByCodeAndAppCode(String appCode, String code) {
         //if (CollectionUtils.size(list.size()) != 1) {
         //    throw new BusinessException(AuthExceptionCode.NOT_FOUND_PARENT);
         //}
@@ -152,7 +147,7 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResourceMapper, S
         if (StringUtil.isNotBlank(parentCode)) {
             Long parentId = resourceIdMap.get(parentCode);
             if (Objects.isNull(parentId)) {
-                SysResource sysResource = this.byCodeAndAppCode(resource.getAppCode(), parentCode);
+                SysResource sysResource = this.getByCodeAndAppCode(resource.getAppCode(), parentCode);
 
                 // 查找不到父节点
                 BusAsserts.nonNull(sysResource, AuthExceptionCode.NOT_FOUND_PARENT, "找不到父级菜单：父级`%s`", parentCode);
@@ -165,11 +160,15 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResourceMapper, S
         }
 
         // 查询数据库，找到则，进行修改；如果未找到，则进行添加
-        SysResource dbCurrGroup = this.byCodeAndAppCode(resource.getAppCode(), resource.getCode());
+        SysResource dbCurrGroup = this.getByCodeAndAppCode(resource.getAppCode(), resource.getCode());
 
-        if (resource.resourceEquals(dbCurrGroup)) {
-            resource.setOid(dbCurrGroup.getOid());
-            this.daoUtil.updateById(resource);
+        // 不为空
+        if (Objects.nonNull(dbCurrGroup)) {
+            // 不相等
+            if (!resource.resourceEquals(dbCurrGroup)) {
+                resource.setOid(dbCurrGroup.getOid());
+                this.daoUtil.updateById(resource);
+            }
         } else {
             this.daoUtil.save(resource);
         }

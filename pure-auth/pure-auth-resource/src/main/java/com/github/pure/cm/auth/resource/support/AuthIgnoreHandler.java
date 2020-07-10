@@ -1,19 +1,20 @@
 package com.github.pure.cm.auth.resource.support;
 
 import com.github.pure.cm.auth.resource.annoation.AuthIgnore;
+import com.github.pure.cm.common.core.exception.InnerSystemExceptions;
 import com.github.pure.cm.common.core.util.JsonUtil;
-import com.github.pure.cm.common.core.util.collection.CollectUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PostFilter;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreFilter;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.util.pattern.PathPattern;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -50,9 +51,18 @@ public abstract class AuthIgnoreHandler {
                         .entrySet()
                         .stream()
                         .flatMap((entry) -> {
-                            AuthIgnore annotation = entry.getValue().getMethodAnnotation(AuthIgnore.class);
+                            HandlerMethod value = entry.getValue();
+                            AuthIgnore annotation = value.getMethodAnnotation(AuthIgnore.class);
+
                             if (Objects.isNull(annotation)) {
                                 return Stream.empty();
+                            }
+
+                            if (value.hasMethodAnnotation(PreAuthorize.class) ||
+                                    value.hasMethodAnnotation(PostAuthorize.class) ||
+                                    value.hasMethodAnnotation(PreFilter.class) ||
+                                    value.hasMethodAnnotation(PostFilter.class)) {
+                                throw new InnerSystemExceptions(String.format("Spring Security 权限注解和 @AuthIgnore 不能同时使用!!\n'%s'", value.getMethod()));
                             }
                             return new HashSet<>(entry.getKey().getPatternsCondition().getPatterns()).stream();
                         })
@@ -76,7 +86,7 @@ public abstract class AuthIgnoreHandler {
         @Override
         public Set<String> getAuthIgnoreUrl() {
             if (CollectionUtils.isEmpty(this.authIgnoreUrlList)) {
-                Set<String> collect = requestMappingHandlerMapping
+                this.authIgnoreUrlList = requestMappingHandlerMapping
                         .getHandlerMethods()
                         .entrySet()
                         .stream()

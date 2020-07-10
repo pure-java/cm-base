@@ -1,5 +1,6 @@
 package com.github.pure.cm.auth.server.auth.config;
 
+import com.github.pure.cm.auth.resource.support.AuthIgnoreHandler;
 import com.github.pure.cm.auth.server.headler.AuthFailPoint;
 import com.github.pure.cm.auth.server.headler.CustomAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class AuthServerResourceConfig extends ResourceServerConfigurerAdapter {
     private AuthFailPoint authFailPoint;
 
     @Autowired
+    private AuthIgnoreHandler authIgnoreHandler;
+
+    @Autowired
     private CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Override
@@ -43,15 +47,12 @@ public class AuthServerResourceConfig extends ResourceServerConfigurerAdapter {
 
     /**
      * 限制所有方法都需要进行验证；并且配置认证失败或没权限时的异常处理
-     *
-     * @param http
-     * @throws Exception
      */
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .mvcMatchers("/authServer/registerAuth")
+                .mvcMatchers(authIgnoreHandler.getAuthIgnoreUrl().toArray(new String[0]))
                 .permitAll()
 
                 // 除上面的url外将受到权限保护
@@ -64,7 +65,6 @@ public class AuthServerResourceConfig extends ResourceServerConfigurerAdapter {
                 .exceptionHandling()
                 .authenticationEntryPoint(authFailPoint)
                 .accessDeniedHandler(customAccessDeniedHandler);
-        //super.configure(http);
     }
 
 }

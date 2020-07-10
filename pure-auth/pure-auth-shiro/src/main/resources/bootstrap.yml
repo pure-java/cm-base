@@ -60,7 +60,7 @@ spring:
       pool-name: AuthServerDataSourceHikariCP
       max-lifetime: 1800000
       connection-timeout: 30000
-      connection-test-query: SELECT 1
+      #      connection-test-query: SELECT 1 # 不建议设置该属性
   ### redis 配置
   redis:
     host: ${server.address.redis.server-addr}

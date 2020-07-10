@@ -14,7 +14,6 @@
         <dependency>
             <groupId>com.github.pure</groupId>
             <artifactId>pure-common-core</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <dependency>

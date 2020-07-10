@@ -41,7 +41,7 @@ public interface SysResourceService extends IBaseService<SysResource> {
      * @param code    资源code
      * @return
      */
-     SysResource byCodeAndAppCode(String appCode, String code);
+     SysResource getByCodeAndAppCode(String appCode, String code);
 
     /**
      * 批量添加
