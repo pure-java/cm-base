@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
 @ToString
 public class AuthProperties {
 
-  private String ignoreUrls = "/oauth";
+  private String ignoreUrls = "";
 
   /**
    * 是否是忽略验证路径

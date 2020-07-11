@@ -8,9 +8,13 @@ package com.github.pure.cm.common.core.enums;
 public enum AppCode {
 
     /**
-     * 系统管理 ： 100000
+     * 系统内部异常:10000
      */
-    AUTH_SERVER(100000, "鉴权服务");
+    SYSTEM_INNER(10000, "鉴权服务"),
+    /**
+     * 系统管理 ： 20000
+     */
+    AUTH_SERVER(20000, "鉴权服务");
     /**
      * 值
      */

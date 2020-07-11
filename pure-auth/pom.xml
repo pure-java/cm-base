@@ -13,7 +13,6 @@
     <artifactId>pure-auth</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>pure-auth-client</module>
         <module>pure-auth-server</module>
         <module>pure-auth-shiro</module>
         <module>pure-auth-security</module>

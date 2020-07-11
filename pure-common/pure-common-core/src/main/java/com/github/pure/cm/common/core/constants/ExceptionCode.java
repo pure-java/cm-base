@@ -1,5 +1,7 @@
 package com.github.pure.cm.common.core.constants;
 
+import com.github.pure.cm.common.core.enums.AppCode;
+
 /**
  * @author chenhuan
  */
@@ -22,10 +24,14 @@ public interface ExceptionCode {
     // * 数据验证错误
     // */
     //public static final int VALID = 2;
-    ///**
-    // * 系统错误
-    // */
-    //public static final int SYSTEM_ERROR = 500;
+    /**
+    * 系统错误:10500
+    */
+    public static final int SYSTEM_ERROR = AppCode.SYSTEM_INNER.getValue() + 500;
+    /**
+     * 鉴权中心客户端验证，没有访问权限！10401
+     */
+    public static final int AUTH_CLIENT_UNAUTHORIZED = AppCode.SYSTEM_INNER.getValue() + 401;
     ///**
     // * 未登陆
     // */
