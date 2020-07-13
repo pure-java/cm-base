@@ -6,6 +6,7 @@ import com.github.pure.cm.common.core.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,6 +29,9 @@ import java.util.stream.Stream;
  */
 public abstract class AuthIgnoreHandler {
 
+    @Value("${pure.application.debug:false}")
+    private boolean isDebug = false;
+
     /**
      * 获取使用 {@link AuthIgnore }注解的url
      */
@@ -40,36 +44,40 @@ public abstract class AuthIgnoreHandler {
      */
     @Slf4j
     public static class WebAuthIgnoreHandler extends AuthIgnoreHandler {
+
         @Autowired
         private RequestMappingHandlerMapping requestMappingHandlerMapping;
 
         @Override
         public Set<String> getAuthIgnoreUrl() {
-            if (CollectionUtils.isEmpty(this.authIgnoreUrlList)) {
+            if (isDebug() || CollectionUtils.isEmpty(this.authIgnoreUrlList)) {
                 this.authIgnoreUrlList = requestMappingHandlerMapping
-                        .getHandlerMethods()
-                        .entrySet()
-                        .stream()
-                        .flatMap((entry) -> {
-                            HandlerMethod value = entry.getValue();
-                            AuthIgnore annotation = value.getMethodAnnotation(AuthIgnore.class);
+                    .getHandlerMethods()
+                    .entrySet()
+                    .stream()
+                    .flatMap((entry) -> {
+                        HandlerMethod value = entry.getValue();
+                        AuthIgnore annotation = value.getMethodAnnotation(AuthIgnore.class);
 
-                            if (Objects.isNull(annotation)) {
-                                return Stream.empty();
-                            }
+                        if (Objects.isNull(annotation)) {
+                            return Stream.empty();
+                        }
 
-                            if (value.hasMethodAnnotation(PreAuthorize.class) ||
-                                    value.hasMethodAnnotation(PostAuthorize.class) ||
-                                    value.hasMethodAnnotation(PreFilter.class) ||
-                                    value.hasMethodAnnotation(PostFilter.class)) {
-                                throw new InnerSystemExceptions(String.format("Spring Security 权限注解和 @AuthIgnore 不能同时使用!!\n'%s'", value.getMethod()));
-                            }
-                            return new HashSet<>(entry.getKey().getPatternsCondition().getPatterns()).stream();
-                        })
-                        .collect(Collectors.toSet());
+                        if (value.hasMethodAnnotation(PreAuthorize.class) ||
+                            value.hasMethodAnnotation(PostAuthorize.class) ||
+                            value.hasMethodAnnotation(PreFilter.class) ||
+                            value.hasMethodAnnotation(PostFilter.class)) {
+                            throw new InnerSystemExceptions(
+                                String.format("Spring Security 权限注解和 @AuthIgnore 不能同时使用!!\n'%s'", value.getMethod()));
+                        }
+                        return new HashSet<>(entry.getKey().getPatternsCondition().getPatterns()).stream();
+                    })
+                    .collect(Collectors.toSet());
+                if (isDebug()) {
+                    log.info("加载忽略权限认证url {}", JsonUtil.json(this.authIgnoreUrlList));
+                }
             }
 
-            log.info("加载忽略权限认证url {}", JsonUtil.json(this.authIgnoreUrlList));
             return this.authIgnoreUrlList;
         }
     }
@@ -85,22 +93,34 @@ public abstract class AuthIgnoreHandler {
 
         @Override
         public Set<String> getAuthIgnoreUrl() {
-            if (CollectionUtils.isEmpty(this.authIgnoreUrlList)) {
+            if (isDebug() || CollectionUtils.isEmpty(this.authIgnoreUrlList)) {
                 this.authIgnoreUrlList = requestMappingHandlerMapping
-                        .getHandlerMethods()
-                        .entrySet()
-                        .stream()
-                        .flatMap((entry) -> {
-                            AuthIgnore annotation = entry.getValue().getMethodAnnotation(AuthIgnore.class);
-                            if (Objects.isNull(annotation)) {
-                                return Stream.empty();
-                            }
-                            return entry.getKey().getPatternsCondition().getPatterns().stream().map(PathPattern::getPatternString).collect(Collectors.toSet()).stream();
-                        })
-                        .collect(Collectors.toSet());
+                    .getHandlerMethods()
+                    .entrySet()
+                    .stream()
+                    .flatMap((entry) -> {
+                        AuthIgnore annotation = entry.getValue().getMethodAnnotation(AuthIgnore.class);
+                        if (Objects.isNull(annotation)) {
+                            return Stream.empty();
+                        }
+                        return entry.getKey().getPatternsCondition().getPatterns().stream().map(PathPattern::getPatternString)
+                            .collect(Collectors.toSet()).stream();
+                    })
+                    .collect(Collectors.toSet());
+                if (isDebug()) {
+                    log.info("加载忽略权限认证url {}", JsonUtil.json(this.authIgnoreUrlList));
+                }
             }
-            log.info("加载忽略权限认证url {}", JsonUtil.json(this.authIgnoreUrlList));
             return this.authIgnoreUrlList;
         }
+    }
+
+    public boolean isDebug() {
+        return isDebug;
+    }
+
+    public AuthIgnoreHandler setDebug(boolean debug) {
+        isDebug = debug;
+        return this;
     }
 }

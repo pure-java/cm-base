@@ -1,6 +1,6 @@
 package com.github.pure.cm.gate.gateway.config.auth.impl;
 
-import com.github.pure.cm.gate.gateway.config.auth.IgnoreAuthComponent;
+import com.github.pure.cm.gate.gateway.config.auth.IgnoreAuthFilter;
 import com.github.pure.cm.gate.gateway.properties.AuthProperties;
 import com.github.pure.cm.gate.gateway.service.AuthService;
 import com.github.pure.cm.common.core.util.JsonUtil;
@@ -26,7 +26,7 @@ import java.io.IOException;
 @Slf4j
 @Component
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
-public class WebIgnoreAuthFilter extends IgnoreAuthComponent implements Filter {
+public class WebIgnoreAuthFilter extends IgnoreAuthFilter implements Filter {
 
     @Autowired
     private AuthService authService;

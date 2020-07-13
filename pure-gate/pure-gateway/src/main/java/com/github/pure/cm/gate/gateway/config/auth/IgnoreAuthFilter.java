@@ -15,7 +15,7 @@ import org.springframework.web.util.pattern.PathPatternParser;
  * @since 2020/6/5
  */
 @Slf4j
-public class IgnoreAuthComponent {
+public class IgnoreAuthFilter {
 
     private final PathPatternParser pathPatternParser = new PathPatternParser();
     @Autowired

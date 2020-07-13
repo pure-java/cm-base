@@ -14,3 +14,5 @@ pure:
   log:
     dir: ../
     level: debug
+  application:
+    debug: true

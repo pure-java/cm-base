@@ -104,6 +104,11 @@
       "description": "项目 code,是用于服务认证"
     },
     {
+      "name": "pure.application.debug",
+      "type": "java.lang.String",
+      "description": "应用是否是在debug阶段"
+    },
+    {
       "name": "pure.gateway.authentication.ignore-urls",
       "type": "java.lang.String",
       "description": "忽略权限认证url前缀"

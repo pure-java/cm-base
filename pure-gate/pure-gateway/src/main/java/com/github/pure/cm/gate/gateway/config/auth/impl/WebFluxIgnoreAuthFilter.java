@@ -1,6 +1,6 @@
 package com.github.pure.cm.gate.gateway.config.auth.impl;
 
-import com.github.pure.cm.gate.gateway.config.auth.IgnoreAuthComponent;
+import com.github.pure.cm.gate.gateway.config.auth.IgnoreAuthFilter;
 import com.github.pure.cm.gate.gateway.properties.AuthProperties;
 import com.github.pure.cm.gate.gateway.service.AuthService;
 import com.github.pure.cm.common.core.util.JsonUtil;
@@ -26,7 +26,7 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @Component
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
-public class WebFluxIgnoreAuthFilter extends IgnoreAuthComponent implements WebFilter {
+public class WebFluxIgnoreAuthFilter extends IgnoreAuthFilter implements WebFilter {
 
     @Autowired
     private AuthService authService;

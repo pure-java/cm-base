@@ -116,7 +116,7 @@ pure:
     level: debug
   gateway:
     authentication:
-      ignore-urls: /oauth,/v2,pure-webflux-test/webFlux/feignTest
+      ignore-urls: /v2,pure-webflux-test/webFlux/feignTest
 swagger2:
   enable: false
 
