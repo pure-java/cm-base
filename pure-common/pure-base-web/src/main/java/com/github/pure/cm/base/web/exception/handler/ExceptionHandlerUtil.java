@@ -1,5 +1,6 @@
 package com.github.pure.cm.base.web.exception.handler;
 
+import com.github.pure.cm.common.core.constants.DefExceptionCode;
 import com.github.pure.cm.common.core.exception.BusinessException;
 import com.github.pure.cm.common.core.model.ExceptionResult;
 import com.github.pure.cm.common.core.util.ArrayUtil;
@@ -55,7 +56,8 @@ public class ExceptionHandlerUtil {
         } else if (instanceOf(MissingServletRequestParameterException.class, error, cause)) {
             //  缺少必要请求参数
             MissingServletRequestParameterException missingException = (MissingServletRequestParameterException) (error instanceof MissingServletRequestParameterException ? error : cause);
-            result.setMessage("请求缺少必要参数: " + missingException.getParameterName());
+            //result.setMessage("请求缺少必要参数: " + missingException.getParameterName()).setCode(DefExceptionCode.PARAM_VALID_ERROR_501.getCode());
+            result.setMessage("请求缺少必要参数: " + missingException.getParameterName()).setCode(DefExceptionCode.PARAM_VALID_ERROR_501.getCode());
 
         } else if (instanceOf(BindException.class, error, cause)) {
             //处理请求中 使用 @Valid 验证路径中请求实体校验失败后抛出的异常，详情继续往下看代码

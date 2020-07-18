@@ -33,7 +33,7 @@ public class CustomBlockRequestHandler implements BlockRequestHandler {
     }
 
     private Result<String> buildErrorResult(Throwable ex) {
-        final Result<String> fail = Result.fail(DEFAULT_BLOCK_MSG_PREFIX + ex.getClass().getSimpleName());
+        final Result<String> fail = Result.failMsg(DEFAULT_BLOCK_MSG_PREFIX + ex.getClass().getSimpleName());
         fail.setCode(HttpStatus.TOO_MANY_REQUESTS.value());
         return fail;
     }

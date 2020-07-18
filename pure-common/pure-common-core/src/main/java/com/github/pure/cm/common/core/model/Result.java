@@ -78,13 +78,13 @@ public class Result<T> implements Serializable {
      * 成功 <p> status = true
      */
     public static <T> Result<T> success() {
-        return success(null);
+        return successMsg(null);
     }
 
     /**
-     * 成功 <p> 状态默认 = true,message = message，data = null
+     * 失败 <p> 状态默认 = false,message = null
      */
-    public static <T> Result<T> success(String message) {
+    public static <T> Result<T> successMsg(String message) {
         return newInstance(HttpStatus.OK.value(), message, null, true);
     }
 
@@ -101,7 +101,17 @@ public class Result<T> implements Serializable {
      * 失败 <p> 状态默认 = false,message = null
      */
     public static <T> Result<T> fail() {
-        return fail(null);
+        return failMsg(null);
+    }
+
+    /**
+     * 错误响应码
+     *
+     * @param exceptionCode
+     * @return
+     */
+    public static <T> Result<T> fail(ExceptionCode exceptionCode) {
+        return newInstance(exceptionCode.getCode(), exceptionCode.getDesc(), null, false);
     }
 
     /**
@@ -116,7 +126,7 @@ public class Result<T> implements Serializable {
      *
      * @param message 提示信息
      */
-    public static <T> Result<T> fail(String message) {
+    public static <T> Result<T> failMsg(String message) {
         Result<T> tResult = newInstance(HttpStatus.OK.value(), message, null, false);
         tResult.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
         return tResult;

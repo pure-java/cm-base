@@ -24,6 +24,6 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
             throws IOException {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json;charset=utf-8");
-        response.getWriter().write(JsonUtil.json(Result.fail(accessDeniedException.getMessage())));
+        response.getWriter().write(JsonUtil.json(Result.failMsg(accessDeniedException.getMessage())));
     }
 }
