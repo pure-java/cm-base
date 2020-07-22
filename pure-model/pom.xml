@@ -16,14 +16,5 @@
         <module>pure-model-auth</module>
     </modules>
 
-    <distributionManagement>
-        <repository>
-            <id>rdc-releases</id>
-            <url>https://packages.aliyun.com/maven/repository/2005620-release-5WfnMI/</url>
-        </repository>
-        <snapshotRepository>
-            <id>rdc-snapshots</id>
-            <url>https://packages.aliyun.com/maven/repository/2005620-snapshot-GoxLVZ/</url>
-        </snapshotRepository>
-    </distributionManagement>
+
 </project>

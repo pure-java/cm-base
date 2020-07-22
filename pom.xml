@@ -11,9 +11,8 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>pure-auth</module>
+        <module>uaa</module>
         <module>pure-common</module>
-        <module>pure-gate</module>
         <module>pure-test</module>
         <module>pure-model</module>
     </modules>
@@ -115,14 +114,5 @@
         </profile>
     </profiles>
 
-    <distributionManagement>
-        <repository>
-            <id>rdc-releases</id>
-            <url>https://packages.aliyun.com/maven/repository/2005620-release-5WfnMI/</url>
-        </repository>
-        <snapshotRepository>
-            <id>rdc-snapshots</id>
-            <url>https://packages.aliyun.com/maven/repository/2005620-snapshot-GoxLVZ/</url>
-        </snapshotRepository>
-    </distributionManagement>
+
 </project>

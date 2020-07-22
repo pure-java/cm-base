@@ -16,7 +16,7 @@ public enum AppErrorCode implements ExceptionCode {
     /**
      * 后台系统管理：30000
      */
-    AUTH_SERVER_30000(30000, "系统管理");
+    UAA_30000(30000, "系统管理");
     /**
      * 值
      */
