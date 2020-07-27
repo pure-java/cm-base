@@ -50,9 +50,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
-    private final RsaManager rsaManager;
+    private final JwtAccessTokenConverter jwtAccessTokenConverter;
     private final AuthenticationManager authenticationManager;
-
     private final AuthFailPoint authFailPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final HikariDataSource dataSource;
@@ -73,7 +72,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 // 没有权限
                 .accessDeniedHandler(customAccessDeniedHandler)
                 // 允许 客户端 表单验证
-                .allowFormAuthenticationForClients();
+               ;//.allowFormAuthenticationForClients();
     }
 
     @Override
@@ -99,7 +98,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 // 设置用户service
                 .userDetailsService(this.userDetailsService)
                 //  token 转换器
-                .accessTokenConverter(accessTokenConverter())
+                .accessTokenConverter(jwtAccessTokenConverter)
                 // 刷新token
                 .reuseRefreshTokens(true)
                 // 设置token存储
@@ -108,61 +107,4 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 .exceptionTranslator(oauthWebResponseExceptionTranslator);
     }
 
-    @Bean
-    public JwtAccessTokenConverter accessTokenConverter() {
-        // RSA非对称加密方式
-        RsaUtil.RsaKey rsaKey = rsaManager.getRsaKey();
-        RSAPublicKey publicKey = (RSAPublicKey) rsaKey.getPublicKey();
-        RSAPrivateKey privateKey = (RSAPrivateKey) rsaKey.getPrivateKey();
-
-        CustomOauth2AccessToken auth2AccessToken = new CustomOauth2AccessToken();
-        auth2AccessToken.setSigner(new RsaSigner(privateKey));
-        auth2AccessToken.setVerifier(new RsaVerifier(publicKey));
-        byte[] encode = java.util.Base64.getEncoder().encode(publicKey.getEncoded());
-
-        String verifierKey = String.format("%s%s%s",
-                "-----BEGIN PUBLIC KEY-----\n",
-                new String(encode),
-                "\n-----END PUBLIC KEY-----");
-
-        auth2AccessToken.setVerifierKey(verifierKey);
-        return auth2AccessToken;
-    }
-
-    /**
-     * 自定义访问令牌，在访问令牌中添加一些自定义声明
-     */
-    static class CustomOauth2AccessToken extends JwtAccessTokenConverter {
-
-        @Override
-        public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-            DefaultOAuth2AccessToken resultOauth2Token = new DefaultOAuth2AccessToken(accessToken);
-            log.debug(" result =  {}", resultOauth2Token);
-            log.debug("oauth2token===>{}", authentication);
-            log.debug("principal===>{}", authentication.getPrincipal());
-
-            log.debug(" ref  = {}", resultOauth2Token.getRefreshToken());
-            Map<String, Object> info = Maps.newLinkedHashMap(accessToken.getAdditionalInformation());
-            String tokenId = resultOauth2Token.getValue();
-            if (!info.containsKey(TOKEN_ID)) {
-                info.put(TOKEN_ID, tokenId);
-            }
-            if (authentication.getUserAuthentication() != null && authentication.getUserAuthentication().getPrincipal() != null) {
-                User user = (User) authentication.getUserAuthentication().getPrincipal();
-                List<String> authorities = user
-                        .getAuthorities()
-                        .stream()
-                        .map(GrantedAuthority::getAuthority)
-                        .collect(Collectors.toList());
-                //info.put("oid", user.getOid());
-                info.put("username", user.getUsername());
-                info.put("roles", authorities);
-            }
-
-            log.debug("info============>{}", info);
-            resultOauth2Token.setAdditionalInformation(info);
-            resultOauth2Token.setValue(encode(resultOauth2Token, authentication));
-            return resultOauth2Token;
-        }
-    }
 }
