@@ -31,7 +31,7 @@ import java.util.List;
  * @date : 2020-07-25 11:15
  **/
 @Slf4j
-@Component
+//@Component
 public class GlobalFilter implements ErrorWebExceptionHandler {
     /**
      * MessageReader

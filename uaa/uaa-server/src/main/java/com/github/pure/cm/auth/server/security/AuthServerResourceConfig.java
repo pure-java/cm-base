@@ -4,6 +4,7 @@ import com.github.pure.cm.auth.resource.support.AuthIgnoreHandler;
 import com.github.pure.cm.auth.server.headler.AuthFailPoint;
 import com.github.pure.cm.auth.server.headler.CustomAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
@@ -26,6 +27,9 @@ public class AuthServerResourceConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     private RedisTokenStore tokenStore;
 
+    @Value("${server.error.path:${error.path:/error}}")
+    private String errorPath;
+
     @Autowired
     private AuthFailPoint authFailPoint;
 
@@ -42,7 +46,6 @@ public class AuthServerResourceConfig extends ResourceServerConfigurerAdapter {
         resources.tokenServices(defaultTokenServices);
         // 配置身份认证异常和权限认证异常处理器
         resources.authenticationEntryPoint(authFailPoint).accessDeniedHandler(customAccessDeniedHandler);
-        super.configure(resources);
     }
 
     /**
@@ -53,6 +56,9 @@ public class AuthServerResourceConfig extends ResourceServerConfigurerAdapter {
         http
                 .authorizeRequests()
                 .mvcMatchers(authIgnoreHandler.getAuthIgnoreUrl().toArray(new String[0]))
+                .permitAll()
+
+                .mvcMatchers(errorPath)//设置错误请求路径不需要权限
                 .permitAll()
 
                 // 除上面的url外将受到权限保护

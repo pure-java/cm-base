@@ -60,13 +60,13 @@ public class GlobalExceptionHandler implements ErrorController {
      */
     @Override
     public String getErrorPath() {
-        return "error";
+        return "notFound";
     }
 
     /**
      * 404 异常
      */
-    @RequestMapping(value = "/error")
+    @RequestMapping(value = "/notFound")
     public Result<String> error() {
         return new Result<String>().setCode(HttpStatus.NOT_FOUND.value()).setMessage(HttpStatus.NOT_FOUND.getReasonPhrase());
     }

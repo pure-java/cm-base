@@ -1,4 +1,4 @@
-package com.github.pure.cm.auth.server.security;
+package com.github.pure.cm.auth.server.security.cfg;
 
 import com.github.pure.cm.auth.server.headler.OauthWebResponseExceptionTranslator;
 import com.github.pure.cm.common.core.util.encry.RsaUtil;
@@ -64,7 +64,7 @@ public class AuthBeanConfig {
     }
 
     @Bean
-    public JwtAccessTokenConverter accessTokenConverter() {
+    public JwtAccessTokenConverter accessTokenConverter() throws Exception {
         // RSA非对称加密方式
         RsaUtil.RsaKey rsaKey = rsaManager.getRsaKey();
         RSAPublicKey publicKey = (RSAPublicKey) rsaKey.getPublicKey();

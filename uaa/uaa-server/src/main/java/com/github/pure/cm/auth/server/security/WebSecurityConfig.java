@@ -2,6 +2,7 @@ package com.github.pure.cm.auth.server.security;
 
 import com.github.pure.cm.auth.server.headler.AuthFailPoint;
 import com.github.pure.cm.auth.server.headler.CustomAccessDeniedHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @author bairitan
  * @since 2019/11/12
  */
+@Slf4j
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -48,15 +50,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 // 关闭表单登录
                 .formLogin()
-                // 身份验证成功成功处理器
-                //.successHandler((request, response, authentication) -> {
-                //
-                //})
-                // 身份验证失败处理器
-                //.failureHandler((request, response, exception) -> {
-                //    response.setContentType("application/json;charset=utf-8");
-                //    response.getWriter().write(exception.getMessage());
-                //})
                 // 禁用表单登录
                 .disable()
                 // 由于使用token，不使用session
@@ -64,6 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 有 resourceServer 配置，这里不进行权限认证配置
                 .and()
                 .authorizeRequests()
+
                 //// 所有url都需要权限认证
                 .anyRequest().authenticated();
 

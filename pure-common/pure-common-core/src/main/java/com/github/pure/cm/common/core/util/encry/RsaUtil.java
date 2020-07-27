@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.Cipher;
@@ -28,6 +29,7 @@ import java.security.spec.X509EncodedKeySpec;
  * @author bairitan
  * @since 2019/11/15
  */
+@Slf4j
 public class RsaUtil {
 
     /**
@@ -42,7 +44,7 @@ public class RsaUtil {
      * @param length 加密长度
      * @return KeyPair
      */
-    public static KeyPair getKeyPair(int length) {
+    public static KeyPair getKeyPair(int length) throws Exception {
         try {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
             // 秘钥长度
@@ -50,7 +52,8 @@ public class RsaUtil {
             // 初始化秘钥对
             return keyPairGenerator.genKeyPair();
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("加密算法错误");
+            log.error("加密算法错误");
+            throw e;
         }
     }
 
@@ -60,7 +63,7 @@ public class RsaUtil {
      * @param length 加密长度
      * @return rsa非对称加密秘钥，并经过 base64编码的秘钥对
      */
-    public static RsaKey getKey(int length) {
+    public static RsaKey getKey(int length) throws Exception {
         // 初始化秘钥对
         KeyPair keyPair = getKeyPair(length);
         // 私钥
@@ -73,37 +76,33 @@ public class RsaUtil {
     /**
      * 获取 rsa 秘钥对
      *
-     * @param publicFile 公钥文件
+     * @param publicFile  公钥文件
      * @param privateFile 私钥文件
      * @return 秘钥对
      */
-    public static RsaKey getKey(File publicFile, File privateFile) {
-        try {
-            PublicKey publicKey = getPublicKey(publicFile);
-            PrivateKey privateKey = getPrivateKey(privateFile);
-            RsaKey key = new RsaKey();
-            key.setPrivateKey(privateKey);
-            key.setPublicKey(publicKey);
-            return key;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public static RsaKey getKey(File publicFile, File privateFile) throws Exception {
+        PublicKey publicKey = getPublicKey(publicFile);
+        PrivateKey privateKey = getPrivateKey(privateFile);
+        RsaKey key = new RsaKey();
+        key.setPrivateKey(privateKey);
+        key.setPublicKey(publicKey);
+        return key;
     }
 
     /**
      * 将 rsa 秘钥保存到指定目录
      *
      * @param privateFile 秘钥保存文件
-     * @param publicFile 公钥保存文件
-     * @param rsaKey 秘钥对
+     * @param publicFile  公钥保存文件
+     * @param rsaKey      秘钥对
      */
-    public static boolean saveKeyFile(String privateFile, String publicFile, RsaKey rsaKey) {
+    public static boolean saveKeyFile(String privateFile, String publicFile, RsaKey rsaKey) throws Exception {
         try (FileOutputStream privateOutputStream = new FileOutputStream(new File(privateFile));
-            FileOutputStream publicOutputStream = new FileOutputStream(new File(publicFile));) {
+             FileOutputStream publicOutputStream = new FileOutputStream(new File(publicFile));) {
             privateOutputStream.write(rsaKey.getPrivateKey().getEncoded());
             publicOutputStream.write(rsaKey.getPublicKey().getEncoded());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw e;
         }
         return true;
     }
@@ -113,17 +112,14 @@ public class RsaUtil {
      *
      * @param file 文件路径
      */
-    public static PublicKey getPublicKey(File file) {
-        try {
-            try (FileInputStream inputStream = new FileInputStream(file);
-                DataInputStream dis = new DataInputStream(inputStream);) {
-                byte[] b = new byte[inputStream.available()];
-                dis.readFully(b);
-                return getPublicKey(b);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    public static PublicKey getPublicKey(File file) throws Exception {
+        try (FileInputStream inputStream = new FileInputStream(file);
+             DataInputStream dis = new DataInputStream(inputStream);) {
+            byte[] b = new byte[inputStream.available()];
+            dis.readFully(b);
+            return getPublicKey(b);
         }
+
     }
 
     /**
@@ -131,14 +127,11 @@ public class RsaUtil {
      *
      * @param keyBytes key
      */
-    public static PublicKey getPublicKey(byte[] keyBytes) {
+    public static PublicKey getPublicKey(byte[] keyBytes) throws Exception {
         X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
-        try {
-            KeyFactory kf = KeyFactory.getInstance("RSA");
-            return kf.generatePublic(spec);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        KeyFactory kf = KeyFactory.getInstance("RSA");
+        return kf.generatePublic(spec);
+
 
     }
 
@@ -149,7 +142,7 @@ public class RsaUtil {
      */
     public static PrivateKey getPrivateKey(File file) throws Exception {
         try (FileInputStream inputStream = new FileInputStream(file);
-            DataInputStream dis = new DataInputStream(inputStream);) {
+             DataInputStream dis = new DataInputStream(inputStream);) {
             byte[] b = new byte[inputStream.available()];
             dis.readFully(b);
             return getPrivateKey(b);
@@ -161,15 +154,10 @@ public class RsaUtil {
      *
      * @param keyBytes key
      */
-    public static PrivateKey getPrivateKey(byte[] keyBytes) {
+    public static PrivateKey getPrivateKey(byte[] keyBytes) throws Exception {
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
-        KeyFactory kf = null;
-        try {
-            kf = KeyFactory.getInstance(ALGORITHM);
-            return kf.generatePrivate(spec);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return KeyFactory.getInstance(ALGORITHM).generatePrivate(spec);
+
     }
 
 
@@ -177,38 +165,30 @@ public class RsaUtil {
      * 使用秘钥进行加密
      *
      * @param content 加密内容
-     * @param key 秘钥
+     * @param key     秘钥
      */
-    public static String encrypt(String content, Key key) {
-        try {
-            Cipher cipher = Cipher.getInstance(ALGORITHM);
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-            byte[] bytes = cipher.doFinal(content.getBytes(CHARSET));
-            return Base64.encodeBase64String(bytes);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public static String encrypt(String content, Key key) throws Exception {
+        Cipher cipher = Cipher.getInstance(ALGORITHM);
+        cipher.init(Cipher.ENCRYPT_MODE, key);
+        byte[] bytes = cipher.doFinal(content.getBytes(CHARSET));
+        return Base64.encodeBase64String(bytes);
     }
-
 
 
     /**
      * 进行解密，公钥加密用私钥解密；私钥加密使用公钥解密；
      *
      * @param content 需要解密内容
-     * @param key 秘钥
+     * @param key     秘钥
      */
-    public static String decryptBase64(String content, Key key) {
-        try {
-            Cipher cipher = Cipher.getInstance(ALGORITHM);
-            cipher.init(Cipher.DECRYPT_MODE, key);
-            // 执行解密操作
+    public static String decryptBase64(String content, Key key) throws Exception {
+        Cipher cipher = Cipher.getInstance(ALGORITHM);
+        cipher.init(Cipher.DECRYPT_MODE, key);
+        // 执行解密操作
 
-            byte[] b = cipher.doFinal(Base64.decodeBase64(content.getBytes(CHARSET)));
-            return new String(b);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        byte[] b = cipher.doFinal(Base64.decodeBase64(content.getBytes(CHARSET)));
+        return new String(b);
+
     }
 
     public static String encodeBase64(Key key) {

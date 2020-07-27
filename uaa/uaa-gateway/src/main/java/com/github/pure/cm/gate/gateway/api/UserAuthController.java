@@ -1,6 +1,7 @@
 package com.github.pure.cm.gate.gateway.api;
 
 import com.github.pure.cm.auth.resource.annoation.AuthIgnore;
+import com.github.pure.cm.common.core.constants.DefExceptionCode;
 import com.github.pure.cm.common.core.exception.BusinessException;
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.encry.RsaUtil;
@@ -11,11 +12,13 @@ import com.github.pure.cm.gate.gateway.service.AuthService;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
@@ -53,18 +56,25 @@ public class UserAuthController {
     @PostMapping("/login")
     @AuthIgnore
     public Mono<Result<String>> login(@RequestBody ReqJwtTokenParam userInfo) throws BusinessException {
-        String username = RsaUtil.decryptBase64(userInfo.getUsername(), getPrivateKey());
-        String password = RsaUtil.decryptBase64(userInfo.getPassword(), getPrivateKey());
+        String username;
+        String password;
+        try {
+            username = RsaUtil.decryptBase64(userInfo.getUsername(), getPrivateKey());
+            password = RsaUtil.decryptBase64(userInfo.getPassword(), getPrivateKey());
+        } catch (Exception e) {
+            log.error("加密发生错误", e);
+            throw new BusinessException(DefExceptionCode.SYSTEM_ERROR_10500);
+        }
 
         ReqJwtTokenParam reqJwtTokenParam = new ReqJwtTokenParam();
 
         reqJwtTokenParam
-            .setGrantType(auth2ClientProperties.getGrantType())
-            .setClientId(auth2ClientProperties.getClientId())
-            .setClientSecret(auth2ClientProperties.getClientSecret())
-            .setUsername(username)
-            .setPassword(password)
-            .setScope(auth2ClientProperties.getScope());
+                .setGrantType(auth2ClientProperties.getGrantType())
+                .setClientId(auth2ClientProperties.getClientId())
+                .setClientSecret(auth2ClientProperties.getClientSecret())
+                .setUsername(username)
+                .setPassword(password)
+                .setScope(auth2ClientProperties.getScope());
         Map<String, Object> token = authService.token(reqJwtTokenParam);
 
         Result<String> success = Result.success();
@@ -81,9 +91,9 @@ public class UserAuthController {
         Result<String> success = Result.success();
         byte[] encode = java.util.Base64.getEncoder().encode(getPublicKey().getEncoded());
         String verifierKey = String.format("%s%s%s",
-            "-----BEGIN PUBLIC KEY-----",
-            new String(encode),
-            "-----END PUBLIC KEY-----");
+                "-----BEGIN PUBLIC KEY-----",
+                new String(encode),
+                "-----END PUBLIC KEY-----");
         success.setData(verifierKey);
         System.out.println(new String(java.util.Base64.getEncoder().encode(getPrivateKey().getEncoded())));
         return Mono.just(success);
@@ -97,15 +107,15 @@ public class UserAuthController {
      * 过期时间为一天的缓存
      */
     LoadingCache<String, RsaKey> logRsaCache = CacheBuilder.newBuilder().expireAfterWrite(1, TimeUnit.DAYS).build(
-        new CacheLoader<String, RsaKey>() {
-            @Override
-            public RsaKey load(String s) {
-                if (LOGIN_RSA_KEY.equalsIgnoreCase(s)) {
-                    return RsaUtil.getKey(1024);
+            new CacheLoader<String, RsaKey>() {
+                @Override
+                public RsaKey load(String s) throws Exception {
+                    if (LOGIN_RSA_KEY.equalsIgnoreCase(s)) {
+                        return RsaUtil.getKey(1024);
+                    }
+                    return null;
                 }
-                return null;
-            }
-        });
+            });
 
     private PublicKey getPublicKey() throws ExecutionException {
         return logRsaCache.get(LOGIN_RSA_KEY).getPublicKey();

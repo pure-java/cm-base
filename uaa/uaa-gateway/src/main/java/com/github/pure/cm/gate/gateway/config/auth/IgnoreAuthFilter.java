@@ -2,7 +2,6 @@ package com.github.pure.cm.gate.gateway.config.auth;
 
 import com.github.pure.cm.auth.resource.support.AuthIgnoreHandler;
 import com.github.pure.cm.common.core.constants.DefExceptionCode;
-import com.github.pure.cm.common.core.constants.ExceptionCode;
 import com.github.pure.cm.common.core.model.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +40,7 @@ public class IgnoreAuthFilter {
      * 没有访问
      */
     protected Result<Object> unauthorized() {
-        return Result.fail(DefExceptionCode.AUTH_CLIENT_UNAUTHORIZED_10401);
+        return Result.fail(DefExceptionCode.UNAUTHORIZED_401);
     }
 
 }

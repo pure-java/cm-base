@@ -1,4 +1,4 @@
-package com.github.pure.cm.auth.server.security;
+package com.github.pure.cm.auth.server.security.cfg;
 
 import com.github.pure.cm.common.core.util.encry.RsaUtil;
 import org.springframework.beans.BeansException;
@@ -26,7 +26,7 @@ public class RsaManager implements ApplicationContextAware {
     @Value("${pure.auth-server.jwt-token-signer.private-redis-key}")
     private String privateKeyRedis;
 
-    public RsaUtil.RsaKey getRsaKey() {
+    public RsaUtil.RsaKey getRsaKey() throws Exception {
         if (redisTemplate.hasKey(publicKeyRedis) && redisTemplate.hasKey(privateKeyRedis)) {
             RsaUtil.RsaKey rsaKey = new RsaUtil.RsaKey();
             rsaKey.setPrivateKey(RsaUtil.getPrivateKey(RsaUtil.decodeBase64(redisTemplate.opsForValue().get(privateKeyRedis))));
