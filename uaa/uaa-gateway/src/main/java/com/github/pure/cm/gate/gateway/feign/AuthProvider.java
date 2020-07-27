@@ -16,7 +16,7 @@ import java.util.Map;
  * @author 陈欢
  * @since 2019/11/30
  */
-@FeignClient(value = "${pure.security.auth-service-id:pure-auth-server}"/*, fallback = AuthProviderFail.class*/)
+@FeignClient(value = "${pure.security.auth-service-id:uaa-server}"/*, fallback = AuthProviderFail.class*/)
 public interface AuthProvider {
 
     /**

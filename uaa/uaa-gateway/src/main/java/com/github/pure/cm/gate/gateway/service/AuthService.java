@@ -3,7 +3,7 @@ package com.github.pure.cm.gate.gateway.service;
 import com.github.pure.cm.common.core.exception.BusinessException;
 import com.github.pure.cm.common.core.util.JsonUtil;
 import com.github.pure.cm.common.core.util.StringUtil;
-import com.github.pure.cm.gate.gateway.dto.ReqJwtTokenParam;
+import com.github.pure.cm.gate.gateway.vo.ReqJwtTokenParam;
 import com.github.pure.cm.gate.gateway.feign.AuthProvider;
 import com.github.pure.cm.gate.gateway.properties.OAuth2ClientProperties;
 import com.google.common.cache.CacheBuilder;

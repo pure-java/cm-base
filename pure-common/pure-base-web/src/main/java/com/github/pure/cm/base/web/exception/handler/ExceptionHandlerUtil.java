@@ -55,14 +55,15 @@ public class ExceptionHandlerUtil {
 
         } else if (instanceOf(MissingServletRequestParameterException.class, error, cause)) {
             //  缺少必要请求参数
-            MissingServletRequestParameterException missingException = (MissingServletRequestParameterException) (error instanceof MissingServletRequestParameterException ? error : cause);
-            //result.setMessage("请求缺少必要参数: " + missingException.getParameterName()).setCode(DefExceptionCode.PARAM_VALID_ERROR_501.getCode());
-            result.setMessage("请求缺少必要参数: " + missingException.getParameterName()).setCode(DefExceptionCode.PARAM_VALID_ERROR_501.getCode());
+            result.error(DefExceptionCode.PARAM_VALID_ERROR_501);
 
         } else if (instanceOf(BindException.class, error, cause)) {
             //处理请求中 使用 @Valid 验证路径中请求实体校验失败后抛出的异常，详情继续往下看代码
-            BindException bindException = (BindException) (error instanceof BindException ? error : cause);
-            String message = bindException.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(","));
+            String message = ((BindException) (error instanceof BindException ? error : cause))
+                    .getBindingResult()
+                    .getAllErrors()
+                    .stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(","));
             result.setMessage(message);
 
         } else if (instanceOf(ConstraintViolationException.class, error, cause)) {
@@ -73,8 +74,8 @@ public class ExceptionHandlerUtil {
 
         } else if (instanceOf(MethodArgumentNotValidException.class, error, cause)) {
             //处理请求参数格式错误 @RequestBody 上validate失败后抛出的异常是 MethodArgumentNotValidException 异常。
-            MethodArgumentNotValidException argumentNotValidException = (MethodArgumentNotValidException) (error instanceof MethodArgumentNotValidException ? error : cause);
-            String message = argumentNotValidException.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(","));
+            MethodArgumentNotValidException validException = (MethodArgumentNotValidException) (error instanceof MethodArgumentNotValidException ? error : cause);
+            String message = validException.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(","));
             result.setMessage(message);
 
         } else if (instanceOf(ResponseStatusException.class, error, cause)) {
@@ -85,20 +86,20 @@ public class ExceptionHandlerUtil {
 
         } else if (instanceOf(HttpRequestMethodNotSupportedException.class, error, cause)) {
             // 请求 http method 类型错误 错误
-            result.setMessage("该请求方法类型错误！！！");
+            result.setMessage("该请求方法类型错误");
 
         } else if (instanceOf(HttpMediaTypeNotSupportedException.class, error, cause) || instanceOf(HttpRequestMethodNotSupportedException.class, error, cause)) {
             // 请求类型不正确
-            result.setMessage("请求参数Content-Type不正确!!!");
+            result.setMessage("请求参数Content-Type不正确");
 
         } else if (instanceOf(HttpMessageNotReadableException.class, error, cause)) {
             // 请求确少参数 json 类型参数
-            result.setMessage("没有请求体!!!");
+            result.setMessage("没有请求体");
 
         } else if (isPresent("org.springframework.security.access.AccessDeniedException")
                 && instanceOf(AccessDeniedException.class, error, cause)) {
             // 访问权限异常
-            result.setMessage("该请求被拒绝!!!");
+            result.setMessage("该请求被拒绝");
 
             // security 身份和权限验证异常
         } else if (isPresent("org.springframework.security.core.AuthenticationException")
@@ -133,13 +134,13 @@ public class ExceptionHandlerUtil {
         Throwable cause = error.getCause();
 
         if (isPresent("org.springframework.security.authentication.InsufficientAuthenticationException") && instanceOf(InsufficientAuthenticationException.class, error, cause)) {
-            result.setMessage("身份验证失败!!!");
+            result.error(DefExceptionCode.AUTH_FAIL_10402);
 
         } else if (isPresent("org.springframework.security.core.userdetails.UsernameNotFoundException") && instanceOf(UsernameNotFoundException.class, error, cause)) {
-            result.setMessage("账号密码不正确!!!");
+            result.error(DefExceptionCode.ACCOUNT_PASSWD_ERROR_10403);
 
         } else if (isPresent("org.springframework.security.authentication.BadCredentialsException") && instanceOf(BadCredentialsException.class, error, cause)) {
-            result.setMessage("账号密码不正确!!!");
+            result.error(DefExceptionCode.ACCOUNT_PASSWD_ERROR_10403);
         }
     }
 
@@ -154,11 +155,10 @@ public class ExceptionHandlerUtil {
         Throwable cause = error.getCause();
         // InvalidTokenException 无效的token
         if (invalidTokenException && instanceOf(InvalidTokenException.class, error, cause)) {
-            //InvalidTokenException statusException = (InvalidTokenException) (error instanceof InvalidTokenException ? error : cause);
-            result.setMessage("无效的token!!!");
+            result.error(DefExceptionCode.TOKEN_INVALID_10404);
 
         } else if (invalidGrantException && instanceOf(InvalidGrantException.class, error, cause)) {
-            result.setMessage("用户名或密码错误");
+            result.error(DefExceptionCode.ACCOUNT_PASSWD_ERROR_10403);
         }
     }
 

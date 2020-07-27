@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @author 陈欢
  * @since 2020/7/8
  */
-@FeignClient(name = "${pure.security.auth-service-id:pure-auth-server}")
+@FeignClient(name = "${pure.security.auth-service-id:uaa-server}")
 public interface AuthRegisterClient {
     /**
      * 注册权限

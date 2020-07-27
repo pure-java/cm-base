@@ -1,7 +1,7 @@
 package com.github.pure.cm.gate.gateway.feign;
 
 import com.github.pure.cm.gate.gateway.service.AuthService;
-import com.github.pure.cm.gate.gateway.dto.ReqJwtTokenParam;
+import com.github.pure.cm.gate.gateway.vo.ReqJwtTokenParam;
 import com.github.pure.cm.gate.gateway.GatewayApplication;
 import java.util.Map;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package com.github.pure.cm.auth.server.plugins.security;
+package com.github.pure.cm.auth.server.security;
 
 import com.github.pure.cm.auth.server.headler.AuthFailPoint;
 import com.github.pure.cm.auth.server.headler.CustomAccessDeniedHandler;

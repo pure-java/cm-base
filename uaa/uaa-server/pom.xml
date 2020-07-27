@@ -17,29 +17,28 @@
             <artifactId>pure-common-core</artifactId>
             <version>${project.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.github.pure</groupId>
-            <artifactId>uaa-resource</artifactId>
-            <version>${project.version}</version>
+            <artifactId>pure-base-web</artifactId>
+            <version>${com-pure.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.github.pure</groupId>
-            <artifactId>pure-model-auth</artifactId>
+            <artifactId>uaa-model</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.github.pure</groupId>
             <artifactId>pure-common-data</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
-        <!-- <dependency>
+         <dependency>
              <groupId>com.github.pure</groupId>
-             <artifactId>pure-auth-common</artifactId>
+             <artifactId>uaa-resource</artifactId>
              <version>${project.version}</version>
-         </dependency>-->
+         </dependency>
 
         <dependency>
             <groupId>de.codecentric</groupId>
@@ -51,13 +50,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!--
-
-            <dependency>
-              <groupId>com.alibaba.cloud</groupId>
-              <artifactId>spring-cloud-starter-dubbo</artifactId>
-            </dependency>
-        -->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -79,6 +71,21 @@
             <artifactId>spring-security-core</artifactId>
         </dependency>
 
+        <!-- 安全 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-oauth2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-security</artifactId>
+        </dependency>
         <!-- 远程调用 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

@@ -21,7 +21,7 @@
      spring-cloud-dependencies           Greenwich.SR3
      spring-cloud-alibaba-dependencies   2.1.1.RELEASE
 
-#### 授权服务 pure-auth-server
+#### 授权服务 uaa-server
 
  使用 spring-security-oauth、mysql 来开发授权服务，支持各种验证模式。user信息与client信息存储在mysql中；使用 redis 缓存 
  token、refresh token、private rsa、public rsa 、user、client等信息。

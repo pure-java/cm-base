@@ -13,7 +13,6 @@
     <modules>
         <module>uaa</module>
         <module>pure-common</module>
-        <module>pure-test</module>
         <module>pure-model</module>
     </modules>
 

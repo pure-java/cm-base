@@ -14,11 +14,11 @@
     <packaging>pom</packaging>
     <modules>
         <module>uaa-server</module>
-        <module>uaa-security</module>
         <module>uaa-sdk</module>
         <module>uaa-model</module>
         <module>uaa-resource</module>
         <module>uaa-gateway</module>
+        <module>uaa-test</module>
     </modules>
 
     <dependencyManagement>

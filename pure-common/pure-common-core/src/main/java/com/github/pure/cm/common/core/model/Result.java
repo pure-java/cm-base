@@ -1,5 +1,6 @@
 package com.github.pure.cm.common.core.model;
 
+import com.github.pure.cm.common.core.constants.DefExceptionCode;
 import com.github.pure.cm.common.core.constants.ExceptionCode;
 
 import java.io.Serializable;
@@ -53,17 +54,25 @@ public class Result<T> implements Serializable {
 
     public Result() {
     }
+
+    public Result<T> error(ExceptionCode exceptionCode) {
+        this.setCode(exceptionCode.getCode());
+        this.setMessage(exceptionCode.getDesc());
+        return this;
+    }
+
+
     // newIns ==========================
 
     /**
      * @param status this.code = status ?  HttpStatus.OK.value() : StatusCode.FAIL;
      */
-    public static <T> Result<T> newInstance(Boolean status) {
-        return newInstance(status ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(), null, null, status);
+    public static <T> Result<T> newIns(Boolean status) {
+        return newIns(status ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value(), null, null, status);
     }
 
 
-    public static <T> Result<T> newInstance(Integer code, String message, T data, Boolean status) {
+    public static <T> Result<T> newIns(Integer code, String message, T data, Boolean status) {
         return new Result<T>(code, message, data, status);
     }
 
@@ -85,14 +94,14 @@ public class Result<T> implements Serializable {
      * 失败 <p> 状态默认 = false,message = null
      */
     public static <T> Result<T> successMsg(String message) {
-        return newInstance(HttpStatus.OK.value(), message, null, true);
+        return newIns(HttpStatus.OK.value(), message, null, true);
     }
 
     /**
      * 成功 <p> 状态默认 = true,message = null
      */
     public static <T> Result<T> success(T data) {
-        return newInstance(HttpStatus.OK.value(), null, data, true);
+        return newIns(HttpStatus.OK.value(), null, data, true);
     }
 
     // fail  ====================================
@@ -111,14 +120,15 @@ public class Result<T> implements Serializable {
      * @return
      */
     public static <T> Result<T> fail(ExceptionCode exceptionCode) {
-        return newInstance(exceptionCode.getCode(), exceptionCode.getDesc(), null, false);
+        return newIns(exceptionCode.getCode(), exceptionCode.getDesc(), null, false);
     }
+
 
     /**
      * 失败 <p> 状态默认 = false,message = null
      */
     public static <T> Result<T> fail(T data) {
-        return newInstance(HttpStatus.OK.value(), null, data, false);
+        return newIns(HttpStatus.OK.value(), null, data, false);
     }
 
     /**
@@ -127,7 +137,7 @@ public class Result<T> implements Serializable {
      * @param message 提示信息
      */
     public static <T> Result<T> failMsg(String message) {
-        Result<T> tResult = newInstance(HttpStatus.OK.value(), message, null, false);
+        Result<T> tResult = newIns(HttpStatus.OK.value(), message, null, false);
         tResult.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
         return tResult;
     }
@@ -136,11 +146,7 @@ public class Result<T> implements Serializable {
 
     public Result<T> setCode(Integer code) {
         this.code = code;
-        if (!Objects.equals(HttpStatus.OK.value(), code)) {
-            this.status = false;
-        } else {
-            this.status = true;
-        }
+        this.status = Objects.equals(HttpStatus.OK.value(), code);
         return this;
     }
 

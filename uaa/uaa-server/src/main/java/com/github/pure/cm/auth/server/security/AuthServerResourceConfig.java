@@ -1,4 +1,4 @@
-package com.github.pure.cm.auth.server.plugins.security;
+package com.github.pure.cm.auth.server.security;
 
 import com.github.pure.cm.auth.resource.support.AuthIgnoreHandler;
 import com.github.pure.cm.auth.server.headler.AuthFailPoint;
@@ -10,7 +10,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 /**
  * 授权服务器的资源
@@ -24,7 +24,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @EnableResourceServer
 public class AuthServerResourceConfig extends ResourceServerConfigurerAdapter {
     @Autowired
-    private TokenStore tokenStore;
+    private RedisTokenStore tokenStore;
 
     @Autowired
     private AuthFailPoint authFailPoint;

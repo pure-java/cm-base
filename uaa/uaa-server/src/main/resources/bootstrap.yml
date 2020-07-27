@@ -16,7 +16,7 @@ server:
       port: 6379
 spring:
   application:
-    name: pure-auth-server
+    name: uaa-server
   profiles:
     active: '@profileActive@'
   cloud:

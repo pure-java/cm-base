@@ -1,4 +1,4 @@
-package com.github.pure.cm.auth.server.plugins.security;
+package com.github.pure.cm.auth.server.security;
 
 import com.github.pure.cm.auth.server.headler.AuthFailPoint;
 import com.github.pure.cm.auth.server.headler.CustomAccessDeniedHandler;
@@ -63,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 // 有 resourceServer 配置，这里不进行权限认证配置
                 .and()
-                .authorizeRequests() 
+                .authorizeRequests()
                 //// 所有url都需要权限认证
                 .anyRequest().authenticated();
 

@@ -12,9 +12,6 @@
 
     <artifactId>pure-model</artifactId>
     <packaging>pom</packaging>
-    <modules>
-        <module>pure-model-auth</module>
-    </modules>
 
 
 </project>

@@ -23,7 +23,7 @@ class OauthException extends OAuth2Exception {
         super(msg, t);
     }
 
-    static class OauthExceptionJackson2Serializer extends StdSerializer<OauthException> {
+   public static class OauthExceptionJackson2Serializer extends StdSerializer<OauthException> {
 
         public OauthExceptionJackson2Serializer() {
             super(OauthException.class);

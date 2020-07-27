@@ -1,4 +1,4 @@
-package com.github.pure.cm.auth.server.plugins.security;
+package com.github.pure.cm.auth.server.security;
 
 import com.github.pure.cm.common.core.util.encry.RsaUtil;
 import org.springframework.beans.BeansException;

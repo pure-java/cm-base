@@ -5,7 +5,7 @@ import com.github.pure.cm.common.core.exception.BusinessException;
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.encry.RsaUtil;
 import com.github.pure.cm.common.core.util.encry.RsaUtil.RsaKey;
-import com.github.pure.cm.gate.gateway.dto.ReqJwtTokenParam;
+import com.github.pure.cm.gate.gateway.vo.ReqJwtTokenParam;
 import com.github.pure.cm.gate.gateway.properties.OAuth2ClientProperties;
 import com.github.pure.cm.gate.gateway.service.AuthService;
 import com.google.common.cache.CacheBuilder;

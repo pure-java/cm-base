@@ -54,11 +54,11 @@ public class AuthMenuGroupVo {
     /**
      * 服务名称
      */
-    @ApiModelProperty(value = "服务名称", example = "pure-auth-server")
+    @ApiModelProperty(value = "服务名称", example = "uaa-server")
     private String appName;
     /**
      * 服务编码
      */
-    @ApiModelProperty(value = "服务编码", example = "pure-auth-server")
+    @ApiModelProperty(value = "服务编码", example = "uaa-server")
     private String appCode;
 }

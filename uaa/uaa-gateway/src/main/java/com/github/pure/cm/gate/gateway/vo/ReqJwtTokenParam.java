@@ -1,4 +1,4 @@
-package com.github.pure.cm.gate.gateway.dto;
+package com.github.pure.cm.gate.gateway.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.pure.cm.common.core.util.JsonUtil;

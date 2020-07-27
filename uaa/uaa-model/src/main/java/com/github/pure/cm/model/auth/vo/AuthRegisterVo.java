@@ -29,13 +29,13 @@ public class AuthRegisterVo {
     /**
      * 服务名称
      */
-    @ApiModelProperty(value = "服务名称", example = "pure-auth-server")
+    @ApiModelProperty(value = "服务名称", example = "uaa-server")
     private String serverName;
 
     /**
      * 服务code
      */
-    @ApiModelProperty(value = "服务code", example = "pure-auth-server", required = true)
+    @ApiModelProperty(value = "服务code", example = "uaa-server", required = true)
     @NotBlank(message = "服务code不能为空")
     private String serverCode;
 

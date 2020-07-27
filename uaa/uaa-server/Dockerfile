@@ -5,10 +5,10 @@ MAINTAINER chenhuan
 EXPOSE 10002
 EXPOSE 20002
 
-VOLUME /pure-auth-server
+VOLUME /uaa-server
 
-COPY target/pure-auth-server.jar pure-auth-server.jar
+COPY target/uaa-server.jar uaa-server.jar
 
-RUN bash -c "touch /pure-auth-server.jar"
+RUN bash -c "touch /uaa-server.jar"
 
-ENTRYPOINT ["java", "-jar","/pure-auth-server.jar"]
+ENTRYPOINT ["java", "-jar","/uaa-server.jar"]

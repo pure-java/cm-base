@@ -55,7 +55,7 @@ public class SysRoleController extends BaseController<SysRoleService> {
     @PreAuthorize(value = "hasAuthority('idRole:removeIdRole')")
     public Result removeIdRole(@RequestParam("ids") String ids) {
         boolean status = super.service.removeByIds(StringUtil.convertStringToId(ids, String.class));
-        return Result.newInstance(status);
+        return Result.newIns(status);
     }
 
     @PostMapping("selectMenuAuth")
@@ -63,7 +63,6 @@ public class SysRoleController extends BaseController<SysRoleService> {
         List<SysRole> sysRoles = super.service.selectMenuAuth();
         for (SysRole sysRole : sysRoles) {
             System.out.println(sysRole);
-            int i = 1 / 0;
         }
         return Result.success();
     }

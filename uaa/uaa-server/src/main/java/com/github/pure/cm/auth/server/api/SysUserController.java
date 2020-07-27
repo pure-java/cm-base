@@ -49,6 +49,6 @@ public class SysUserController extends BaseController<SysUserService> {
   @PreAuthorize(value = "hasAuthority('idUser:removeIdUser')")
   public Result removeIdUser(@RequestParam("ids") String ids) {
     boolean status = super.service.removeByIds(StringUtil.convertStringToId(ids, String.class));
-    return Result.newInstance(status);
+    return Result.newIns(status);
   }
 }

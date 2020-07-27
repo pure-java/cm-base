@@ -1,4 +1,4 @@
-package com.github.pure.cm.auth.server.plugins.security;
+package com.github.pure.cm.auth.server.security;
 
 import com.github.pure.cm.auth.server.headler.OauthWebResponseExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
