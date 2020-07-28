@@ -41,7 +41,7 @@ public class RedisRouterRouteDefinitionRepository implements RouteDefinitionRepo
         list.forEach(router -> {
           RouteDefinition routeDefinition = jsonUtil.jsonToObject(router, RouteDefinition.class);
           routeDefinitionMap.put(routeDefinition.getId(), routeDefinition);
-          log.debug(" gateway router {} = {}", routeDefinition.getId(), routeDefinition);
+          log.debug("gateway router {} = {}", routeDefinition.getId(), routeDefinition);
         });
       }
     }
