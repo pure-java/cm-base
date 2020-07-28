@@ -1,9 +1,11 @@
 package com.github.pure.cm.auth.server.headler;
 
 import com.github.pure.cm.base.web.exception.handler.ExceptionHandlerUtil;
+import com.github.pure.cm.common.core.constants.DefExceptionCode;
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.JsonUtil;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
@@ -26,6 +28,7 @@ public class AuthFailPoint implements AuthenticationEntryPoint {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
         Result<String> fail = ExceptionHandlerUtil.exceptionHandler(authException);
+        response.setStatus(DefExceptionCode.UNAUTHORIZED_401.getCode());
         response.getWriter().write(JsonUtil.json(fail));
         authException.printStackTrace();
     }

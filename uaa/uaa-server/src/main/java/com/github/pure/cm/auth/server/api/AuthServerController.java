@@ -28,8 +28,8 @@ public class AuthServerController {
 
     @ApiOperation(value = "注册权限")
     @PostMapping("/registerAuth")
-    public Result<Boolean> registerAuth(@RequestBody @Validated AuthRegisterVo registerVo) {
-        return Result.success(this.sysResourceService.registerAuth(registerVo));
+    public Boolean registerAuth(@RequestBody @Validated AuthRegisterVo registerVo) {
+        return this.sysResourceService.registerAuth(registerVo);
     }
 
 }

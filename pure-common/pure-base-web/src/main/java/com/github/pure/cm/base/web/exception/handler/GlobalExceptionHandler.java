@@ -52,7 +52,7 @@ public class GlobalExceptionHandler implements ErrorController {
 
         ExceptionResult<String> result = ExceptionHandlerUtil.exceptionHandler(exception);
 
-        response.setStatus(DefExceptionCode.UNAUTHORIZED_401.getCode());
+        response.setStatus(result.getCode() <= 500 ? result.getCode() : HttpStatus.INTERNAL_SERVER_ERROR.value());
         return result;
     }
 

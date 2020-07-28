@@ -1,6 +1,7 @@
 package com.github.pure.cm.base.web.exception.handler;
 
 import com.github.pure.cm.common.core.util.BeanUtils;
+import com.github.pure.cm.common.core.util.collection.MapUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.ObjectProvider;
@@ -78,8 +79,9 @@ public class GlobalWebFluxExceptionHandler extends AbstractErrorWebExceptionHand
         return RouterFunctions.route(RequestPredicates.all(),
                 (request) -> {
                     Map<String, Object> attributes = getErrorAttributes(request, true);
+                    Integer code = MapUtils.getInteger(attributes, "code", 500);
                     return ServerResponse
-                            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .status(code <= 500 ? code : HttpStatus.INTERNAL_SERVER_ERROR.value())
                             .contentType(MediaType.APPLICATION_JSON)
                             .body(BodyInserters.fromValue(attributes));
                 }

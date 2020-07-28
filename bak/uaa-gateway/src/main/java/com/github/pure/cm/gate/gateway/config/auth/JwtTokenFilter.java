@@ -57,7 +57,7 @@ public class JwtTokenFilter implements GlobalFilter {
             }
         } else {
             log.debug("认证失败:{}", url);
-            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+            exchange.getResponse().setStatusCode(DefExceptionCode.UNAUTHORIZED_401);
             DataBuffer buffer = exchange.getResponse().bufferFactory()
                     .wrap(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED.getReasonPhrase().getBytes());
             return exchange.getResponse().writeWith(Flux.just(buffer));

@@ -42,7 +42,7 @@ public class SysAuthorityController extends BaseController<SysResourceService> {
     @PostMapping(value = "modifyIdAuthority")
     @PreAuthorize(value = "hasAuthority('sysAuthority:modifyIdAuthority')")
     //@AuthResource(name = "权限权限", code = "'sysAuthority:modifyIdAuthority'", groupCode = "sysAuthority")
-    public Boolean modifyIdAuthority(@ModelAttribute @Valid SysResource sysResource) {
+    public boolean modifyIdAuthority(@ModelAttribute @Valid SysResource sysResource) {
         return super.service.saveOrUpdateIdAuthority(sysResource);
     }
 

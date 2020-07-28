@@ -25,6 +25,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.UnsupportedMediaTypeStatusException;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.Objects;
@@ -106,7 +107,7 @@ public class ExceptionHandlerUtil {
                 && instanceOf(org.springframework.security.core.AuthenticationException.class, error, cause)) {
             authException(error, result);
 
-            //    oauth2 异常
+            //   身份认证 oauth2 异常
         } else if (isPresent("org.springframework.security.oauth2.common.exceptions.OAuth2Exception") && instanceOf(OAuth2Exception.class, error, cause)) {
             oauth2Exception(error, result);
 

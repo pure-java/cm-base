@@ -82,7 +82,7 @@ public class UserAuthController {
     /**
      * 获取加密 用户账号密码公钥<br>缓存，并且在一定时间内进行刷新
      */
-    @PostMapping("/publicKey")
+    //@PostMapping("/publicKey")
     public Mono<Result<String>> publicKey() throws ExecutionException {
         Result<String> success = Result.success();
         byte[] encode = java.util.Base64.getEncoder().encode(getPublicKey().getEncoded());

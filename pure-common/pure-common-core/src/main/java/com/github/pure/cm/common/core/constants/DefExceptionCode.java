@@ -52,7 +52,7 @@ public enum DefExceptionCode implements ExceptionCode {
     private final int code;
     private final String des;
 
-    private DefExceptionCode(String des, int code, Integer parentCode) {
+    DefExceptionCode(String des, int code, Integer parentCode) {
         this.code = parentCode + code;
         this.des = des;
     }
