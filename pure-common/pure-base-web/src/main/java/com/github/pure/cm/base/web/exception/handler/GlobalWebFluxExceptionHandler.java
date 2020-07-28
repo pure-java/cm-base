@@ -60,11 +60,9 @@ public class GlobalWebFluxExceptionHandler extends AbstractErrorWebExceptionHand
      */
     @Override
     protected void logError(ServerRequest request, ServerResponse response, Throwable throwable) {
+        log.error("异常信息：{}", throwable.getMessage());
         if (log.isDebugEnabled()) {
-            //log.error("", throwable.getMessage(), throwable);
             throwable.printStackTrace();
-        } else {
-            log.error("异常信息：{}", throwable.getMessage());
         }
     }
 

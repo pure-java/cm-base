@@ -56,11 +56,11 @@ public class UserAuthController {
     @PostMapping("/login")
     @AuthIgnore
     public Mono<Result<String>> login(@RequestBody ReqJwtTokenParam userInfo) throws BusinessException {
-        String username;
-        String password;
+        String username = userInfo.getUsername();
+        String password = userInfo.getPassword();
         try {
-            username = RsaUtil.decryptBase64(userInfo.getUsername(), getPrivateKey());
-            password = RsaUtil.decryptBase64(userInfo.getPassword(), getPrivateKey());
+            //username = RsaUtil.decryptBase64(userInfo.getUsername(), getPrivateKey());
+            //password = RsaUtil.decryptBase64(userInfo.getPassword(), getPrivateKey());
         } catch (Exception e) {
             log.error("加密发生错误", e);
             throw new BusinessException(DefExceptionCode.SYSTEM_ERROR_10500);

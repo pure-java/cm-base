@@ -25,7 +25,7 @@ public class AuthProviderFail implements AuthProvider {
     }
 
     @Override
-    public Map<String, Object> token(Map<String, Object> client) throws BusinessException {
+    public Map<String, Object> token(Map<String, Object> client, String basicAuth) throws BusinessException {
         throw new BusinessException(Result.failMsg("获取token发生错误"));
     }
 }

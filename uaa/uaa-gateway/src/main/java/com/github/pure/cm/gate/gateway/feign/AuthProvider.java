@@ -3,6 +3,7 @@ package com.github.pure.cm.gate.gateway.feign;
 import com.github.pure.cm.common.core.exception.BusinessException;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.server.reactive.HttpHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -41,10 +42,11 @@ public interface AuthProvider {
     /**
      * 获取token 与 刷新token
      *
-     * @param client 参数
+     * @param client    参数
+     * @param basicAuth basic ：base64加密后的用户名
      * @return 返回结果
      */
     @PostMapping(value = "/oauth/token")
-    Map<String, Object> token(@RequestParam Map<String, Object> client) throws BusinessException;
+    Map<String, Object> token(@RequestParam Map<String, Object> client, @RequestHeader(value = HttpHeaders.AUTHORIZATION) String basicAuth) throws BusinessException;
 
 }
