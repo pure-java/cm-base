@@ -15,26 +15,26 @@ public enum DefExceptionCode implements ExceptionCode {
     SUCCESS_200("成功", 200, 0),
 
     /**
-     * auth_client_unauthorized_10401 <p>
-     * 鉴权中心客户端验证，没有访问权限！10401
+     * UNAUTHORIZED_401 <p>
+     * 没有权限：401
      */
     UNAUTHORIZED_401("没有访问权限", 401, 0),
 
     /**
-     * auth_fail_10402<p>
-     * 认证失败：10402
+     * AUTH_FAIL_10001<p>
+     * 认证失败：10001
      */
-    AUTH_FAIL_10402("认证失败", 402, AppErrorCode.DEFAULT_ERROR_10000.getCode()),
+    AUTH_FAIL_10001("认证失败", 1, AppErrorCode.DEFAULT_ERROR_10000.getCode()),
     /**
-     * account_passwd_error_10403 <p>
-     * 账号密码错误:10403
+     * ACCOUNT_PASSWD_ERROR_10002 <p>
+     * 账号密码错误:10002
      */
-    ACCOUNT_PASSWD_ERROR_10403("账号密码不正确", 403, AppErrorCode.DEFAULT_ERROR_10000.getCode()),
+    ACCOUNT_PASSWD_ERROR_10002("账号密码不正确", 2, AppErrorCode.DEFAULT_ERROR_10000.getCode()),
     /**
-     * token_invalid_10404<p>
-     * 无效token:10404
+     * TOKEN_INVALID_10003<p>
+     * 无效token:10003
      */
-    TOKEN_INVALID_10404("无效的token", 404, AppErrorCode.DEFAULT_ERROR_10000.getCode()),
+    TOKEN_INVALID_10003("无效的token", 3, AppErrorCode.DEFAULT_ERROR_10000.getCode()),
 
     /**
      * system_error_10500 <p>

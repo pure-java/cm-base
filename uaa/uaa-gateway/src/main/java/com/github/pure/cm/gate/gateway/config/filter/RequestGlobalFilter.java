@@ -48,12 +48,12 @@ public class RequestGlobalFilter implements GlobalFilter, Ordered {
                                 DataBufferUtils.release(dataBuffer);
                                 int value = Objects.nonNull(getStatusCode()) ? getStatusCode().value() : 500;
                                 switch (value) {
-                                    case 200: // 正常
                                     case 401: // 没权限
+                                        log.error("响应码:{},错误信息:{}", getStatusCode(), new String(content, StandardCharsets.UTF_8));
+                                    case 200: // 正常
                                         return bufferFactory.wrap(new String(content, StandardCharsets.UTF_8).getBytes());
                                     default:
                                         log.error("响应码:{},错误信息:{}", getStatusCode(), new String(content, StandardCharsets.UTF_8));
-
                                         Result<?> result = Result.fail().setCode(HttpStatus.INTERNAL_SERVER_ERROR.value()).setStatus(false).setData(null);
                                         // 设置响应体的长度
                                         String json = JsonUtil.json(result);

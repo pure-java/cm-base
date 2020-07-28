@@ -23,9 +23,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.server.UnsupportedMediaTypeStatusException;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.Objects;
@@ -135,13 +133,13 @@ public class ExceptionHandlerUtil {
         Throwable cause = error.getCause();
 
         if (isPresent("org.springframework.security.authentication.InsufficientAuthenticationException") && instanceOf(InsufficientAuthenticationException.class, error, cause)) {
-            result.error(DefExceptionCode.AUTH_FAIL_10402);
+            result.error(DefExceptionCode.AUTH_FAIL_10001);
 
         } else if (isPresent("org.springframework.security.core.userdetails.UsernameNotFoundException") && instanceOf(UsernameNotFoundException.class, error, cause)) {
-            result.error(DefExceptionCode.ACCOUNT_PASSWD_ERROR_10403);
+            result.error(DefExceptionCode.ACCOUNT_PASSWD_ERROR_10002);
 
         } else if (isPresent("org.springframework.security.authentication.BadCredentialsException") && instanceOf(BadCredentialsException.class, error, cause)) {
-            result.error(DefExceptionCode.ACCOUNT_PASSWD_ERROR_10403);
+            result.error(DefExceptionCode.ACCOUNT_PASSWD_ERROR_10002);
         }
     }
 
@@ -156,10 +154,10 @@ public class ExceptionHandlerUtil {
         Throwable cause = error.getCause();
         // InvalidTokenException 无效的token
         if (invalidTokenException && instanceOf(InvalidTokenException.class, error, cause)) {
-            result.error(DefExceptionCode.TOKEN_INVALID_10404);
+            result.error(DefExceptionCode.TOKEN_INVALID_10003);
 
         } else if (invalidGrantException && instanceOf(InvalidGrantException.class, error, cause)) {
-            result.error(DefExceptionCode.ACCOUNT_PASSWD_ERROR_10403);
+            result.error(DefExceptionCode.ACCOUNT_PASSWD_ERROR_10002);
         }
     }
 
