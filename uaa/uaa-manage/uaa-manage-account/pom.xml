@@ -9,22 +9,17 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>uaa-gateway</artifactId>
+    <artifactId>uaa-manage-account</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.github.pure</groupId>
             <artifactId>pure-common-core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.github.pure</groupId>
-            <artifactId>pure-base-web</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
 
         <dependency>
             <groupId>com.github.pure</groupId>
-            <artifactId>uaa-resource</artifactId>
+            <artifactId>pure-base-web</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
@@ -37,16 +32,6 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-jwt</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-gateway</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-alibaba-sentinel-gateway</artifactId>
         </dependency>
 
         <dependency>
@@ -113,7 +98,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <fork>true</fork>
-                    <mainClass>com.github.pure.cm.gate.gateway.GatewayApplication</mainClass>
+                    <mainClass>com.github.pure.cm.manage.account.ManageAccountApplication</mainClass>
                 </configuration>
             </plugin>
 

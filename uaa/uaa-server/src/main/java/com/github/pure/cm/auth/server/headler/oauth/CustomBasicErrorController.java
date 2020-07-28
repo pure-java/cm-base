@@ -4,10 +4,14 @@ import com.github.pure.cm.common.core.constants.DefExceptionCode;
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
@@ -15,8 +19,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -30,17 +34,18 @@ import java.util.Map;
  * @author : 陈欢
  * @date : 2020-07-27 16:24
  **/
-
 @Slf4j
+@Configuration
 @RequestMapping("${server.error.path:${error.path:/error}}")
 public class CustomBasicErrorController extends BasicErrorController {
 
     private final ErrorProperties errorProperties;
 
-    public CustomBasicErrorController(ErrorAttributes errorAttributes, ErrorProperties errorProperties,
-                                      List<ErrorViewResolver> errorViewResolvers) {
-        super(errorAttributes, errorProperties, errorViewResolvers);
-        this.errorProperties = errorProperties;
+    public CustomBasicErrorController(ErrorAttributes errorAttributes,
+                                      ServerProperties serverProperties,
+                                      ObjectProvider<ErrorViewResolver> errorViewResolvers) {
+        super(errorAttributes, serverProperties.getError(), errorViewResolvers.orderedStream().collect(Collectors.toList()));
+        this.errorProperties = serverProperties.getError();
     }
 
     @RequestMapping

@@ -16,6 +16,7 @@
     <module>pure-common-data</module>
     <module>pure-base-web</module>
     <module>pure-base-configuration</module>
+    <module>pure-feign</module>
   </modules>
 
 </project>

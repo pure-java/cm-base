@@ -1,5 +1,6 @@
 package com.github.pure.cm.base.web.exception.handler;
 
+import com.github.pure.cm.common.core.constants.DefExceptionCode;
 import com.github.pure.cm.common.core.model.ExceptionResult;
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.JsonUtil;
@@ -51,7 +52,7 @@ public class GlobalExceptionHandler implements ErrorController {
 
         ExceptionResult<String> result = ExceptionHandlerUtil.exceptionHandler(exception);
 
-        response.setStatus(result.getCode());
+        response.setStatus(DefExceptionCode.UNAUTHORIZED_401.getCode());
         return result;
     }
 

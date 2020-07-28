@@ -1,0 +1,122 @@
+server:
+  port: 10003
+  #   设置请求头大小
+  max-http-header-size: 20480
+  address:
+    nacos:
+      server-addr: 192.168.0.200:8848
+    sentinel:
+      transport:
+        port: 20002
+        dashboard: 192.168.0.200:20000
+    datasource:
+      server-addr: 192.168.0.200:3306
+    redis:
+      server-addr: 192.168.0.200
+      port: 6379
+
+spring:
+  application:
+    name: api-gateway
+  profiles:
+    active: '@profileActive@'
+  redis:
+    host: ${server.address.redis.server-addr}
+    password: null
+    port: ${server.address.redis.port}
+    lettuce:
+      pool:
+        max-idle: 100
+        min-idle: 1
+        max-active: 1000
+        max-wait: -1
+    database: 3
+  cloud:
+    nacos:
+      config:
+        server-addr: ${server.address.nacos.server-addr}
+        file-extension: yaml
+        namespace: '@profileActive@'
+      discovery:
+        namespace: '@profileActive@'
+        server-addr: ${server.address.nacos.server-addr}
+    sentinel:
+      transport:
+        port: ${server.address.sentinel.transport.port}
+        dashboard: ${server.address.sentinel.transport.dashboard}
+      datasource:
+        ds:
+          nacos:
+            server-addr: ${server.address.nacos.server-addr}
+            dataId: ${spring.application.name}-sentinel
+            groupId: DEFAULT_GROUP
+            ruleType: flow
+            dataType: json
+    gateway:
+      discovery:
+        locator:
+          enabled: true # 启用服务注册与发现
+          lower-case-service-id: true # 将服务名大写转小写
+#      routes:
+#        - id: uaa-server
+#          uri: lb://uaa-server
+#          order: 8000
+#          predicates:
+#            - Path=/api/auth/**
+#          filters:
+#            - StripPrefix=2   #StripPrefix 表明 忽略前缀路径  /api/auth/xxx ==> /xxx
+#        - id: uaa-server
+#          uri: lb://pure-test-1
+#          order: 8000
+#          predicates:
+#            - Path=/test1/**
+#          filters:
+#            - StripPrefix=1   #StripPrefix 表明 忽略前缀路径  /api/auth/xxx ==> /xxx
+#        - id: uaa-server
+#          uri: lb://pure-test-2
+#          order: 8000
+#          predicates:
+#            - Path=/test2/**
+#          filters:
+#            - StripPrefix=1   #StripPrefix 表明 忽略前缀路径  /api/auth/xxx ==> /xxx
+
+#  开启熔断降级
+feign:
+  client:
+    config:
+      defualt: #服务名，填写default为所有服务
+        connectTimeout: 1000
+        readTimeout: 12000
+  sentinel:
+    enabled: true
+  hystrix:
+    enabled: false
+  httpclient:
+    connection-timeout: 5000
+
+# 设置 负载均衡 ribbon 的重试次数以及读取超时时间
+ribbon:
+  MaxAutoRetries: 3
+  ReadTimeout: 5000 # 连接所需时间，默认3秒，一般不够
+  ConnectTimeout: 5000 # 读取到可用资源的时间，默认一秒，不够，需要改为 5 秒
+# 客户端认证属性配置
+security:
+  oauth2:
+    client:
+      grant-type: password
+      scope: all
+      client-id: test
+      client-secret: admin
+# 网关验证忽略的url接口
+pure:
+  log:
+    #    # 日志存储路径
+    dir: ../
+    # 日志等级，并且控制 logback
+    level: debug
+  gateway:
+    authentication:
+      ignore-urls: /v2,pure-webflux-test/webFlux/feignTest
+swagger2:
+  enable: false
+

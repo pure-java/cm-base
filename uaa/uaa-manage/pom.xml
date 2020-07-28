@@ -10,16 +10,10 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>uaa</artifactId>
+    <artifactId>uaa-manage</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>uaa-server</module>
-        <module>uaa-sdk</module>
-        <module>uaa-model</module>
-        <module>uaa-resource</module>
-        <module>uaa-gateway</module>
-        <module>uaa-test</module>
-        <module>uaa-manage</module>
+        <module>uaa-manage-account</module>
     </modules>
 
 </project>
