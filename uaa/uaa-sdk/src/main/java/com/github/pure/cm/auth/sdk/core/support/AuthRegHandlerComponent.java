@@ -42,7 +42,7 @@ import java.util.Set;
  * @since 2020/7/7
  */
 @Slf4j
-public abstract class AuthHandlerComponent implements ApplicationListener<ApplicationReadyEvent> {
+public abstract class AuthRegHandlerComponent implements ApplicationListener<ApplicationReadyEvent> {
 
     @Autowired
     private AuthRegisterClient authRegisterClient;

@@ -1,4 +1,4 @@
-package com.github.pure.cm.gate.gateway.config.router;
+package com.github.pure.cm.gate.gateway.router;
 
 import com.github.pure.cm.common.core.util.JsonUtil;
 import java.util.List;

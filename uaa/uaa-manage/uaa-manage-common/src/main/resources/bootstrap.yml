@@ -1,5 +1,5 @@
 server:
-  port: 10003
+  port: 20002
   #   设置请求头大小
   max-http-header-size: 20480
   address:
@@ -17,7 +17,7 @@ server:
 
 spring:
   application:
-    name: api-gateway
+    name: uaa-manage-common
   profiles:
     active: '@profileActive@'
   redis:
@@ -34,9 +34,13 @@ spring:
   cloud:
     nacos:
       config:
+        namespace: '@profileActive@'
         server-addr: ${server.address.nacos.server-addr}
         file-extension: yaml
-        namespace: '@profileActive@'
+        extension-configs:
+          - data-id: common.yml
+            group: local
+            refresh: true
       discovery:
         namespace: '@profileActive@'
         server-addr: ${server.address.nacos.server-addr}
@@ -52,21 +56,6 @@ spring:
             groupId: DEFAULT_GROUP
             ruleType: flow
             dataType: json
-    gateway:
-      discovery:
-        locator:
-          enabled: false # 禁用用服务注册与发现
-          lower-case-service-id: false # 将服务名大写转小写
-      routes[0]:
-        # 用户中心管理端账号服务的名称
-        id: manage-account #自定义的路由 ID，保持唯一
-        uri: lb://uaa-manage-account #目标服务地址
-        order: 8000 # 顺序
-        predicates: # 匹配表达式，满足表达式的，会转发到该服务
-          - Path=/v1/**
-        filters:
-          - StripPrefix=1   #StripPrefix 表明 忽略前缀路径  /v1/xxx ==> /xxx
-
 #  开启熔断降级
 feign:
   client:

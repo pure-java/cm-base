@@ -5,6 +5,8 @@ import com.github.pure.cm.common.core.util.collection.MapUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler;
@@ -36,6 +38,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Order(-2)
 @Component
+@ConditionalOnMissingBean(AbstractErrorWebExceptionHandler.class)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 public class GlobalWebFluxExceptionHandler extends AbstractErrorWebExceptionHandler {
 

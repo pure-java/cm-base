@@ -1,6 +1,5 @@
-package com.github.pure.cm.gate.gateway.config.filter;
+package com.github.pure.cm.gate.gateway.filter;
 
-import com.github.pure.cm.common.core.constants.DefExceptionCode;
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +22,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 /**
- * <p>过虑响应内容：将所有非200的响应码转换为 服务器异常；如果要返回业务异常，使用包装实体</p>
+ * <p>
+ * 全局请求过滤器：<br>
+ * 过虑响应内容：将所有非200的响应码转换为 服务器异常；如果要返回业务异常，使用包装实体。
+ *
+ * </p>
  *
  * @author : 陈欢
  * @date : 2020-07-28 15:31
@@ -49,11 +52,11 @@ public class RequestGlobalFilter implements GlobalFilter, Ordered {
                                 int value = Objects.nonNull(getStatusCode()) ? getStatusCode().value() : 500;
                                 switch (value) {
                                     case 401: // 没权限
-                                        log.error("响应码:{},错误信息:{}", getStatusCode(), new String(content, StandardCharsets.UTF_8));
+                                        log.error("请求响应码:{},错误信息:{}", getStatusCode(), new String(content, StandardCharsets.UTF_8));
                                     case 200: // 正常
                                         return bufferFactory.wrap(new String(content, StandardCharsets.UTF_8).getBytes());
                                     default:
-                                        log.error("响应码:{},错误信息:{}", getStatusCode(), new String(content, StandardCharsets.UTF_8));
+                                        log.error("请求响应码:{},错误信息:{}", getStatusCode(), new String(content, StandardCharsets.UTF_8));
                                         Result<?> result = Result.fail().setCode(HttpStatus.INTERNAL_SERVER_ERROR.value()).setStatus(false).setData(null);
                                         // 设置响应体的长度
                                         String json = JsonUtil.json(result);

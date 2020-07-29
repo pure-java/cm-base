@@ -1,5 +1,6 @@
-package com.github.pure.cm.auth.sdk.core.support;
+package com.github.pure.cm.auth.sdk.core.support.reg;
 
+import com.github.pure.cm.auth.sdk.core.support.AuthRegHandlerComponent;
 import com.github.pure.cm.model.auth.vo.AuthVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
-public class WebFluxAuthHandlerComponent extends AuthHandlerComponent {
+public class WebFluxAuthHandlerComponent extends AuthRegHandlerComponent {
     @Autowired
     private RequestMappingHandlerMapping requestMapping;
 

@@ -1,4 +1,4 @@
-package com.github.pure.cm.gate.gateway.config.swagger;
+package com.github.pure.cm.gate.gateway.swagger;
 
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;

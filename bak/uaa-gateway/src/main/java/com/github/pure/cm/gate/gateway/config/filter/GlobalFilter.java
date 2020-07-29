@@ -1,4 +1,4 @@
-package com.github.pure.cm.gate.gateway.config.filter;
+package com.github.pure.cm.gate.gateway.filter;
 
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.BeanUtils;

@@ -13,6 +13,7 @@
     <artifactId>uaa-manage</artifactId>
     <packaging>pom</packaging>
     <modules>
+        <module>uaa-manage-common</module>
         <module>uaa-manage-account</module>
     </modules>
 

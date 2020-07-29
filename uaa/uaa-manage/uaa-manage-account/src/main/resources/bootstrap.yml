@@ -1,5 +1,5 @@
 server:
-  port: 10006
+  port: 20001
   #   设置请求头大小
   max-http-header-size: 20480
   address:
@@ -17,7 +17,7 @@ server:
 
 spring:
   application:
-    name: manage-account
+    name: uaa-manage-account
   profiles:
     active: '@profileActive@'
   redis:

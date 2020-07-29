@@ -10,9 +10,3 @@ server:
     redis:
       server-addr: localhost
       port: 6379
-pure:
-  log:
-    dir: ../
-    level: debug
-  application:
-    debug: true

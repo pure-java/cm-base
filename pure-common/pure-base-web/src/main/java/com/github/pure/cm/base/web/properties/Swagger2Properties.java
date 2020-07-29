@@ -2,6 +2,7 @@ package com.github.pure.cm.base.web.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "swagger2")
 @Data
 @Configuration
+@RefreshScope
 public class Swagger2Properties {
 
   private boolean enable = false;

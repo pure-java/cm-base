@@ -1,4 +1,4 @@
-package com.github.pure.cm.gate.gateway.config.router;
+package com.github.pure.cm.gate.gateway.router;
 
 import com.github.pure.cm.common.core.util.JsonUtil;
 import java.util.List;
@@ -22,10 +22,10 @@ import reactor.core.publisher.Mono;
  * @date 2019/12/5
  */
 @Slf4j
-@Component
+//@Component
 public class RedisRouterRouteDefinitionRepository implements RouteDefinitionRepository {
 
-  public static final String GATEWAY_ROUTES = "gateway_routes::";
+  public static final String GATEWAY_ROUTES = "gateway_routes:";
 
   @Autowired
   private StringRedisTemplate redisTemplate;

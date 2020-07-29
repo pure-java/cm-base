@@ -1,4 +1,4 @@
-package com.github.pure.cm.auth.sdk.core;
+package com.github.pure.cm.auth.sdk;
 
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;

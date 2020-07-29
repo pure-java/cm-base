@@ -237,12 +237,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.pure</groupId>
-            <artifactId>pure-base-configuration</artifactId>
-            <version>${com-pure.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>

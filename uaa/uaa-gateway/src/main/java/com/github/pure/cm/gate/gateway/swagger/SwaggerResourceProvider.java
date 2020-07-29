@@ -1,4 +1,4 @@
-package com.github.pure.cm.gate.gateway.config.swagger;
+package com.github.pure.cm.gate.gateway.swagger;
 
 import java.util.ArrayList;
 import java.util.HashSet;

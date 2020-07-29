@@ -25,13 +25,12 @@ public class FeignClientErrorDecoder extends ErrorDecoder.Default {
 
     @Override
     public Exception decode(String methodKey, Response response) {
-        String message = "";
         try {
             // 这里直接拿到我们抛出的异常信息
-            message = Util.toString(response.body().asReader(StandardCharsets.UTF_8));
+            String message = Util.toString(response.body().asReader(StandardCharsets.UTF_8));
             return new BusinessException(JsonUtil.singleInstance().jsonToObject(message, Result.class));
         } catch (IOException ignored) {
-            return new BusinessException(DefExceptionCode.SYSTEM_ERROR_10500.getCode(), message);
+            return new BusinessException(DefExceptionCode.SYSTEM_ERROR_10500.getCode());
         }
     }
 
