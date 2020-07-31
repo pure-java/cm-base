@@ -2,16 +2,19 @@ package com.github.pure.cm.auth.sdk.service;
 
 import com.github.pure.cm.auth.sdk.feign.AuthProvider;
 import com.github.pure.cm.auth.sdk.properties.OAuth2ClientProperties;
+import com.github.pure.cm.auth.sdk.vo.AuthGrantType;
 import com.github.pure.cm.auth.sdk.vo.ReqJwtTokenParam;
 import com.github.pure.cm.common.core.exception.BusinessException;
 import com.github.pure.cm.common.core.util.JsonUtil;
 import com.github.pure.cm.common.core.util.StringUtil;
 import com.github.pure.cm.common.core.util.encry.Base64Util;
+import com.google.common.base.Preconditions;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -44,6 +47,7 @@ public class AuthService {
     @Autowired
     private OAuth2ClientProperties oAuth2ClientProperties;
 
+
     /**
      * 获取 jwt
      *
@@ -51,11 +55,11 @@ public class AuthService {
      * @return 获取的 jwt 结果
      */
     public Map<String, Object> token(ReqJwtTokenParam reqJwtTokenParam) throws BusinessException {
-        Map<String, Object> client = reqJwtTokenParam.toMap();
+        checkParam(reqJwtTokenParam);
         log.debug("获取token");
         String format = String.format("Basic %s", Base64Util.baseEncrypt(reqJwtTokenParam.getClientId() + ":" + reqJwtTokenParam.getClientSecret()));
-        log.debug("basic {}",format);
-        return authProvider.token(client, format);
+        log.debug("basic {}", format);
+        return authProvider.token(reqJwtTokenParam.toMap(), format);
     }
 
     /**
@@ -95,9 +99,7 @@ public class AuthService {
         map.put("token", token);
         String format = String.format("%s:%s", oAuth2ClientProperties.getClientId(), oAuth2ClientProperties.getClientSecret());
         String authorization = "Basic " + new String(Base64.getEncoder().encode(format.getBytes(StandardCharsets.UTF_8)));
-        Map<String, Object> userDetails = authProvider.checkToken(map, authorization);
-        log.debug(" 检查token = {}", userDetails);
-        return userDetails;
+        return authProvider.checkToken(map, authorization);
     }
 
     /**
@@ -107,10 +109,11 @@ public class AuthService {
      * @return 刷新之后新的jwt
      */
     public Map<String, Object> refreshToken(ReqJwtTokenParam reqJwtTokenParam) {
+        checkParam(reqJwtTokenParam);
+
         String format = String.format("%s:%s", oAuth2ClientProperties.getClientId(), oAuth2ClientProperties.getClientSecret());
         String authorization = "Basic " + new String(Base64.getEncoder().encode(format.getBytes(StandardCharsets.UTF_8)));
         Map<String, Object> objectMap = authProvider.checkToken(reqJwtTokenParam.toMap(), authorization);
-        log.debug("刷新token = {}", objectMap);
         return objectMap;
     }
 
@@ -125,8 +128,7 @@ public class AuthService {
             token = token.substring("Bearer ".length());
         }
 
-        String publicKey = this.getPublicKey();
-        return JwtHelper.decodeAndVerify(token, new RsaVerifier(publicKey));
+        return JwtHelper.decodeAndVerify(token, new RsaVerifier(this.getPublicKey()));
     }
 
     /**
@@ -156,5 +158,42 @@ public class AuthService {
                     return stringStringMap.get("value");
                 }
             });
+
+    /**
+     * 检查参数
+     *
+     * @param reqJwtTokenParam
+     */
+    private void checkParam(ReqJwtTokenParam reqJwtTokenParam) {
+        Preconditions.checkArgument(Objects.nonNull(reqJwtTokenParam), "ReqJwtTokenParam is null");
+
+        String grantType = reqJwtTokenParam.getGrantType();
+        AuthGrantType authGrantType;
+        Preconditions.checkArgument(StringUtil.isNotBlank(grantType), "grantType can't blank");
+        Preconditions.checkArgument(Objects.nonNull(authGrantType = AuthGrantType.byValue(grantType)), " grantType can't blank");
+
+        Preconditions.checkArgument(StringUtil.isAllNotBlank(reqJwtTokenParam.getClientId()), "clientId can't blank");
+        Preconditions.checkArgument(StringUtil.isAllNotBlank(reqJwtTokenParam.getClientSecret()), "client secret can't blank");
+
+
+        switch (authGrantType) {
+            // 客户端模式，必须填：grant_type、clientId、clientSecret
+            case CLIENT_CREDENTIALS:
+                break;
+            //
+            case PASSWORD:
+                Preconditions.checkArgument(StringUtil.isAllNotBlank(reqJwtTokenParam.getPassword()), "username can't blank");
+                Preconditions.checkArgument(StringUtil.isAllNotBlank(reqJwtTokenParam.getUsername()), "password can't blank");
+                break;
+            case REFRESH_TOKEN:
+                Preconditions.checkArgument(StringUtil.isAllNotBlank(reqJwtTokenParam.getRefreshToken()), "refreshToken can't blank");
+                break;
+
+            case IMPLICIT:
+            case AUTHORIZATION_CODE:
+            default:
+                throw new IllegalArgumentException("not support " + grantType);
+        }
+    }
 
 }

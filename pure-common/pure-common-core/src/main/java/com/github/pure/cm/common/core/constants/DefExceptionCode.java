@@ -19,6 +19,11 @@ public enum DefExceptionCode implements ExceptionCode {
      * 没有权限：401
      */
     UNAUTHORIZED_401("没有访问权限", 401, 0),
+    /**
+     * NOT_FOUND_404<br>
+     * 未找到
+     */
+    NOT_FOUND_404("Not Found", 401, 0),
 
     /**
      * AUTH_FAIL_10001<p>

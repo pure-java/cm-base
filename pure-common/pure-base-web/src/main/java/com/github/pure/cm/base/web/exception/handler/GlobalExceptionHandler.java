@@ -30,10 +30,10 @@ import java.util.Map;
 @RestControllerAdvice
 @RestController
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
-public class GlobalExceptionHandler implements ErrorController {
+public class GlobalExceptionHandler  {
 
     public GlobalExceptionHandler() {
-        log.debug("加载全局异常处理 {}", GlobalExceptionHandler.class.getSimpleName());
+        log.debug("加载全局异常处理：{}", GlobalExceptionHandler.class.getSimpleName());
     }
 
     @ExceptionHandler({Exception.class})
@@ -56,20 +56,20 @@ public class GlobalExceptionHandler implements ErrorController {
         return result;
     }
 
-    /**
-     * 指定错误页面
-     */
-    @Override
-    public String getErrorPath() {
-        return "notFound";
-    }
-
-    /**
-     * 404 异常
-     */
-    @RequestMapping(value = "/notFound")
-    public Result<String> error() {
-        return new Result<String>().setCode(HttpStatus.NOT_FOUND.value()).setMessage(HttpStatus.NOT_FOUND.getReasonPhrase());
-    }
+    ///**
+    // * 指定错误页面
+    // */
+    //@Override
+    //public String getErrorPath() {
+    //    return "error";
+    //}
+    //
+    ///**
+    // * 404 异常
+    // */
+    //@RequestMapping(value = "/error")
+    //public Result<String> error() {
+    //    return new Result<String>().setCode(HttpStatus.NOT_FOUND.value()).setMessage(HttpStatus.NOT_FOUND.getReasonPhrase());
+    //}
 
 }

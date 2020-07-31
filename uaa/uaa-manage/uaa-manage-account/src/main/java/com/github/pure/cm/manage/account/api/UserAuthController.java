@@ -1,5 +1,6 @@
 package com.github.pure.cm.manage.account.api;
 
+import com.github.pure.cm.auth.sdk.service.UserAuthService;
 import com.github.pure.cm.common.core.constants.DefExceptionCode;
 import com.github.pure.cm.common.core.exception.BusinessException;
 import com.github.pure.cm.common.core.model.Result;
@@ -40,10 +41,7 @@ import java.util.concurrent.TimeUnit;
 public class UserAuthController {
 
     @Autowired
-    private AuthService authService;
-    @Autowired
-    private OAuth2ClientProperties auth2ClientProperties;
-
+    private UserAuthService authService;
 
     /**
      * 登录，暂时放在网关，可以放到其他模块，但是需要为登录模块提供客户端授权
@@ -52,31 +50,17 @@ public class UserAuthController {
      * @return 登录结果
      */
     @PostMapping("/login")
-    public Mono<Result<String>> login(@RequestBody ReqJwtTokenParam userInfo) throws BusinessException {
+    public Mono<String> login(@RequestBody ReqJwtTokenParam userInfo) throws BusinessException {
         String username = userInfo.getUsername();
         String password = userInfo.getPassword();
         try {
             //username = RsaUtil.decryptBase64(userInfo.getUsername(), getPrivateKey());
             //password = RsaUtil.decryptBase64(userInfo.getPassword(), getPrivateKey());
+            return Mono.just(authService.userToken(username, password));
         } catch (Exception e) {
             log.error("加密发生错误", e);
             throw new BusinessException(DefExceptionCode.SYSTEM_ERROR_10500);
         }
-
-        ReqJwtTokenParam reqJwtTokenParam = new ReqJwtTokenParam();
-
-        reqJwtTokenParam
-                .setGrantType(auth2ClientProperties.getGrantType())
-                .setClientId(auth2ClientProperties.getClientId())
-                .setClientSecret(auth2ClientProperties.getClientSecret())
-                .setUsername(username)
-                .setPassword(password)
-                .setScope(auth2ClientProperties.getScope());
-        Map<String, Object> token = authService.token(reqJwtTokenParam);
-
-        Result<String> success = Result.success();
-        success.setData(MapUtils.getString(token, "access_token"));
-        return Mono.just(success);
     }
 
     /**

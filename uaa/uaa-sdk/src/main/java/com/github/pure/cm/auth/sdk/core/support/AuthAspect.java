@@ -64,9 +64,7 @@ public class AuthAspect {
         for (AuthResource resource : authOption.resources()) {
             authCodeSet.add(AuthUtil.convertAuthCode(resource.resCode()));
         }
-        log.error("权限：{}", authCodeSet);
+        log.error("权限：{}", RequestHelper.jwt());
         //log.error("jwt：{}", );
-
-
     }
 }
