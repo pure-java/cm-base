@@ -65,10 +65,11 @@ feign:
     connection-timeout: 5000
 # 设置 负载均衡 ribbon 的重试次数以及读取超时时间
 ribbon:
-  MaxAutoRetries: 3
+  MaxAutoRetries: 3 #同一台实例最大重试次数,不包括首次调用
   ReadTimeout: 5000 # 连接所需时间，默认3秒，一般不够
   ConnectTimeout: 5000 # 读取到可用资源的时间，默认一秒，不够，需要改为 5 秒
-
+  MaxAutoRetriesNextServer: 1 #重试负载均衡其他的实例最大重试次数,不包括首次调用
+  OkToRetryOnAllOperations: true  #是否所有操作都重试
 # 客户端认证属性配置
 security:
   oauth2:

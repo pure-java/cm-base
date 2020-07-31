@@ -1,6 +1,6 @@
-package com.github.pure.cm.manage.account.feign.failback;
+package com.github.pure.cm.auth.sdk.feign.failback;
 
-import com.github.pure.cm.manage.account.feign.AuthProvider;
+import com.github.pure.cm.auth.sdk.feign.AuthProvider;
 import com.github.pure.cm.common.core.exception.BusinessException;
 import com.github.pure.cm.common.core.model.Result;
 import org.springframework.stereotype.Component;

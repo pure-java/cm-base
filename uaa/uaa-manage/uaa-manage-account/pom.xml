@@ -25,6 +25,12 @@
 
         <dependency>
             <groupId>com.github.pure</groupId>
+            <artifactId>uaa-sdk</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.pure</groupId>
             <artifactId>pure-feign</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>

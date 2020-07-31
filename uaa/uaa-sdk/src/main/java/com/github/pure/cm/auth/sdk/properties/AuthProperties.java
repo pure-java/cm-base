@@ -1,4 +1,4 @@
-package com.github.pure.cm.manage.account.properties;
+package com.github.pure.cm.auth.sdk.properties;
 
 import java.util.stream.Stream;
 import lombok.Getter;

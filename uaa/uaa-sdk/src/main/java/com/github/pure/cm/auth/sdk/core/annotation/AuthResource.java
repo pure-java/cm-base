@@ -20,13 +20,13 @@ public @interface AuthResource {
     String name();
 
     /**
-     * 资源项 ID ，应该加上服务名称前缀，如果没加，可以考虑自动添加前缀 _${project-code}_
+     * 资源项 code ，应该加上服务名称前缀，如果没加，可以考虑自动添加前缀 _${project-code}_
      */
-    String resId();
+    String resCode();
 
     /**
-     * 父级：菜单项 ID，应该加上服务名称前缀，如果没加，可以考虑自动添加前缀 _${project-code}_
+     * 父级：菜单项 code，应该加上服务名称前缀，如果没加，可以考虑自动添加前缀 _${project-code}_
      */
-    String menuItemId();
+    String menuItemCode();
 
 }

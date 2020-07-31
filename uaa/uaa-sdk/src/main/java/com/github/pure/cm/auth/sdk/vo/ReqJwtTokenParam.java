@@ -1,4 +1,4 @@
-package com.github.pure.cm.manage.account.vo;
+package com.github.pure.cm.auth.sdk.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.pure.cm.common.core.util.JsonUtil;

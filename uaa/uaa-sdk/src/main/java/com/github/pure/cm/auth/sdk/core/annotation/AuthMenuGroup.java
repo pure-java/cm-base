@@ -17,12 +17,12 @@ public @interface AuthMenuGroup {
     String groupName();
 
     /**
-     * 菜单组 ID，应该加上服务名称前缀，如果没加，可以考虑自动添加前缀 _${project-code}_
+     * 菜单组 code，应该加上服务名称前缀，如果没加，可以考虑自动添加前缀 _${project-code}_
      */
-    String groupId();
+    String groupCode();
 
     /**
-     * 父级权限码，应该加上服务名称前缀，如果没加，可以考虑自动添加前缀 _${project-code}_
+     * 父级权 code，应该加上服务名称前缀，如果没加，可以考虑自动添加前缀 _${project-code}_
      */
-    String parentGroupId() default "";
+    String parentGroupCode() default "";
 }

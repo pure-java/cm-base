@@ -40,14 +40,14 @@ public class WebTestController {
     @PostMapping("/login")
     @AuthOption(
             authCode = "sys_authority_list_all",
-            menuGroup = {@AuthMenuGroup(groupName = "查询权限", groupId = "sys_authority")},
+            menuGroup = {@AuthMenuGroup(groupName = "查询权限", groupCode = "sys_authority")},
             menuItems = {
-                    @AuthMenuItem(name = "用户权限管理", itemId = "sys_authority_list", parentId = "sys_authority"),
-                    @AuthMenuItem(name = "用户权限查询", itemId = "sys_authority_select", parentId = "sys_authority")
+                    @AuthMenuItem(name = "用户权限管理", itemCode = "sys_authority_list", parentCode = "sys_authority"),
+                    @AuthMenuItem(name = "用户权限查询", itemCode = "sys_authority_select", parentCode = "sys_authority")
             },
             resources = {
-                    @AuthResource(name = "权限列表", resId = "sys_authority_list_page", menuItemId = "sys_authority_list"),
-                    @AuthResource(name = "权限列表", resId = "sys_authority_select_page", menuItemId = "sys_authority_select")
+                    @AuthResource(name = "权限列表", resCode = "sys_authority_list_page", menuItemCode = "sys_authority_list"),
+                    @AuthResource(name = "权限列表", resCode = "sys_authority_select_page", menuItemCode = "sys_authority_select")
             }
     )
     public Result<Map<String, Object>> test() {

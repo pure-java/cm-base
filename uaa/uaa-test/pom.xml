@@ -9,12 +9,10 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>pure-test</artifactId>
+  <artifactId>uaa-test</artifactId>
   <packaging>pom</packaging>
   <modules>
     <module>pure-webflux-test</module>
     <module>pure-web-test</module>
   </modules>
-
-
 </project>

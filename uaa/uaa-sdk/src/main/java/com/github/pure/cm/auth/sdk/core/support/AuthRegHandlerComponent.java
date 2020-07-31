@@ -6,6 +6,7 @@ import com.github.pure.cm.auth.sdk.core.annotation.AuthOption;
 import com.github.pure.cm.auth.sdk.core.annotation.AuthResource;
 import com.github.pure.cm.auth.sdk.core.annotation.AuthRole;
 import com.github.pure.cm.auth.sdk.core.feign.AuthRegisterClient;
+import com.github.pure.cm.auth.sdk.util.AuthUtil;
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.JsonUtil;
 import com.github.pure.cm.model.auth.vo.AuthMenuGroupVo;
@@ -25,7 +26,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.util.Assert;
 
 import java.lang.reflect.Method;
@@ -57,7 +57,6 @@ public abstract class AuthRegHandlerComponent implements ApplicationListener<App
     @Value("${pure.application.code}")
     protected String applicationCode;
 
-
     /**
      * 获取请求映射信息
      *
@@ -69,6 +68,7 @@ public abstract class AuthRegHandlerComponent implements ApplicationListener<App
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
         new Thread(() -> {
+
             log.info("开始注册----------------------");
             AuthVo authVo = new AuthVo();
             Set<RequestMappingVO> parse = getRequestMappingInfo(authVo);
@@ -107,15 +107,15 @@ public abstract class AuthRegHandlerComponent implements ApplicationListener<App
             // 类上的角色注解
             AuthRole classAuthRole = beanType.getAnnotation(AuthRole.class);
             if (Objects.nonNull(classAuthRole)) {
-                // 自动添加前缀
-                String roleAuthority = classAuthRole.authCode().startsWith("ROLE_") ? classAuthRole.authCode() : "ROLE_" + classAuthRole.authCode();
+                // 自动添加ROLE_前缀
+                String roleAuthority = AuthUtil.convertRoleCode(classAuthRole.authCode());
 
                 authVo.getAuthRoleVos()
                         .computeIfAbsent(roleAuthority,
                                 key -> AuthRoleVo.builder()
                                         .serverName(this.applicationName)
                                         .serverCode(this.applicationCode)
-                                        .authCode(this.convertAuthCode(roleAuthority))
+                                        .authCode(AuthUtil.convertAuthCode(roleAuthority))
                                         .name(classAuthRole.name())
                                         .build()
                         );
@@ -130,7 +130,7 @@ public abstract class AuthRegHandlerComponent implements ApplicationListener<App
                 return;
             }
 
-            securityCodes.add(this.convertAuthCode(authOption.authCode()));
+            securityCodes.add(AuthUtil.convertAuthCode(authOption.authCode()));
 
             // 处理权限组
             AuthMenuGroup[] groups = authOption.menuGroup();
@@ -163,7 +163,7 @@ public abstract class AuthRegHandlerComponent implements ApplicationListener<App
      * 添加菜单组权限
      */
     protected void putAuthMenuGroup(Map<String, AuthMenuGroupVo> authMenuGroupVos, AuthMenuGroup group) {
-        String groupCode = this.convertAuthCode(group.groupId());
+        String groupCode = AuthUtil.convertAuthCode(group.groupCode());
 
         Assert.state(!authMenuGroupVos.containsKey(groupCode), String.format("@AuthMenuGroup.code()重复:`%s`", groupCode));
 
@@ -174,7 +174,7 @@ public abstract class AuthRegHandlerComponent implements ApplicationListener<App
                         //.authRoleVos()
                         .groupId(groupCode)
                         .groupName(group.groupName())
-                        .parentId(this.convertAuthCode(group.parentGroupId()))
+                        .parentId(AuthUtil.convertAuthCode(group.parentGroupCode()))
                         .build());
     }
 
@@ -187,7 +187,7 @@ public abstract class AuthRegHandlerComponent implements ApplicationListener<App
      * @param authMenuItem    菜单项
      */
     private void putAuthMenuItem(Map<String, AuthMenuItemVo> authMenuItemVos, String methodUrl, Set<String> optionAuthCode, AuthMenuItem authMenuItem) {
-        String menuCode = this.convertAuthCode(authMenuItem.itemId());
+        String menuCode = AuthUtil.convertAuthCode(authMenuItem.itemCode());
 
         Assert.state(!authMenuItemVos.containsKey(menuCode), String.format("@AuthMenuItem.code()重复:`%s`", menuCode));
 
@@ -199,7 +199,7 @@ public abstract class AuthRegHandlerComponent implements ApplicationListener<App
                         .itemId(menuCode)
                         .name(authMenuItem.name())
                         .authCode(StringUtils.join(optionAuthCode, ";"))
-                        .parentId(this.convertAuthCode(authMenuItem.parentId()))
+                        .parentId(AuthUtil.convertAuthCode(authMenuItem.parentCode()))
                         .url(methodUrl)
                         .build());
     }
@@ -213,7 +213,7 @@ public abstract class AuthRegHandlerComponent implements ApplicationListener<App
      * @param resource        资源
      */
     private void putAuthResource(Map<String, AuthResourceVo> authResourceVos, String methodUrl, Set<String> optionAuthCode, AuthResource resource) {
-        String resourceCode = this.convertAuthCode(resource.resId());
+        String resourceCode = AuthUtil.convertAuthCode(resource.resCode());
 
         Assert.state(!authResourceVos.containsKey(resourceCode), String.format("@AuthResource.code()重复:`%s`", resourceCode));
 
@@ -224,26 +224,9 @@ public abstract class AuthRegHandlerComponent implements ApplicationListener<App
                 .resourceId(resourceCode)
                 .name(resource.name())
                 .authCode(StringUtils.join(optionAuthCode, ";"))
-                .parentId(this.convertAuthCode(resource.menuItemId()))
+                .parentId(AuthUtil.convertAuthCode(resource.menuItemCode()))
                 .url(methodUrl)
                 .build());
-    }
-
-    /**
-     * 对权限码进行转换
-     */
-    protected String convertAuthCode(String authCode) {
-        if (StringUtils.isBlank(authCode)) {
-            return "";
-        }
-        // 转换为小写，并将 多个 中划线和下划线转换为一个下划线
-        authCode = authCode.replaceAll("[-_]+", "_");
-
-        String prefix = ("_" + this.applicationCode + "_").replaceAll("[-_]+", "_");
-        authCode = authCode.startsWith(prefix) ? authCode : prefix + authCode;
-
-        authCode = authCode.replaceAll("[-_]+", "_");
-        return authCode.toLowerCase();
     }
 
     @Data

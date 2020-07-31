@@ -1,5 +1,6 @@
 package com.github.pure.cm.auth.server.api;
 
+import com.github.pure.cm.auth.resource.annoation.AuthIgnore;
 import com.github.pure.cm.auth.server.service.SysResourceService;
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.model.auth.vo.AuthRegisterVo;
@@ -28,6 +29,7 @@ public class AuthServerController {
 
     @ApiOperation(value = "注册权限")
     @PostMapping("/registerAuth")
+    @AuthIgnore
     public Boolean registerAuth(@RequestBody @Validated AuthRegisterVo registerVo) {
         return this.sysResourceService.registerAuth(registerVo);
     }

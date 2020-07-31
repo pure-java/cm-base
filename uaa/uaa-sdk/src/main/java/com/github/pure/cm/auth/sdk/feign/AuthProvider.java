@@ -1,9 +1,8 @@
-package com.github.pure.cm.manage.account.feign;
+package com.github.pure.cm.auth.sdk.feign;
 
 import com.github.pure.cm.common.core.exception.BusinessException;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.server.reactive.HttpHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;

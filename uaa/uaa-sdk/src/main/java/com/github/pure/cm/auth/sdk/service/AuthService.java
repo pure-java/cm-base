@@ -1,25 +1,16 @@
-package com.github.pure.cm.manage.account.service;
+package com.github.pure.cm.auth.sdk.service;
 
+import com.github.pure.cm.auth.sdk.feign.AuthProvider;
+import com.github.pure.cm.auth.sdk.properties.OAuth2ClientProperties;
+import com.github.pure.cm.auth.sdk.vo.ReqJwtTokenParam;
 import com.github.pure.cm.common.core.exception.BusinessException;
 import com.github.pure.cm.common.core.util.JsonUtil;
 import com.github.pure.cm.common.core.util.StringUtil;
 import com.github.pure.cm.common.core.util.encry.Base64Util;
-import com.github.pure.cm.manage.account.vo.ReqJwtTokenParam;
-import com.github.pure.cm.manage.account.feign.AuthProvider;
-import com.github.pure.cm.manage.account.properties.OAuth2ClientProperties;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Maps;
-
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import javax.servlet.http.HttpServletRequest;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -28,6 +19,14 @@ import org.springframework.security.jwt.Jwt;
 import org.springframework.security.jwt.JwtHelper;
 import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 权限服务类，提供权限操作
