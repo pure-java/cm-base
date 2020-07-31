@@ -56,20 +56,4 @@ public class GlobalExceptionHandler  {
         return result;
     }
 
-    ///**
-    // * 指定错误页面
-    // */
-    //@Override
-    //public String getErrorPath() {
-    //    return "error";
-    //}
-    //
-    ///**
-    // * 404 异常
-    // */
-    //@RequestMapping(value = "/error")
-    //public Result<String> error() {
-    //    return new Result<String>().setCode(HttpStatus.NOT_FOUND.value()).setMessage(HttpStatus.NOT_FOUND.getReasonPhrase());
-    //}
-
 }

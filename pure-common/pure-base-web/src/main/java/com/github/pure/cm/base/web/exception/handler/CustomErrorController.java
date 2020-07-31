@@ -40,13 +40,13 @@ import java.util.stream.Collectors;
 @Slf4j
 @Configuration
 @RequestMapping("${server.error.path:${error.path:/error}}")
-public class CustomBasicErrorController extends BasicErrorController {
+public class CustomErrorController extends BasicErrorController {
 
     private final ErrorProperties errorProperties;
 
-    public CustomBasicErrorController(ErrorAttributes errorAttributes,
-                                      ServerProperties serverProperties,
-                                      ObjectProvider<ErrorViewResolver> errorViewResolvers) {
+    public CustomErrorController(ErrorAttributes errorAttributes,
+                                 ServerProperties serverProperties,
+                                 ObjectProvider<ErrorViewResolver> errorViewResolvers) {
         super(errorAttributes, serverProperties.getError(), errorViewResolvers.orderedStream().collect(Collectors.toList()));
         this.errorProperties = serverProperties.getError();
     }
