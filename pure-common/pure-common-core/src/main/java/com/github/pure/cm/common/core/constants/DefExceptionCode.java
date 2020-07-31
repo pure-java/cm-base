@@ -23,7 +23,7 @@ public enum DefExceptionCode implements ExceptionCode {
      * NOT_FOUND_404<br>
      * 未找到
      */
-    NOT_FOUND_404("Not Found", 401, 0),
+    NOT_FOUND_404("Not Found", 404, 0),
 
     /**
      * AUTH_FAIL_10001<p>

@@ -1,4 +1,4 @@
-package com.github.pure.cm.auth.sdk.core.feign;
+package com.github.pure.cm.auth.sdk.feign;
 
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.model.auth.vo.AuthRegisterVo;

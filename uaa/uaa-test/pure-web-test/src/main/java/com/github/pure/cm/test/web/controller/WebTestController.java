@@ -5,7 +5,7 @@ import com.github.pure.cm.auth.sdk.core.annotation.AuthMenuItem;
 import com.github.pure.cm.auth.sdk.core.annotation.AuthOption;
 import com.github.pure.cm.auth.sdk.core.annotation.AuthResource;
 import com.github.pure.cm.auth.sdk.core.annotation.AuthRole;
-import com.github.pure.cm.auth.sdk.core.feign.AuthRegisterClient;
+import com.github.pure.cm.auth.sdk.feign.AuthRegisterClient;
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.model.auth.vo.AuthRegisterVo;
 import com.github.pure.cm.test.web.feign.TestFeign;

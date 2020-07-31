@@ -58,7 +58,7 @@ public class UserAuthController {
             //password = RsaUtil.decryptBase64(userInfo.getPassword(), getPrivateKey());
             return Mono.just(authService.userToken(username, password));
         } catch (Exception e) {
-            log.error("加密发生错误", e);
+            log.error("获取token发生错误", e);
             throw new BusinessException(DefExceptionCode.SYSTEM_ERROR_10500);
         }
     }

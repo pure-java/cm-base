@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @since 2020/6/18
  */
 @ComponentScan(value = "com.github.pure.cm.auth.sdk")
-@EnableFeignClients(value = "com.github.pure.cm.auth.sdk.core.feign")
+@EnableFeignClients(value = "com.github.pure.cm.auth.sdk.feign")
 public class AuthSdkAutoConfiguration {
 
 }

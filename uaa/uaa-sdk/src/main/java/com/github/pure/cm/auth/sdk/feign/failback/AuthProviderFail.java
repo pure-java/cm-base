@@ -11,7 +11,7 @@ import java.util.Map;
  * @author bairitan
  * @date 2019/12/23
  */
-@Component
+//@Component
 public class AuthProviderFail implements AuthProvider {
 
     @Override

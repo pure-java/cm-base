@@ -1,5 +1,6 @@
 package com.github.pure.cm.gate.gateway.filter;
 
+import com.github.pure.cm.common.core.constants.DefExceptionCode;
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -51,15 +52,21 @@ public class RequestGlobalFilter implements GlobalFilter, Ordered {
                                 DataBufferUtils.release(dataBuffer);
                                 int value = Objects.nonNull(getStatusCode()) ? getStatusCode().value() : 500;
                                 switch (value) {
+                                    case 404:
+                                        log.error("请求响应码:{},错误信息:{}", getStatusCode(), new String(content, StandardCharsets.UTF_8));
+                                        // 设置响应体的长度
+                                        String json = JsonUtil.json(Result.fail(DefExceptionCode.NOT_FOUND_404));
+                                        originalResponse.getHeaders().setContentLength(json.getBytes().length);
+                                        return bufferFactory.wrap(json.getBytes());
                                     case 401: // 没权限
                                         log.error("请求响应码:{},错误信息:{}", getStatusCode(), new String(content, StandardCharsets.UTF_8));
                                     case 200: // 正常
                                         return bufferFactory.wrap(new String(content, StandardCharsets.UTF_8).getBytes());
                                     default:
                                         log.error("请求响应码:{},错误信息:{}", getStatusCode(), new String(content, StandardCharsets.UTF_8));
-                                        Result<?> result = Result.fail().setCode(HttpStatus.INTERNAL_SERVER_ERROR.value()).setStatus(false).setData(null);
+                                        Result<?> result = Result.fail().setMessage("").setCode(HttpStatus.INTERNAL_SERVER_ERROR.value()).setStatus(false).setData(null);
                                         // 设置响应体的长度
-                                        String json = JsonUtil.json(result);
+                                        json = JsonUtil.json(result);
                                         originalResponse.getHeaders().setContentLength(json.getBytes().length);
                                         return bufferFactory.wrap(json.getBytes());
                                 }

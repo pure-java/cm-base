@@ -109,6 +109,8 @@ security:
       client-secret: admin
 # 网关验证忽略的url接口
 pure:
+  application:
+    code: web-flux-test
   log:
     #    # 日志存储路径
     dir: ../
@@ -117,6 +119,7 @@ pure:
   gateway:
     authentication:
       ignore-urls: /v2,pure-webflux-test/webFlux/feignTest
+
 swagger2:
   enable: false
 
