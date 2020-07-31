@@ -1,19 +1,15 @@
 package com.github.pure.cm.base.web.exception.handler;
 
-import com.github.pure.cm.common.core.constants.DefExceptionCode;
 import com.github.pure.cm.common.core.model.ExceptionResult;
-import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.JsonUtil;
 import com.github.pure.cm.common.core.util.StringUtil;
 import com.github.pure.cm.common.core.util.collection.MapUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -30,7 +26,7 @@ import java.util.Map;
 @RestControllerAdvice
 @RestController
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
-public class GlobalExceptionHandler  {
+public class GlobalExceptionHandler {
 
     public GlobalExceptionHandler() {
         log.debug("加载全局异常处理：{}", GlobalExceptionHandler.class.getSimpleName());

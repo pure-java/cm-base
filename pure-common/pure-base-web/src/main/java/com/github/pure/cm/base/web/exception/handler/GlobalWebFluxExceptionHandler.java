@@ -1,12 +1,9 @@
 package com.github.pure.cm.base.web.exception.handler;
 
 import com.github.pure.cm.common.core.util.BeanUtils;
-import com.github.pure.cm.common.core.util.collection.MapUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler;
@@ -37,8 +34,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Order(-2)
-@Component
-@ConditionalOnMissingBean(AbstractErrorWebExceptionHandler.class)
+@Component(value = "GlobalWebFluxExceptionHandler")
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 public class GlobalWebFluxExceptionHandler extends AbstractErrorWebExceptionHandler {
 
@@ -46,6 +42,7 @@ public class GlobalWebFluxExceptionHandler extends AbstractErrorWebExceptionHand
             ResourceProperties resourceProperties, ObjectProvider<ViewResolver> viewResolvers,
             ServerCodecConfigurer serverCodecConfigurer, ApplicationContext applicationContext) {
         super(new DefaultErrorAttributes(true), resourceProperties, applicationContext);
+        log.debug("加载------web flux 异常处理器");
         super.setMessageReaders(serverCodecConfigurer.getReaders());
         super.setMessageWriters(serverCodecConfigurer.getWriters());
         super.setViewResolvers(viewResolvers.orderedStream().collect(Collectors.toList()));

@@ -42,6 +42,7 @@ public class GlobalErrorHandler extends AbstractErrorWebExceptionHandler {
             ResourceProperties resourceProperties, ObjectProvider<ViewResolver> viewResolvers,
             ServerCodecConfigurer serverCodecConfigurer, ApplicationContext applicationContext) {
         super(new DefaultErrorAttributes(true), resourceProperties, applicationContext);
+        log.error("加载------网关异常处理");
         super.setMessageReaders(serverCodecConfigurer.getReaders());
         super.setMessageWriters(serverCodecConfigurer.getWriters());
         super.setViewResolvers(viewResolvers.orderedStream().collect(Collectors.toList()));

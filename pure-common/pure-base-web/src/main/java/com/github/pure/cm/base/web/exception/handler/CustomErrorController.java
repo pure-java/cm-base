@@ -7,7 +7,7 @@ import com.github.pure.cm.common.core.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
@@ -40,6 +40,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Configuration
 @RequestMapping("${server.error.path:${error.path:/error}}")
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class CustomErrorController extends BasicErrorController {
 
     private final ErrorProperties errorProperties;

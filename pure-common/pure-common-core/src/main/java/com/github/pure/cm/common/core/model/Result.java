@@ -1,16 +1,14 @@
 package com.github.pure.cm.common.core.model;
 
-import com.github.pure.cm.common.core.constants.DefExceptionCode;
 import com.github.pure.cm.common.core.constants.ExceptionCode;
-
-import java.io.Serializable;
-import java.util.Objects;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.springframework.http.HttpStatus;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * 返回操作信息

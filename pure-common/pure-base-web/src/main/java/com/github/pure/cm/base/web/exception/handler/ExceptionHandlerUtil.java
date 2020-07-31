@@ -116,7 +116,7 @@ public class ExceptionHandlerUtil {
 
         } else {
             result.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            result.setMessage("该请求发生服务器内部异常");
+            result.setMessage("该请求发生异常，请联系开发人员处理");
         }
 
         // 响应码为200或为空，设置为 500 错误码
