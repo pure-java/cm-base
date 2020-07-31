@@ -12,6 +12,8 @@ import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferFactory;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.http.server.reactive.ServerHttpResponseDecorator;
 import org.springframework.stereotype.Component;
@@ -55,20 +57,24 @@ public class RequestGlobalFilter implements GlobalFilter, Ordered {
                                     case 404:
                                         log.error("请求响应码:{},错误信息:{}", getStatusCode(), new String(content, StandardCharsets.UTF_8));
                                         // 设置响应体的长度
-                                        String json = JsonUtil.json(Result.fail(DefExceptionCode.NOT_FOUND_404));
-                                        originalResponse.getHeaders().setContentLength(json.getBytes().length);
-                                        return bufferFactory.wrap(json.getBytes());
+                                        byte[] json = JsonUtil.json(Result.error(DefExceptionCode.NOT_FOUND_404)).getBytes();
+                                        originalResponse.getHeaders().setContentLength(json.length);
+                                        return bufferFactory.wrap(json);
+
                                     case 401: // 没权限
                                         log.error("请求响应码:{},错误信息:{}", getStatusCode(), new String(content, StandardCharsets.UTF_8));
-                                    case 200: // 正常
-                                        return bufferFactory.wrap(new String(content, StandardCharsets.UTF_8).getBytes());
+                                        return bufferFactory.wrap(content);
+
+                                    case 200: // 正常，将请求数据转为 result
+                                        return bufferFactory.wrap(toResult(exchange.getRequest(), originalResponse, content).getBytes());
+
                                     default:
                                         log.error("请求响应码:{},错误信息:{}", getStatusCode(), new String(content, StandardCharsets.UTF_8));
                                         Result<?> result = Result.fail().setMessage("").setCode(HttpStatus.INTERNAL_SERVER_ERROR.value()).setStatus(false).setData(null);
+                                        byte[] bytes = JsonUtil.json(result).getBytes();
                                         // 设置响应体的长度
-                                        json = JsonUtil.json(result);
-                                        originalResponse.getHeaders().setContentLength(json.getBytes().length);
-                                        return bufferFactory.wrap(json.getBytes());
+                                        originalResponse.getHeaders().setContentLength(bytes.length);
+                                        return bufferFactory.wrap(bytes);
                                 }
                             }));
                 }
@@ -82,6 +88,26 @@ public class RequestGlobalFilter implements GlobalFilter, Ordered {
             }
         };
         return chain.filter(exchange.mutate().response(response).build());
+    }
+
+
+    public String toResult(ServerHttpRequest request, ServerHttpResponse originalResponse, byte[] content) {
+        // 转换为result
+        String data = new String(content, StandardCharsets.UTF_8);
+        if (Objects.equals(request.getHeaders().getContentType(), MediaType.APPLICATION_JSON)
+                || Objects.equals(request.getHeaders().getContentType(), MediaType.APPLICATION_JSON_UTF8)) {
+
+            try {
+                JsonUtil.newIns().jsonToObject(data, Result.class);
+                return data;
+            } catch (Exception e) {
+                String newJson = JsonUtil.json(Result.success().setData(data));
+                originalResponse.getHeaders().setContentLength(newJson.getBytes().length);
+                return newJson;
+            }
+        } else {
+            return data;
+        }
     }
 
     @Override

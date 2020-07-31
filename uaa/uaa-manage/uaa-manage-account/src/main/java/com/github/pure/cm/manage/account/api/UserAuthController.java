@@ -56,11 +56,11 @@ public class UserAuthController {
         try {
             //username = RsaUtil.decryptBase64(userInfo.getUsername(), getPrivateKey());
             //password = RsaUtil.decryptBase64(userInfo.getPassword(), getPrivateKey());
-            return Mono.just(authService.userToken(username, password));
         } catch (Exception e) {
             log.error("获取token发生错误", e);
             throw new BusinessException(DefExceptionCode.SYSTEM_ERROR_10500);
         }
+        return Mono.just(authService.userToken(username, password));
     }
 
     /**

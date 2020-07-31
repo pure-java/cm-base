@@ -4,7 +4,6 @@ import com.github.pure.cm.auth.sdk.core.annotation.AuthMenuItem;
 import com.github.pure.cm.auth.sdk.core.annotation.AuthOption;
 import com.github.pure.cm.auth.sdk.core.annotation.AuthResource;
 import com.github.pure.cm.auth.sdk.core.annotation.AuthRole;
-import com.github.pure.cm.auth.sdk.helper.RequestHelper;
 import com.github.pure.cm.auth.sdk.util.AuthUtil;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
@@ -64,7 +63,6 @@ public class AuthAspect {
         for (AuthResource resource : authOption.resources()) {
             authCodeSet.add(AuthUtil.convertAuthCode(resource.resCode()));
         }
-        log.error("权限：{}", RequestHelper.jwt());
         //log.error("jwt：{}", );
     }
 }

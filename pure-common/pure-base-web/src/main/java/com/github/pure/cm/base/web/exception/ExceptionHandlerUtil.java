@@ -1,4 +1,4 @@
-package com.github.pure.cm.base.web.exception.handler;
+package com.github.pure.cm.base.web.exception;
 
 import com.github.pure.cm.common.core.constants.DefExceptionCode;
 import com.github.pure.cm.common.core.exception.BusinessException;

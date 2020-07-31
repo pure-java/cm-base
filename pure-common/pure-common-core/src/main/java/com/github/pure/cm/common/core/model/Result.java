@@ -53,10 +53,8 @@ public class Result<T> implements Serializable {
     public Result() {
     }
 
-    public Result<T> error(ExceptionCode exceptionCode) {
-        this.setCode(exceptionCode.getCode());
-        this.setMessage(exceptionCode.getDesc());
-        return this;
+    public static <T> Result<T> error(ExceptionCode exceptionCode) {
+        return newIns(exceptionCode.getCode(), exceptionCode.getDesc(), null, false);
     }
 
 

@@ -40,7 +40,7 @@ public class IgnoreAuthFilter {
      * 没有访问
      */
     protected Result<Object> unauthorized() {
-        return Result.fail(DefExceptionCode.UNAUTHORIZED_401);
+        return Result.error(DefExceptionCode.UNAUTHORIZED_401);
     }
 
 }
