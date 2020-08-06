@@ -11,7 +11,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @date 2019/12/4
  */
 @SpringBootApplication
-@EnableFeignClients()
 public class WebTestApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {

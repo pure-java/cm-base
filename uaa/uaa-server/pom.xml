@@ -52,13 +52,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
+            <groupId>com.github.pure</groupId>
+            <artifactId>pure-redis</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <!--jdbc-->
         <dependency>

@@ -16,9 +16,16 @@
             <artifactId>pure-common-core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
         <dependency>
             <groupId>com.github.pure</groupId>
             <artifactId>pure-base-web</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.pure</groupId>
+            <artifactId>pure-redis</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
@@ -83,11 +90,6 @@
             <artifactId>sentinel-transport-simple-http</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-
         <!--RESTful API文档-->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -99,10 +101,6 @@
             <artifactId>springfox-swagger-ui</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
-        </dependency>
     </dependencies>
 
     <build>

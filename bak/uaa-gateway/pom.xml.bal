@@ -78,10 +78,10 @@
                 <groupId>com.alibaba.csp</groupId>
                 <artifactId>sentinel-transport-simple-http</artifactId>
             </dependency>
-
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <groupId>com.github.pure</groupId>
+                <artifactId>pure-redis</artifactId>
+                <version>1.0-SNAPSHOT</version>
             </dependency>
 
             &lt;!&ndash;RESTful API文档&ndash;&gt;
@@ -95,10 +95,6 @@
                 <artifactId>springfox-swagger-ui</artifactId>
             </dependency>
 
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-pool2</artifactId>
-            </dependency>
         </dependencies>
 
         <build>

@@ -71,6 +71,7 @@ ribbon:
   MaxAutoRetriesNextServer: 1 #重试负载均衡其他的实例最大重试次数,不包括首次调用
   OkToRetryOnAllOperations: true  #是否所有操作都重试
 # 客户端认证属性配置
+
 security:
   oauth2:
     client:
@@ -91,3 +92,9 @@ pure:
 swagger2:
   enable: false
 
+rocketmq:
+  name-server: 192.168.9.176:9876
+  producer:
+    # 小坑：必须指定group
+    group: test-group
+    send-message-timeout: 10000

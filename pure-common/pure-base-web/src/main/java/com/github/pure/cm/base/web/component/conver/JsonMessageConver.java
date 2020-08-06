@@ -23,7 +23,7 @@ import java.lang.reflect.Type;
  * @date : 2020-07-31 16:46
  **/
 @Slf4j
-@Configuration
+//@Configuration
 public class JsonMessageConver extends MappingJackson2HttpMessageConverter {
 
     @Override
