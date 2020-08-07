@@ -1,5 +1,7 @@
 package com.github.pure.cm.test.web;
 
+import com.github.pure.cm.common.core.util.JsonUtil;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.annotation.RocketMQTransactionListener;
 import org.apache.rocketmq.spring.core.RocketMQLocalTransactionListener;
@@ -7,6 +9,8 @@ import org.apache.rocketmq.spring.core.RocketMQLocalTransactionState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.messaging.Message;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  * <p>
@@ -31,9 +35,12 @@ public class TxTest implements RocketMQLocalTransactionListener {
      * @param arg 发送端带有的参数
      * @return producer 本地事务执行状态
      */
+    @SneakyThrows
     @Override
     public RocketMQLocalTransactionState executeLocalTransaction(Message msg, Object arg) {
         log.error("executeLocalTransaction、message={},arg={}", msg, arg);
+        ConsumerMessage consumerMessage = JsonUtil.newIns().jsonToObject(new String((byte[]) msg.getPayload(), StandardCharsets.UTF_8), ConsumerMessage.class);
+        log.error("{}", consumerMessage);
         stringRedisTemplate.opsForValue().set("Transaction:" + msg.getHeaders().get("rocketmq_TRANSACTION_ID").toString(), "true");
         return RocketMQLocalTransactionState.COMMIT;
     }

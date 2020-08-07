@@ -17,9 +17,9 @@ import org.springframework.stereotype.Component;
  * @date : 2020-08-06 11:27
  **/
 @Slf4j
-@Component
+//@Component
 @RocketMQMessageListener(topic = ConsumerMessage.topic, consumerGroup = "cousumer-group")
-public class ConsumerTest implements RocketMQListener<ConsumerMessage> {
+public class Consumer2Test implements RocketMQListener<ConsumerMessage> {
 
     @Override
     public void onMessage(ConsumerMessage message) {

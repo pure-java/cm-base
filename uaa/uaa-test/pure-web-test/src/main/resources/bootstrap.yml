@@ -94,6 +94,7 @@ swagger2:
 
 rocketmq:
   name-server: 192.168.9.176:9876
+#  name-server: localhost:9876
   producer:
     # 小坑：必须指定group
     group: test-group
