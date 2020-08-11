@@ -1,8 +1,10 @@
 package com.github.pure.cm.test.web;
 
 import com.github.pure.cm.rocketmq.MqMessage;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
@@ -14,7 +16,9 @@ import lombok.experimental.Accessors;
  * @author : 陈欢
  * @date : 2020-08-05 16:48
  **/
-@Data
+@Getter
+@Setter
+@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class ConsumerMessage extends MqMessage<ConsumerMessage> {
@@ -26,4 +30,5 @@ public class ConsumerMessage extends MqMessage<ConsumerMessage> {
     private String name;
     private String status;
     private String createTime;
+
 }

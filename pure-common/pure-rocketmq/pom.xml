@@ -17,7 +17,11 @@
             <artifactId>rocketmq-spring-boot-starter</artifactId>
             <version>2.1.1</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.github.pure</groupId>
+            <artifactId>pure-common-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>com.github.pure</groupId>
             <artifactId>pure-redis</artifactId>

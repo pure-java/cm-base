@@ -18,16 +18,15 @@ import lombok.ToString;
 public class MqMessage<T> {
 
     /**
-     * 业务自定义事务ID，不能重复;<br>
-     * 使用该ID以保证消费端能够给去重，保证幂等性。
+     * 业务自定义ID，不能重复;<br>
+     * 使用该ID以保证消费端能够给去重，保证幂等性。<br>
+     * 去重不应该使用MsgID和OffsetMsgId，因为可能相同的数据由于网络原因、或者其他原因导致数据成功存储在broker，<br>
+     * 但是响应客户端ack时，失败了，导致重试，重复的数据生成不同的MsgID和OffsetMsgID了。
      */
     private String nxId;
 
     public MqMessage() {
-    }
 
-    public MqMessage(String nxId) {
-        this.nxId = nxId;
     }
 
     public T setNxId(String nxId) {

@@ -31,6 +31,7 @@ public class WebTestController {
     @PostMapping("/syncSend")
     public Result<SendResult> syncSend() {
         ConsumerMessage consumerMessage = new ConsumerMessage();
+        consumerMessage.setNxId(UUID.randomUUID().toString());
         consumerMessage.setCreateTime(DateUtil.newIns().asStr());
         consumerMessage.setId(1);
         consumerMessage.setName("syncSend");
@@ -42,7 +43,7 @@ public class WebTestController {
 
     @PostMapping("/delaySyncSend")
     public Result<SendResult> delaySyncSend() {
-        ConsumerMessage consumerMessage = new ConsumerMessage();
+        ConsumerMessage consumerMessage = new ConsumerMessage().setNxId(UUID.randomUUID().toString());
         consumerMessage.setCreateTime(DateUtil.newIns().asStr());
         consumerMessage.setId(1);
         consumerMessage.setName("syncSend");
@@ -59,7 +60,7 @@ public class WebTestController {
      */
     @PostMapping("/sendAndReceive")
     public Result<String> sendAndReceive() {
-        ConsumerMessage consumerMessage = new ConsumerMessage()
+        ConsumerMessage consumerMessage = new ConsumerMessage().setNxId(UUID.randomUUID().toString())
                 .setCreateTime(DateUtil.newIns().asStr())
                 .setId(1)
                 .setName("sendAndReceive")
@@ -72,7 +73,7 @@ public class WebTestController {
 
     @PostMapping("sendMessageInTransaction")
     public Result<TransactionSendResult> sendMessageInTransaction() {
-        ConsumerMessage consumerMessage = new ConsumerMessage()
+        ConsumerMessage consumerMessage = new ConsumerMessage().setNxId(UUID.randomUUID().toString())
                 .setCreateTime(DateUtil.newIns().asStr())
                 .setId(1)
                 .setName("sendMessageInTransaction")

@@ -4,6 +4,7 @@ package com.github.pure.cm.common.core.util;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -358,6 +359,22 @@ public final class JsonUtil {
     }
   }
 
+  /**
+   * 反序列化json为<T>对象
+   *
+   * @param json json数据
+   * @param valueTypeRef 被转化目标{@link JavaType}
+   */
+  public <T> T jsonToObject(String json, TypeReference<T> valueTypeRef) {
+    try {
+      if (StringUtil.isNotBlank(json)) {
+        return objectMapper.readValue(json, valueTypeRef);
+      }
+      return null;
+    } catch (IOException e) {
+      throw new RuntimeException("json转换为" + valueTypeRef + "失败", e);
+    }
+  }
   // mapConversion object =================================结束
 
   // file mapConversion object =================================开始
