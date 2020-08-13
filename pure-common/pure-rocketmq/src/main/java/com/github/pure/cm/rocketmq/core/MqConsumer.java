@@ -1,14 +1,17 @@
-package com.github.pure.cm.rocketmq;
+package com.github.pure.cm.rocketmq.core;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.pure.cm.common.core.util.JsonUtil;
 import com.github.pure.cm.common.core.util.StringUtil;
+import com.github.pure.cm.rocketmq.MqMessage;
+import com.github.pure.cm.rocketmq.MqProperties;
 import com.github.pure.cm.rocketmq.exception.ConsumerException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.annotation.SelectorType;
 import org.apache.rocketmq.spring.core.RocketMQListener;
@@ -18,6 +21,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Objects;
 import java.util.Optional;
@@ -33,8 +37,13 @@ import java.util.Optional;
  * @date : 2020-08-06 18:08
  **/
 @Slf4j
-public abstract class MqConsumer<T extends MqMessage<T>> implements RocketMQListener<String> {
+public abstract class MqConsumer<T extends MqMessage<T>> implements RocketMQListener<MessageExt> {
 
+    /**
+     * mq配置
+     */
+    @Autowired
+    private MqProperties mqProperties;
     /**
      * 消费中
      */
@@ -50,45 +59,42 @@ public abstract class MqConsumer<T extends MqMessage<T>> implements RocketMQList
     @Autowired
     private StringRedisTemplate redisTemplate;
 
-    /**
-     * key过期时间，毫秒
-     */
-    @Getter
-    @Setter
-    private long expireMilliSeconds = 3000;
-
     @SneakyThrows
     @Override
-    public void onMessage(String message) {
+    public void onMessage(MessageExt message) {
+        String str = new String(message.getBody(), StandardCharsets.UTF_8);
         MqConsumer<T> consumerThat = this;
-        // json转换
-        T tType = JsonUtil.singleInstance().jsonToObject(message, new TypeReference<T>() {
+        // json转换为对应的数据
+        T tType = JsonUtil.singleInstance().jsonToObject(str, new TypeReference<T>() {
             @Override
             public Type getType() {
                 return ((ParameterizedType) consumerThat.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
             }
         });
 
-        String nxId = tType.getNxId();
-        if (StringUtil.isBlank(nxId)) {
+        String nxId;
+        if (Objects.isNull(tType) || StringUtil.isBlank(nxId = tType.getNxId())) {
+            log.error("消息没有业务ID");
             throw new RuntimeException("消息没有业务ID");
         }
+
         // 添加消费中的 redis key
-        if (setConsumingIfNX(nxId, this.getExpireMilliSeconds())) {
+        if (setConsumingIfNX(nxId, this.mqProperties.getDedupExpireMillis())) {
             // 进行消费
             boolean consumer;
             try {
-                consumer = consumer(tType);
+                consumer = this.consumer(tType);
             } catch (Exception e) {
                 // 消费失败，删除 消费中的key
                 boolean delConsumer = delConsumer(nxId);
                 log.error("消费失败:{},删除key:{}", message, delConsumer, e);
                 throw new ConsumerException("删除去重redis key:[" + delConsumer + "];" + "消费mq消息失败:" + JsonUtil.json(message), e);
             }
+
             if (consumer) {
                 // 消费成功，设置消费完成的key
-                boolean consumedIfNX = setConsumedIfNX(nxId, this.getExpireMilliSeconds());
-                log.debug("设置消费完成redis key:{},消费成功:{}", consumedIfNX, message);
+                boolean consumedIfNX = setConsumedIfNX(nxId, this.mqProperties.getDedupExpireMillis());
+                log.debug("设置消费完成:redis key:{},消费成功:{}", consumedIfNX, message);
             } else {
                 // 消费失败，删除 消费中的key
                 boolean delConsumer = delConsumer(nxId);
@@ -108,7 +114,8 @@ public abstract class MqConsumer<T extends MqMessage<T>> implements RocketMQList
     public abstract boolean consumer(T message);
 
     /**
-     * 添加redis key，进行去重
+     * 添加消费的redis key，进行去重<br>
+     * 消费中
      *
      * @param msgUniqKey         去重key
      * @param expireMilliSeconds key在redis中的保存时间：毫秒数
@@ -122,7 +129,8 @@ public abstract class MqConsumer<T extends MqMessage<T>> implements RocketMQList
     }
 
     /**
-     * 添加redis key，进行去重
+     * 添加消费redis key，进行去重<br>
+     * 消费完成
      *
      * @param msgUniqKey         去重key
      * @param expireMilliSeconds key在redis中的保存时间：毫秒数
@@ -130,9 +138,12 @@ public abstract class MqConsumer<T extends MqMessage<T>> implements RocketMQList
      */
     public boolean setConsumedIfNX(String msgUniqKey, long expireMilliSeconds) {
         String dedupKey = builderDedupKey(msgUniqKey);
+        if (StringUtil.isBlank(dedupKey)) {
+            return false;
+        }
 
-        Boolean absent = redisTemplate.opsForValue().setIfAbsent(dedupKey, CONSUMED_STATUS, Duration.ofMillis(expireMilliSeconds));
-        return Optional.ofNullable(absent).orElse(Boolean.FALSE);
+        boolean ifPresent = redisTemplate.opsForValue().setIfPresent(dedupKey, CONSUMED_STATUS, Duration.ofMillis(expireMilliSeconds));
+        return Optional.ofNullable(ifPresent).orElse(Boolean.FALSE);
     }
 
     /**

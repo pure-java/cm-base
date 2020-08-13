@@ -1,0 +1,30 @@
+{
+  "groups": [
+    {
+      "name": "pure.mq",
+      "sourceType": "com.github.pure.cm.rocketmq.MqProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "pure.mq",
+      "type": "java.lang.String",
+      "description": "mq 相关配置"
+    },
+    {
+      "name": "pure.mq.consumer.dedup",
+      "type": "java.lang.String",
+      "description": "mq 消息去重redis key"
+    },
+    {
+      "name": "pure.mq.consumer.dedup-expire-millis",
+      "type": "java.lang.String",
+      "description": "mq 消费者 去重过期时间"
+    },
+    {
+      "name": "pure.mq.producer.tx",
+      "type": "java.lang.String",
+      "description": "mq 生产者 事务 redis key前缀"
+    }
+  ]
+}

@@ -7,19 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.springframework.stereotype.Component;
 
-/**
- * <p>
- *
- *
- * </p>
- *
- * @author : 陈欢
- * @date : 2020-08-06 11:27
- **/
 @Slf4j
 @Component
-@RocketMQMessageListener(topic = ConsumerMessage.topic,selectorExpression = "test1", consumerGroup = "cousumer-group-1")
-public class ConsumerTest extends MqConsumer<ConsumerMessage> {
+@RocketMQMessageListener(topic = ConsumerMessage.topic, selectorExpression = "test2", consumerGroup = "cousumer-group-3")
+public class Consumer3Test extends MqConsumer<ConsumerMessage> {
 
     @Override
     public boolean consumer(ConsumerMessage message) {
