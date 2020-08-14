@@ -99,3 +99,4 @@ rocketmq:
     # 小坑：必须指定group
     group: test-group
     send-message-timeout: 10000
+

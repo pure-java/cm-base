@@ -23,6 +23,11 @@ public class ConsumerTest extends MqConsumer<ConsumerMessage> {
 
     @Override
     public boolean consumer(ConsumerMessage message) {
+        try {
+            Thread.sleep(10000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         log.info("消费消息：{}", JsonUtil.json(message));
         return true;
     }

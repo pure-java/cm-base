@@ -17,7 +17,7 @@ import java.util.Objects;
  **/
 @Component
 @Slf4j
-public class CallBackFactory {
+public class SendCallBackFactory {
 
     /**
      * 异步调用消息回调

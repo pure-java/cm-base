@@ -3,7 +3,7 @@ package com.github.pure.cm.test.web.controller;
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.date.DateUtil;
 import com.github.pure.cm.rocketmq.suport.MqProducer;
-import com.github.pure.cm.rocketmq.suport.call.MsgCallBack;
+import com.github.pure.cm.rocketmq.suport.call.SendMsgCallBack;
 import com.github.pure.cm.rocketmq.suport.msg.MqMessage;
 import com.github.pure.cm.test.web.ConsumerMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -62,13 +62,14 @@ public class WebTestController {
 
         threadPoolExecutor.execute(() -> {
             ConsumerMessage consumerMessage = new ConsumerMessage();
-            consumerMessage.setNxId(UUID.randomUUID().toString());
+            String nxId = UUID.randomUUID().toString();
+            consumerMessage.setNxId(nxId);
             consumerMessage.setCreateTime(DateUtil.newIns().asStr());
             consumerMessage.setId(1);
-            consumerMessage.setName("syncSend");
+            consumerMessage.setName("第一条");
             consumerMessage.setStatus("状态");
 
-            mqProducer.asyncSend(ConsumerMessage.topic + ":test1", consumerMessage.setNxId(UUID.randomUUID().toString()), new SendCallback() {
+            mqProducer.asyncSend(ConsumerMessage.topic + ":test1", consumerMessage.setNxId(nxId), new SendCallback() {
                 @Override
                 public void onSuccess(SendResult sendResult) {
                     log.error("发送成功:{}", consumerMessage);
@@ -80,9 +81,10 @@ public class WebTestController {
                 }
             });
 
+            consumerMessage.setName("第二条");
             mqProducer.asyncSend(ConsumerMessage.topic + ":test1",
-                    consumerMessage.setNxId(UUID.randomUUID().toString()),
-                    new MsgCallBack<ConsumerMessage>() {
+                    consumerMessage.setNxId(nxId),
+                    new SendMsgCallBack<ConsumerMessage>() {
 
                         @Override
                         public void onSuccess(MqMessage<ConsumerMessage> mqMessage, SendResult sendResult) {
@@ -95,7 +97,6 @@ public class WebTestController {
                             log.error("发送失败:{}", mqMessage, e);
                         }
                     });
-
         });
 
     }

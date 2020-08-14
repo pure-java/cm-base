@@ -10,7 +10,7 @@ import org.apache.rocketmq.client.producer.SendResult;
  *
  * @since : 陈欢 2020-08-14 09:08
  **/
-public interface MsgCallBack<T> {
+public interface SendMsgCallBack<T> {
 
     void onSuccess(final MqMessage<T> mqMessage, final SendResult sendResult);
 
