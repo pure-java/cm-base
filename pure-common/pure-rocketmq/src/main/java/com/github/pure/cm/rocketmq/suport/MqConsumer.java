@@ -28,10 +28,15 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * <p>
+ * <pre>
  * rocket mq 防重消费实现
- *
- * </p>
+ * 消费去重：
+ * 消息消费时，会在redis中根据消息的业务ID将消费状态(消费中或消费完成)进行保存。
+ * 如果消费失败或消费状态异常，则抛出异常让broker重发消息进行重试。
+ * 注意：
+ * 1.如果redis key过期后，有重复消息到来，则去重失败。（消费时间过长或增加redis key过期时间）
+ * 2.多个服务之间不能消息去重。（多个服务使用同一个redis db就可以实现）
+ * </pre>
  *
  * @since 陈欢 2020-08-06 18:08
  **/
@@ -89,14 +94,6 @@ public abstract class MqConsumer<T extends MqIdMessage<T>> implements RocketMQLi
     }
 
     /**
-     * 消费去重：<br>
-     * 消息消费时，会在redis中根据消息的业务ID将消费状态(消费中或消费完成)进行保存<br>
-     * 如果消费失败或消费状态异常，则抛出异常让broker重发消息进行重试。<br>
-     * <p>
-     * 注意：<br>
-     * 如果redis key过期后，有重复消息到来，则去重失败。<br>
-     * 多个服务之间不能消息去重。<Br>
-     *
      * @param message
      */
     @Override
@@ -136,7 +133,7 @@ public abstract class MqConsumer<T extends MqIdMessage<T>> implements RocketMQLi
                 // 由于rocket mq重发消息时间有间隔，在这间隔内，redis key已经失效，导致消息可以被消费两次，所以如果重复了，则跳过这条重复消息不进行处理
                 return true;
             } else if (CONSUMED_STATUS.equals(consumerStatus)) {
-                log.error("消费完成");
+                log.debug("消费完成");
                 return true;
             } else {
                 // 状态不正确，broker 重发消息，重新消费
