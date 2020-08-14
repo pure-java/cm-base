@@ -1,12 +1,12 @@
-package com.github.pure.cm.rocketmq.core;
+package com.github.pure.cm.rocketmq.core.msg;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.SendCallback;
-import org.apache.rocketmq.client.producer.SendResult;
 import org.springframework.messaging.Message;
 
 /**
@@ -15,10 +15,10 @@ import org.springframework.messaging.Message;
  * @param <T>
  * @since : 陈欢 2020-08-13 16:48
  **/
+@Accessors(chain = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Slf4j
 public class MqAsyncMessage<T> {
 
@@ -29,11 +29,7 @@ public class MqAsyncMessage<T> {
     /**
      * 消息
      */
-    private Message<?> message;
-    /**
-     * 消息
-     */
-    private T payload;
+    private Message<T> message;
     /**
      * topic
      */

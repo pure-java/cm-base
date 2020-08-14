@@ -3,6 +3,8 @@ package com.github.pure.cm.test.web.controller;
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.date.DateUtil;
 import com.github.pure.cm.rocketmq.core.MqProducer;
+import com.github.pure.cm.rocketmq.core.call.MsgCallBack;
+import com.github.pure.cm.rocketmq.core.msg.MqAsyncMessage;
 import com.github.pure.cm.test.web.ConsumerMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.SendCallback;
@@ -65,6 +67,7 @@ public class WebTestController {
             consumerMessage.setId(1);
             consumerMessage.setName("syncSend");
             consumerMessage.setStatus("状态");
+
             mqProducer.asyncSend(ConsumerMessage.topic + ":test1", consumerMessage.setNxId(UUID.randomUUID().toString()), new SendCallback() {
                 @Override
                 public void onSuccess(SendResult sendResult) {
@@ -76,22 +79,25 @@ public class WebTestController {
                     log.error("发送失败:{}", consumerMessage, e);
                 }
             });
-            rocketMQTemplate.asyncSend(ConsumerMessage.topic + ":test1", consumerMessage.setNxId(UUID.randomUUID().toString()), new SendCallback() {
-                @Override
-                public void onSuccess(SendResult sendResult) {
-                    log.error("发送成功:{}", consumerMessage);
-                }
 
-                @Override
-                public void onException(Throwable e) {
-                    log.error("发送失败:{}", consumerMessage, e);
-                }
-            });
+            mqProducer.asyncSend(ConsumerMessage.topic + ":test1",
+                    consumerMessage.setNxId(UUID.randomUUID().toString()),
+                    new MsgCallBack<ConsumerMessage>() {
+
+                        @Override
+                        public void onSuccess(MqAsyncMessage<ConsumerMessage> mqAsyncMessage, SendResult sendResult) {
+                            ConsumerMessage payload = mqAsyncMessage.getMessage().getPayload();
+                            log.error("发送成功:{}", payload);
+                        }
+
+                        @Override
+                        public void onException(MqAsyncMessage<ConsumerMessage> mqAsyncMessage, Throwable e) {
+                            log.error("发送失败:{}", mqAsyncMessage, e);
+                        }
+                    });
 
         });
 
-        System.out.println(mqProducer);
-        System.out.println((rocketMQTemplate));
     }
 
     @PostMapping("/delaySyncSend")

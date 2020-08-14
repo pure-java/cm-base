@@ -1,15 +1,20 @@
 package com.github.pure.cm.rocketmq.core;
 
+import com.github.pure.cm.rocketmq.core.call.CallBackFactory;
+import com.github.pure.cm.rocketmq.core.call.MsgCallBack;
+import com.github.pure.cm.rocketmq.core.msg.MqAsyncMessage;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendCallback;
+import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.apache.rocketmq.spring.support.RocketMQMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.Ordered;
 import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PreDestroy;
@@ -49,20 +54,86 @@ public class MqProducer extends RocketMQTemplate implements Ordered {
     }
 
     /**
+     * Same to {@link #asyncSend(String, Message, MsgCallBack)}.
+     */
+    public <T> void asyncSend(String destination, Message<T> message, MsgCallBack<T> sendCallback, long timeout, int delayLevel) {
+        MqAsyncMessage<T> build =
+                new MqAsyncMessage<T>()
+                        .setDestination(destination)
+                        .setMessage(message)
+                        .setTimeout(timeout)
+                        .setDelayLevel(delayLevel);
+
+        super.asyncSend(destination, message, new SendCallback() {
+            @Override
+            public void onSuccess(SendResult sendResult) {
+                sendCallback.onSuccess(build, sendResult);
+            }
+
+            @Override
+            public void onException(Throwable e) {
+                sendCallback.onException(build, e);
+            }
+        }, timeout, delayLevel);
+    }
+
+
+    /**
+     * Same to {@link #asyncSend(String, Message, MsgCallBack)}.
+     */
+    public <T> void asyncSend(String destination, Message<T> message, MsgCallBack<T> sendCallback, long timeout) {
+        asyncSend(destination, message, sendCallback, timeout, 0);
+    }
+
+    /**
+     * 异步发送消息<br>
+     * 异步发送消息到代理。异步传输通常用于对时间敏感的业务场景中。<br>
+     * 此方法立即返回。发送完成后，将执行sendCallback。<br>
+     * 与syncSend（String，Object）相似，内部实现可能会在声明发送失败之前重试DefaultMQProducer.getRetryTimesWhenSendAsyncFailed时间，<br>
+     * 这可能会导致消息重复，并且应用程序开发人员将解决此潜在问题。
+     */
+    public <T> void asyncSend(String destination, Message<T> message, MsgCallBack<T> sendCallback) {
+        asyncSend(destination, message, sendCallback, super.getProducer().getSendMsgTimeout());
+    }
+
+    /**
+     * {@link #asyncSend(String, Message, MsgCallBack)}. with send timeout specified in addition.
+     *
+     * @param destination  formats: `topicName:tags`
+     * @param payload      the Object to use as payload
+     * @param sendCallback {@link SendCallback}
+     * @param timeout      send timeout with millis
+     */
+    public <T> void asyncSend(String destination, T payload, MsgCallBack<T> sendCallback, long timeout) {
+        Message<T> message = MessageBuilder.withPayload(payload).build();
+        asyncSend(destination, message, sendCallback, timeout);
+    }
+
+    /**
+     * Same to {@link #asyncSend(String, Message, MsgCallBack)}.
+     *
+     * @param destination  formats: `topicName:tags`
+     * @param payload      the Object to use as payload
+     * @param sendCallback {@link SendCallback}
+     */
+    public <T> void asyncSend(String destination, T payload, MsgCallBack<T> sendCallback) {
+        asyncSend(destination, payload, sendCallback, super.getProducer().getSendMsgTimeout());
+    }
+
+
+    /**
      * 其他叫 asyncSend 名称的方法实际都是调用的该方法，只是精简了参数
      */
     @Override
     public void asyncSend(String destination, Message<?> message, SendCallback sendCallback, long timeout, int delayLevel) {
 
-        MqAsyncMessage<?> build = MqAsyncMessage.builder()
+        MqAsyncMessage<?> build = new MqAsyncMessage()
 
-                .destination(destination)
-                .message(message)
-                .sendCallback(sendCallback)
-                .timeout(timeout)
-                .delayLevel(delayLevel)
-
-                .build();
+                .setDestination(destination)
+                .setMessage(message)
+                .setSendCallback(sendCallback)
+                .setTimeout(timeout)
+                .setDelayLevel(delayLevel);
 
         super.asyncSend(destination, message, callBackFactory.newIns(build), timeout, delayLevel);
     }
@@ -72,16 +143,12 @@ public class MqProducer extends RocketMQTemplate implements Ordered {
      */
     @Override
     public void asyncSendOrderly(String destination, Message<?> message, String hashKey, SendCallback sendCallback, long timeout) {
-
-        MqAsyncMessage<?> build = MqAsyncMessage.builder()
-
-                .destination(destination)
-                .message(message)
-                .hashKey(hashKey)
-                .sendCallback(sendCallback)
-                .timeout(timeout)
-
-                .build();
+        MqAsyncMessage<?> build = new MqAsyncMessage()
+                .setDestination(destination)
+                .setMessage(message)
+                .setHashKey(hashKey)
+                .setSendCallback(sendCallback)
+                .setTimeout(timeout);
 
         super.asyncSendOrderly(destination, message, hashKey, callBackFactory.newIns(build), timeout);
     }
