@@ -133,6 +133,7 @@ public abstract class MqConsumer<T extends MqIdMessage<T>> implements RocketMQLi
             // 正在消费中，表示已经有重复的消息了，把这条重复的消息跳过，当正在消费的消息如果消费失败，会抛出异常，进行消息重试；减少了重复的消息由于争夺 redis key
             if (CONSUMING_STATUS.equals(consumerStatus)) {
                 log.warn("正在消费中");
+                // 由于rocket mq重发消息时间有间隔，在这间隔内，redis key已经失效，导致消息可以被消费两次，所以如果重复了，则跳过这条重复消息不进行处理
                 return true;
             } else if (CONSUMED_STATUS.equals(consumerStatus)) {
                 log.error("消费完成");
