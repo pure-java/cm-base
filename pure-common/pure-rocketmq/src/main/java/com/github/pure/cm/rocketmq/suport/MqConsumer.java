@@ -1,13 +1,11 @@
-package com.github.pure.cm.rocketmq.core;
+package com.github.pure.cm.rocketmq.suport;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.pure.cm.common.core.util.JsonUtil;
 import com.github.pure.cm.common.core.util.StringUtil;
-import com.github.pure.cm.rocketmq.MqMessage;
+import com.github.pure.cm.rocketmq.suport.msg.MqIdMessage;
 import com.github.pure.cm.rocketmq.MqProperties;
 import com.github.pure.cm.rocketmq.exception.ConsumerException;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -37,7 +35,7 @@ import java.util.Optional;
  * @date : 2020-08-06 18:08
  **/
 @Slf4j
-public abstract class MqConsumer<T extends MqMessage<T>> implements RocketMQListener<MessageExt> {
+public abstract class MqConsumer<T extends MqIdMessage<T>> implements RocketMQListener<MessageExt> {
 
     /**
      * mq配置

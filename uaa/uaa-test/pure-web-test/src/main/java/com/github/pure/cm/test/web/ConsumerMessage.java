@@ -1,6 +1,6 @@
 package com.github.pure.cm.test.web;
 
-import com.github.pure.cm.rocketmq.MqMessage;
+import com.github.pure.cm.rocketmq.suport.msg.MqIdMessage;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +21,7 @@ import lombok.experimental.Accessors;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class ConsumerMessage extends MqMessage<ConsumerMessage> {
+public class ConsumerMessage extends MqIdMessage<ConsumerMessage> {
 
     public static final String topic = "test-topic";
     public static final String Reply_topic = "test-topic_Reply";

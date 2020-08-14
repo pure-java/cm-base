@@ -1,4 +1,4 @@
-package com.github.pure.cm.rocketmq;
+package com.github.pure.cm.rocketmq.suport.msg;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +15,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MqMessage<T> {
+public class MqIdMessage<T> {
 
     /**
      * 业务自定义ID，不能重复;<br>
@@ -25,7 +25,7 @@ public class MqMessage<T> {
      */
     private String nxId;
 
-    public MqMessage() {
+    public MqIdMessage() {
 
     }
 

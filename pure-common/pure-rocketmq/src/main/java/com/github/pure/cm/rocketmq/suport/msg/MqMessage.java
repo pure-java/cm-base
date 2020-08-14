@@ -1,7 +1,6 @@
-package com.github.pure.cm.rocketmq.core.msg;
+package com.github.pure.cm.rocketmq.suport.msg;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
@@ -10,7 +9,7 @@ import org.apache.rocketmq.client.producer.SendCallback;
 import org.springframework.messaging.Message;
 
 /**
- * 默认发送消息失败处理类
+ * mq发送的消息信息
  *
  * @param <T>
  * @since : 陈欢 2020-08-13 16:48
@@ -20,7 +19,7 @@ import org.springframework.messaging.Message;
 @AllArgsConstructor
 @NoArgsConstructor
 @Slf4j
-public class MqAsyncMessage<T> {
+public class MqMessage<T> {
 
     /**
      * 异步回调

@@ -1,8 +1,8 @@
-package com.github.pure.cm.rocketmq.core;
+package com.github.pure.cm.rocketmq.suport;
 
-import com.github.pure.cm.rocketmq.core.call.CallBackFactory;
-import com.github.pure.cm.rocketmq.core.call.MsgCallBack;
-import com.github.pure.cm.rocketmq.core.msg.MqAsyncMessage;
+import com.github.pure.cm.rocketmq.suport.call.CallBackFactory;
+import com.github.pure.cm.rocketmq.suport.call.MsgCallBack;
+import com.github.pure.cm.rocketmq.suport.msg.MqMessage;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
@@ -57,8 +57,8 @@ public class MqProducer extends RocketMQTemplate implements Ordered {
      * Same to {@link #asyncSend(String, Message, MsgCallBack)}.
      */
     public <T> void asyncSend(String destination, Message<T> message, MsgCallBack<T> sendCallback, long timeout, int delayLevel) {
-        MqAsyncMessage<T> build =
-                new MqAsyncMessage<T>()
+        MqMessage<T> build =
+                new MqMessage<T>()
                         .setDestination(destination)
                         .setMessage(message)
                         .setTimeout(timeout)
@@ -127,7 +127,7 @@ public class MqProducer extends RocketMQTemplate implements Ordered {
     @Override
     public void asyncSend(String destination, Message<?> message, SendCallback sendCallback, long timeout, int delayLevel) {
 
-        MqAsyncMessage<?> build = new MqAsyncMessage()
+        MqMessage<?> build = new MqMessage()
 
                 .setDestination(destination)
                 .setMessage(message)
@@ -143,7 +143,7 @@ public class MqProducer extends RocketMQTemplate implements Ordered {
      */
     @Override
     public void asyncSendOrderly(String destination, Message<?> message, String hashKey, SendCallback sendCallback, long timeout) {
-        MqAsyncMessage<?> build = new MqAsyncMessage()
+        MqMessage<?> build = new MqMessage()
                 .setDestination(destination)
                 .setMessage(message)
                 .setHashKey(hashKey)

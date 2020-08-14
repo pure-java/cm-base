@@ -1,6 +1,6 @@
-package com.github.pure.cm.rocketmq.core.call;
+package com.github.pure.cm.rocketmq.suport.call;
 
-import com.github.pure.cm.rocketmq.core.msg.MqAsyncMessage;
+import com.github.pure.cm.rocketmq.suport.msg.MqMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.SendCallback;
 import org.apache.rocketmq.client.producer.SendResult;
@@ -25,7 +25,7 @@ public class CallBackFactory {
      * @param asyncMessage 异步发送消息时的参数
      * @return
      */
-    public <T> SendCallback newIns(MqAsyncMessage<T> asyncMessage) {
+    public <T> SendCallback newIns(MqMessage<T> asyncMessage) {
         return new SendCallback() {
             @Override
             public void onSuccess(SendResult sendResult) {

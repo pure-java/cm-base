@@ -1,7 +1,7 @@
 package com.github.pure.cm.test.web.consumer;
 
 import com.github.pure.cm.common.core.util.JsonUtil;
-import com.github.pure.cm.rocketmq.core.MqConsumer;
+import com.github.pure.cm.rocketmq.suport.MqConsumer;
 import com.github.pure.cm.test.web.ConsumerMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;

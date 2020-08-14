@@ -2,9 +2,9 @@ package com.github.pure.cm.test.web.controller;
 
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.date.DateUtil;
-import com.github.pure.cm.rocketmq.core.MqProducer;
-import com.github.pure.cm.rocketmq.core.call.MsgCallBack;
-import com.github.pure.cm.rocketmq.core.msg.MqAsyncMessage;
+import com.github.pure.cm.rocketmq.suport.MqProducer;
+import com.github.pure.cm.rocketmq.suport.call.MsgCallBack;
+import com.github.pure.cm.rocketmq.suport.msg.MqMessage;
 import com.github.pure.cm.test.web.ConsumerMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.SendCallback;
@@ -85,14 +85,14 @@ public class WebTestController {
                     new MsgCallBack<ConsumerMessage>() {
 
                         @Override
-                        public void onSuccess(MqAsyncMessage<ConsumerMessage> mqAsyncMessage, SendResult sendResult) {
-                            ConsumerMessage payload = mqAsyncMessage.getMessage().getPayload();
+                        public void onSuccess(MqMessage<ConsumerMessage> mqMessage, SendResult sendResult) {
+                            ConsumerMessage payload = mqMessage.getMessage().getPayload();
                             log.error("发送成功:{}", payload);
                         }
 
                         @Override
-                        public void onException(MqAsyncMessage<ConsumerMessage> mqAsyncMessage, Throwable e) {
-                            log.error("发送失败:{}", mqAsyncMessage, e);
+                        public void onException(MqMessage<ConsumerMessage> mqMessage, Throwable e) {
+                            log.error("发送失败:{}", mqMessage, e);
                         }
                     });
 
