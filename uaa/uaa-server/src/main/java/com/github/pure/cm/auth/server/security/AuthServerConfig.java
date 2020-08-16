@@ -3,7 +3,7 @@ package com.github.pure.cm.auth.server.security;
 import com.github.pure.cm.auth.server.headler.AuthFailPoint;
 import com.github.pure.cm.auth.server.headler.CustomAccessDeniedHandler;
 import com.github.pure.cm.auth.server.headler.OauthWebResponseExceptionTranslator;
-import com.github.pure.cm.auth.server.service.ClientDetailService;
+import com.github.pure.cm.auth.server.service.impl.ClientDetailService;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +45,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     private final OauthWebResponseExceptionTranslator oauthWebResponseExceptionTranslator;
 
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer security) {
+    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security
                 // 开放获取token 公钥 URL：/oauth/token_key
                 .tokenKeyAccess("permitAll()")
@@ -55,8 +55,9 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 .authenticationEntryPoint(authFailPoint)
                 // 没有权限
                 .accessDeniedHandler(customAccessDeniedHandler)
-                // 允许 客户端 表单验证
-               ;// .allowFormAuthenticationForClients();
+
+        // 允许 客户端 表单验证
+        ;// .allowFormAuthenticationForClients();
 
     }
 

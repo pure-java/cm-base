@@ -1,6 +1,6 @@
 package com.github.pure.cm.auth.server.headler;
 
-import com.github.pure.cm.common.core.constants.DefExceptionCode;
+import com.github.pure.cm.common.core.constants.AuthErrorCode;
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.JsonUtil;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +25,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
             throws IOException {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json;charset=utf-8");
-        response.setStatus(DefExceptionCode.UNAUTHORIZED_401.getCode());
+        response.setStatus(AuthErrorCode.UNAUTHORIZED_401.getCode());
         response.getWriter().write(JsonUtil.json(Result.failMsg(accessDeniedException.getMessage())));
     }
 }

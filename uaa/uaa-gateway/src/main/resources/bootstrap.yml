@@ -11,9 +11,6 @@ server:
         dashboard: 192.168.0.200:20000
     datasource:
       server-addr: 192.168.0.200:3306
-    redis:
-      server-addr: 192.168.0.200
-      port: 6379
 
 spring:
   application:
@@ -21,16 +18,11 @@ spring:
   profiles:
     active: '@profileActive@'
   redis:
-    host: ${server.address.redis.server-addr}
-    password: null
-    port: ${server.address.redis.port}
-    lettuce:
-      pool:
-        max-idle: 100
-        min-idle: 1
-        max-active: 1000
-        max-wait: -1
     database: 3
+    host: ${server.address.redis.server-addr}
+    #    password: null
+    port: ${server.address.redis.port}
+    timeout: 10000
   cloud:
     nacos:
       config:
@@ -90,8 +82,8 @@ ribbon:
 security:
   oauth2:
     client:
-      grant-type: password
       scope: all
+      grant-type: password
       client-id: test
       client-secret: admin
 # 网关验证忽略的url接口

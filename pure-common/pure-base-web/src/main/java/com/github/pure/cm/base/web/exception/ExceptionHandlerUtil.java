@@ -1,6 +1,7 @@
 package com.github.pure.cm.base.web.exception;
 
-import com.github.pure.cm.common.core.constants.DefExceptionCode;
+import com.github.pure.cm.common.core.constants.AuthErrorCode;
+import com.github.pure.cm.common.core.constants.DefaultErrorCode;
 import com.github.pure.cm.common.core.exception.BusinessException;
 import com.github.pure.cm.common.core.model.ExceptionResult;
 import com.github.pure.cm.common.core.util.ArrayUtil;
@@ -54,7 +55,7 @@ public class ExceptionHandlerUtil {
 
         } else if (instanceOf(MissingServletRequestParameterException.class, error, cause)) {
             //  缺少必要请求参数
-            result.error(DefExceptionCode.PARAM_VALID_ERROR_501);
+            result.error(DefaultErrorCode.PARAM_VALID_ERROR_10501);
 
         } else if (instanceOf(BindException.class, error, cause)) {
             //处理请求中 使用 @Valid 验证路径中请求实体校验失败后抛出的异常，详情继续往下看代码
@@ -133,13 +134,13 @@ public class ExceptionHandlerUtil {
         Throwable cause = error.getCause();
 
         if (isPresent("org.springframework.security.authentication.InsufficientAuthenticationException") && instanceOf(InsufficientAuthenticationException.class, error, cause)) {
-            result.error(DefExceptionCode.AUTH_FAIL_10001);
+            result.error(AuthErrorCode.AUTH_FAIL_10001);
 
         } else if (isPresent("org.springframework.security.core.userdetails.UsernameNotFoundException") && instanceOf(UsernameNotFoundException.class, error, cause)) {
-            result.error(DefExceptionCode.ACCOUNT_PASSWD_ERROR_10002);
+            result.error(AuthErrorCode.ACCOUNT_PASSWD_ERROR_10002);
 
         } else if (isPresent("org.springframework.security.authentication.BadCredentialsException") && instanceOf(BadCredentialsException.class, error, cause)) {
-            result.error(DefExceptionCode.ACCOUNT_PASSWD_ERROR_10002);
+            result.error(AuthErrorCode.ACCOUNT_PASSWD_ERROR_10002);
         }
     }
 
@@ -154,10 +155,10 @@ public class ExceptionHandlerUtil {
         Throwable cause = error.getCause();
         // InvalidTokenException 无效的token
         if (invalidTokenException && instanceOf(InvalidTokenException.class, error, cause)) {
-            result.error(DefExceptionCode.TOKEN_INVALID_10003);
+            result.error(AuthErrorCode.TOKEN_INVALID_10003);
 
         } else if (invalidGrantException && instanceOf(InvalidGrantException.class, error, cause)) {
-            result.error(DefExceptionCode.ACCOUNT_PASSWD_ERROR_10002);
+            result.error(AuthErrorCode.ACCOUNT_PASSWD_ERROR_10002);
         }
     }
 

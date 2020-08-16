@@ -1,7 +1,8 @@
-package com.github.pure.cm.auth.server.service;
+package com.github.pure.cm.auth.server.service.impl;
 
 import com.github.pure.cm.auth.server.model.dto.LoginUserVo;
 import com.github.pure.cm.auth.server.model.entity.SysUser;
+import com.github.pure.cm.auth.server.service.SysUserService;
 import com.github.pure.cm.common.core.util.JsonUtil;
 import com.github.pure.cm.common.core.util.StringUtil;
 import com.google.common.collect.Sets;

@@ -59,7 +59,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 
                 //// 所有url都需要权限认证
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                // 设置 httpbasic 认证
+                .and()
+                .httpBasic(configurer -> {
+                    configurer.authenticationEntryPoint(this.authFailPoint);
+                });
 
         // 配置身份认证异常和权限认证异常处理器
         http.exceptionHandling(config -> config.accessDeniedHandler(customAccessDeniedHandler).authenticationEntryPoint(authFailPoint));

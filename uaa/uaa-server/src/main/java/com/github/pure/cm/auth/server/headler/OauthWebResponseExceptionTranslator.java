@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.github.pure.cm.base.web.exception.ExceptionHandlerUtil;
-import com.github.pure.cm.common.core.constants.DefExceptionCode;
+import com.github.pure.cm.common.core.constants.AuthErrorCode;
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +50,7 @@ public class OauthWebResponseExceptionTranslator extends DefaultWebResponseExcep
         log.error("oauth2 身份验证失败\n{}:", Objects.isNull(body) ? "" : ExceptionHandlerUtil.exceptionHandler(body), e);
 
         return new ResponseEntity<>(
-                new OauthException(JsonUtil.json(Result.fail(DefExceptionCode.AUTH_FAIL_10001)), body),
+                new OauthException(JsonUtil.json(Result.fail(AuthErrorCode.AUTH_FAIL_10001)), body),
                 translate.getHeaders(),
                 HttpStatus.UNAUTHORIZED
         );

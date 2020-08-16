@@ -1,20 +1,17 @@
 package com.github.pure.cm.manage.account.api;
 
 import com.github.pure.cm.auth.sdk.service.UserAuthService;
-import com.github.pure.cm.common.core.constants.DefExceptionCode;
+import com.github.pure.cm.auth.sdk.vo.ReqJwtTokenParam;
+import com.github.pure.cm.common.core.constants.DefaultErrorCode;
 import com.github.pure.cm.common.core.exception.BusinessException;
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.encry.RsaUtil;
 import com.github.pure.cm.common.core.util.encry.RsaUtil.RsaKey;
-import com.github.pure.cm.auth.sdk.properties.OAuth2ClientProperties;
-import com.github.pure.cm.auth.sdk.service.AuthService;
-import com.github.pure.cm.auth.sdk.vo.ReqJwtTokenParam;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +21,6 @@ import reactor.core.publisher.Mono;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -58,7 +54,7 @@ public class UserAuthController {
             //password = RsaUtil.decryptBase64(userInfo.getPassword(), getPrivateKey());
         } catch (Exception e) {
             log.error("获取token发生错误", e);
-            throw new BusinessException(DefExceptionCode.SYSTEM_ERROR_10500);
+            throw new BusinessException(DefaultErrorCode.SYSTEM_ERROR_10500);
         }
         return Mono.just(authService.userToken(username, password));
     }

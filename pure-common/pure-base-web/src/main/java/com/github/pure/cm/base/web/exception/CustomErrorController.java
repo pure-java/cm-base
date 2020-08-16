@@ -1,6 +1,7 @@
 package com.github.pure.cm.base.web.exception;
 
-import com.github.pure.cm.common.core.constants.DefExceptionCode;
+import com.github.pure.cm.common.core.constants.AuthErrorCode;
+import com.github.pure.cm.common.core.constants.DefaultErrorCode;
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.BeanUtils;
 import com.github.pure.cm.common.core.util.JsonUtil;
@@ -62,9 +63,9 @@ public class CustomErrorController extends BasicErrorController {
             case NO_CONTENT:
                 return new ResponseEntity<>(status);
             case NOT_FOUND:
-                return new ResponseEntity<>(BeanUtils.beanToMap(Result.fail(DefExceptionCode.NOT_FOUND_404)), status);
+                return new ResponseEntity<>(BeanUtils.beanToMap(Result.fail(DefaultErrorCode.NOT_FOUND_404)), status);
             case UNAUTHORIZED:
-                return new ResponseEntity<>(BeanUtils.beanToMap(Result.fail(DefExceptionCode.UNAUTHORIZED_401)), status);
+                return new ResponseEntity<>(BeanUtils.beanToMap(Result.fail(AuthErrorCode.UNAUTHORIZED_401)), status);
             default:
                 return new ResponseEntity<>(BeanUtils.beanToMap(Result.newIns(status.value(), MapUtils.getString(body, "error"), false)), status);
         }
@@ -74,7 +75,7 @@ public class CustomErrorController extends BasicErrorController {
     @ExceptionHandler(HttpMediaTypeNotAcceptableException.class)
     public ResponseEntity<String> mediaTypeNotAcceptable(HttpServletRequest request) {
         HttpStatus status = getStatus(request);
-        return new ResponseEntity<>(JsonUtil.json(Result.fail(DefExceptionCode.PARAM_VALID_ERROR_501)), status);
+        return new ResponseEntity<>(JsonUtil.json(Result.fail(DefaultErrorCode.PARAM_VALID_ERROR_10501)), status);
     }
 
     /**

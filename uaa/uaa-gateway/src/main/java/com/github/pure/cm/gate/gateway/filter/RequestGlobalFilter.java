@@ -1,6 +1,6 @@
 package com.github.pure.cm.gate.gateway.filter;
 
-import com.github.pure.cm.common.core.constants.DefExceptionCode;
+import com.github.pure.cm.common.core.constants.DefaultErrorCode;
 import com.github.pure.cm.common.core.model.Result;
 import com.github.pure.cm.common.core.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +57,7 @@ public class RequestGlobalFilter implements GlobalFilter, Ordered {
                                     case 404:
                                         log.error("请求响应码:{},错误信息:{}", getStatusCode(), new String(content, StandardCharsets.UTF_8));
                                         // 设置响应体的长度
-                                        byte[] json = JsonUtil.json(Result.fail(DefExceptionCode.NOT_FOUND_404)).getBytes();
+                                        byte[] json = JsonUtil.json(Result.fail(DefaultErrorCode.NOT_FOUND_404)).getBytes();
                                         originalResponse.getHeaders().setContentLength(json.length);
                                         return bufferFactory.wrap(json);
 

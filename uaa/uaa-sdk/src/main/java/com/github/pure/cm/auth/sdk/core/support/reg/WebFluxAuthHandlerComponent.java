@@ -4,6 +4,7 @@ import com.github.pure.cm.auth.sdk.core.support.AuthRegHandlerComponent;
 import com.github.pure.cm.model.auth.vo.AuthVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerMapping;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 public class WebFluxAuthHandlerComponent extends AuthRegHandlerComponent {
     @Autowired
+    @Qualifier("requestMappingHandlerMapping")
     private RequestMappingHandlerMapping requestMapping;
 
     @Override

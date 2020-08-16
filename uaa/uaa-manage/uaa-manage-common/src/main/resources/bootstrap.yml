@@ -21,16 +21,11 @@ spring:
   profiles:
     active: '@profileActive@'
   redis:
-    host: ${server.address.redis.server-addr}
-    password: null
-    port: ${server.address.redis.port}
-    lettuce:
-      pool:
-        max-idle: 100
-        min-idle: 1
-        max-active: 1000
-        max-wait: -1
     database: 3
+    host: ${server.address.redis.server-addr}
+    #    password: null
+    port: ${server.address.redis.port}
+    timeout: 10000
   cloud:
     nacos:
       config:
