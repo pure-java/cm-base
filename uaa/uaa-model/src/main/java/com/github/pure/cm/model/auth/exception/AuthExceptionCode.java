@@ -1,6 +1,5 @@
 package com.github.pure.cm.model.auth.exception;
 
-import com.github.pure.cm.common.core.constants.AppErrorCode;
 import com.github.pure.cm.common.core.constants.ExceptionCode;
 
 /**
@@ -11,9 +10,9 @@ import com.github.pure.cm.common.core.constants.ExceptionCode;
  */
 public enum AuthExceptionCode implements ExceptionCode {
     /**
-     * 找不到权限的父级 {@link AppErrorCode.UAA_30000} + 1
+     * 找不到权限的父级 30001
      */
-    NOT_FOUND_PARENT(1, "菜单找不到父级");
+    NOT_FOUND_PARENT(30001, "菜单找不到父级");
 
     private Integer code;
     private String desc;
@@ -25,7 +24,7 @@ public enum AuthExceptionCode implements ExceptionCode {
     }
 
     public void setCode(int code) {
-        this.code = AppErrorCode.UAA_30000.getCode() + code;
+        this.code = code;
     }
 
     @Override

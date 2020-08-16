@@ -23,35 +23,35 @@ public enum DefExceptionCode implements ExceptionCode {
      * NOT_FOUND_404<br>
      * 未找到
      */
-    NOT_FOUND_404("Not Found", 401, 0),
+    NOT_FOUND_404("Not Found", 404, 0),
 
     /**
      * AUTH_FAIL_10001<p>
      * 认证失败：10001
      */
-    AUTH_FAIL_10001("认证失败", 401, 0),
+    AUTH_FAIL_10001("认证失败", 10001, 0),
     /**
      * ACCOUNT_PASSWD_ERROR_10002 <p>
      * 账号密码错误:10002
      */
-    ACCOUNT_PASSWD_ERROR_10002("账号密码不正确", 401, 0),
+    ACCOUNT_PASSWD_ERROR_10002("账号密码不正确", 10002, 0),
     /**
      * TOKEN_INVALID_10003<p>
      * 无效token:10003
      */
-    TOKEN_INVALID_10003("无效的token", 401, 0),
+    TOKEN_INVALID_10003("无效的token", 10003, 0),
 
     /**
      * system_error_10500 <p>
      * 系统错误:10500
      */
-    SYSTEM_ERROR_10500("系统错误", 500, AppErrorCode.DEFAULT_ERROR_10000.getCode()),
+    SYSTEM_ERROR_10500("系统错误", 10500, 0),
 
     /**
      * param_valid_error_501 <p>
      * 参数错误:10501
      */
-    PARAM_VALID_ERROR_501("参数错误", 501, AppErrorCode.DEFAULT_ERROR_10000.getCode()),
+    PARAM_VALID_ERROR_501("参数错误", 10501, 0),
     ;
 
     private final int code;
