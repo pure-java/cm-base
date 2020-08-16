@@ -185,6 +185,12 @@
             <appender-ref ref="ERROR_FILE"/>
         </logger>
 
+        <logger name="org.redisson.connection" level="warn" additivity="false">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="ERROR_FILE"/>
+            <appender-ref ref="WARN_FILE"/>
+        </logger>
+
         <logger name="com.alibaba.nacos.client" level="error" additivity="false">
             <!--            <appender-ref ref="CONSOLE"/>-->
             <appender-ref ref="ERROR_FILE"/>

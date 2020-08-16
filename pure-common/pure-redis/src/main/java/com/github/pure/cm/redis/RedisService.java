@@ -25,7 +25,7 @@ import java.util.Objects;
 public class RedisService {
 
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private RedisTemplate<Object, Object> redisTemplate;
 
 
     /**

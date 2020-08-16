@@ -53,10 +53,12 @@ public class Result<T> implements Serializable {
     public Result() {
     }
 
-    public static <T> Result<T> error(ExceptionCode exceptionCode) {
-        return newIns(exceptionCode.getCode(), exceptionCode.getDesc(), null, false);
-    }
 
+    public Result<T> error(ExceptionCode exceptionCode) {
+        this.code = exceptionCode.getCode();
+        this.setMessage(exceptionCode.getDesc());
+        return this;
+    }
 
     // newIns ==========================
 
@@ -111,9 +113,6 @@ public class Result<T> implements Serializable {
 
     /**
      * 错误响应码
-     *
-     * @param exceptionCode
-     * @return
      */
     public static <T> Result<T> fail(ExceptionCode exceptionCode) {
         return newIns(exceptionCode.getCode(), exceptionCode.getDesc(), null, false);

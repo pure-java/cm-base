@@ -57,7 +57,7 @@ public class RequestGlobalFilter implements GlobalFilter, Ordered {
                                     case 404:
                                         log.error("请求响应码:{},错误信息:{}", getStatusCode(), new String(content, StandardCharsets.UTF_8));
                                         // 设置响应体的长度
-                                        byte[] json = JsonUtil.json(Result.error(DefExceptionCode.NOT_FOUND_404)).getBytes();
+                                        byte[] json = JsonUtil.json(Result.fail(DefExceptionCode.NOT_FOUND_404)).getBytes();
                                         originalResponse.getHeaders().setContentLength(json.length);
                                         return bufferFactory.wrap(json);
 

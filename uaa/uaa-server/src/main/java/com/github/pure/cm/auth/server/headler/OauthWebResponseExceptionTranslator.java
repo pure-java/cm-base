@@ -50,7 +50,7 @@ public class OauthWebResponseExceptionTranslator extends DefaultWebResponseExcep
         log.error("oauth2 身份验证失败\n{}:", Objects.isNull(body) ? "" : ExceptionHandlerUtil.exceptionHandler(body), e);
 
         return new ResponseEntity<>(
-                new OauthException(JsonUtil.json(Result.error(DefExceptionCode.AUTH_FAIL_10001)), body),
+                new OauthException(JsonUtil.json(Result.fail(DefExceptionCode.AUTH_FAIL_10001)), body),
                 translate.getHeaders(),
                 HttpStatus.UNAUTHORIZED
         );

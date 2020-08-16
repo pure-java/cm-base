@@ -8,9 +8,9 @@ server:
     datasource:
       server-addr: localhost:3306
       username: root
-      password: admin
+      password: chen
     redis:
-      server-addr: localhost
+      server-addr: 127.0.0.1
       port: 6379
 
 pure:

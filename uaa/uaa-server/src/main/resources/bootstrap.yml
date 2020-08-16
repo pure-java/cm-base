@@ -59,15 +59,11 @@ spring:
       connection-test-query: SELECT 1 # 不建议设置该属性
   ### redis 配置
   redis:
+    database: 0
     host: ${server.address.redis.server-addr}
-    password: null
+#    password: null
     port: ${server.address.redis.port}
-    lettuce:
-      pool:
-        max-idle: 100
-        min-idle: 1
-        max-active: 1000
-        max-wait: -1
+    timeout: 10000
   ## spring boot admin 配置
   boot:
     admin:
